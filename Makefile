@@ -16,7 +16,7 @@ endif
 
 CFLAGS = -Os -Wall -W -march=pentium -mtune=athlon-4 -fomit-frame-pointer
 LDFLAGS = -s
-VERNUM = 136
+VERNUM = 137
 
 OBJS = \
 	acc.o     \

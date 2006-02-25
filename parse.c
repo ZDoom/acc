@@ -882,7 +882,7 @@ static void OuterFunction(void)
 static void OuterMapVar(boolean local)
 {
 	symbolNode_t *sym = NULL;
-	int index;
+	int index, i;
 
 	MS_Message(MSG_DEBUG, "---- %s ----\n", local ? "LeadingStaticVarDeclare" : "OuterMapVar");
 	do
@@ -993,8 +993,6 @@ static void OuterMapVar(boolean local)
 				sym->info.array.size = size;
 				if(ndim > 0)
 				{
-					int i;
-
 					sym->info.array.dimensions[ndim-1] = 1;
 					for(i = ndim - 2; i >= 0; --i)
 					{
@@ -1002,6 +1000,12 @@ static void OuterMapVar(boolean local)
 							sym->info.array.dimensions[i+1] * dims[i+1];
 					}
 				}
+				MS_Message(MSG_DEBUG, " - with multipliers ");
+				for(i = 0; i < ndim; ++i)
+				{
+					MS_Message(MSG_DEBUG, "[%d]", sym->info.array.dimensions[i]);
+				}
+				MS_Message(MSG_DEBUG, "\n");
 				if(tk_Token == TK_ASSIGN)
 				{
 					InitializeArray(sym, dims, size);
@@ -3693,12 +3697,12 @@ static void ParseArrayIndices(symbolNode_t *sym, int requiredIndices)
 				}
 			}
 		}
-		if(i > 0)
+		EvalExpression();
+		if(i < sym->info.array.ndim - 1)
 		{
-			PC_AppendPushVal(sym->info.array.dimensions[i-1]);
+			PC_AppendPushVal(sym->info.array.dimensions[i]);
 			PC_AppendCmd(PCD_MULTIPLY);
 		}
-		EvalExpression();
 		if(i > 0)
 		{
 			PC_AppendCmd(PCD_ADD);
