@@ -4,6 +4,8 @@ target = $(strip $(shell $(CC) -dumpmachine))
 # DOS and Windows executables should have the .exe extension.
 # Other operating systems should be extension-less.
 
+CC = gcc
+
 ifeq ($(findstring mingw32,$(target)),mingw32)
 EXENAME = acc.exe
 else
