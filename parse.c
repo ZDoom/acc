@@ -1079,7 +1079,11 @@ static void OuterWorldVar(boolean isGlobal)
 					while(tk_Token == TK_LBRACKET);
 				}
 				sym = SY_InsertGlobal(tk_String, isGlobal ? SY_GLOBALARRAY : SY_WORLDARRAY);
-				sym->info.var.index = index;
+				sym->info.array.index = index;
+				sym->info.array.ndim = 1;
+				sym->info.array.size = 0x7fffffff;	// not used
+				memset(sym->info.array.dimensions, 0, sizeof(sym->info.array.dimensions));
+
 				if (isGlobal)
 					pa_GlobalArrayCount++;
 				else
@@ -3698,7 +3702,7 @@ static void ParseArrayIndices(symbolNode_t *sym, int requiredIndices)
 			}
 		}
 		EvalExpression();
-		if(i < sym->info.array.ndim - 1)
+		if(i < sym->info.array.ndim - 1 && sym->info.array.dimensions[i] > 1)
 		{
 			PC_AppendPushVal(sym->info.array.dimensions[i]);
 			PC_AppendCmd(PCD_MULTIPLY);
