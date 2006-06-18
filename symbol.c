@@ -107,6 +107,10 @@ static internFuncDef_t InternalFunctions[] =
 	{ "giveinventory", PCD_GIVEINVENTORYDIRECT, PCD_GIVEINVENTORY, 2, 0, 0, NO, NO },
 	{ "takeinventory", PCD_TAKEINVENTORYDIRECT, PCD_TAKEINVENTORY, 2, 0, 0, NO, NO },
 	{ "checkinventory", PCD_CHECKINVENTORYDIRECT, PCD_CHECKINVENTORY, 1, 0, 0, YES, NO },
+	{ "clearactorinventory", PCD_NOP, PCD_CLEARACTORINVENTORY, 1, 0, 0, NO, NO },
+	{ "giveactorinventory", PCD_NOP, PCD_GIVEACTORINVENTORY, 3, 0, 0, NO, NO },
+	{ "takeactorinventory", PCD_NOP, PCD_TAKEACTORINVENTORY, 3, 0, 0, NO, NO },
+	{ "checkactorinventory", PCD_NOP, PCD_CHECKACTORINVENTORY, 2, 0, 0, YES, NO },
 	{ "spawn", PCD_SPAWNDIRECT, PCD_SPAWN, 6, 16|32, 0, YES, NO },
 	{ "spawnspot", PCD_SPAWNSPOTDIRECT, PCD_SPAWNSPOT, 4, 4|8, 0, YES, NO },
 	{ "setmusic", PCD_SETMUSICDIRECT, PCD_SETMUSIC, 3, 2|4, 0, NO, NO },
@@ -120,10 +124,12 @@ static internFuncDef_t InternalFunctions[] =
 	{ "playmovie", PCD_NOP, PCD_PLAYMOVIE, 1, 0, 0, YES, NO },
 	{ "setfloortrigger", PCD_NOP, PCD_SETFLOORTRIGGER, 8, 8|16|32|64|128, 0, NO, NO },
 	{ "setceilingtrigger", PCD_NOP, PCD_SETCEILINGTRIGGER, 8, 8|16|32|64|128, 0, NO, NO },
+	{ "setactorposition", PCD_NOP, PCD_SETACTORPOSITION, 5, 0, 0, YES, NO },
 	{ "getactorx", PCD_NOP, PCD_GETACTORX, 1, 0, 0, YES, NO },
 	{ "getactory", PCD_NOP, PCD_GETACTORY, 1, 0, 0, YES, NO },
 	{ "getactorz", PCD_NOP, PCD_GETACTORZ, 1, 0, 0, YES, NO },
 	{ "getactorfloorz", PCD_NOP, PCD_GETACTORFLOORZ, 1, 0, 0, YES, NO },
+	{ "getactorceilingz", PCD_NOP, PCD_GETACTORCEILINGZ, 1, 0, 0, YES, NO },
 	{ "getactorangle", PCD_NOP, PCD_GETACTORANGLE, 1, 0, 0, YES, NO },
 	{ "writetoini", PCD_NOP, PCD_WRITETOINI, 3, 0, 0, NO, NO },
 	{ "getfromini", PCD_NOP, PCD_GETFROMINI, 3, 0, 0, YES, NO },
@@ -161,6 +167,7 @@ static internFuncDef_t InternalFunctions[] =
 	{ "setammocapacity", PCD_NOP, PCD_SETAMMOCAPACITY, 2, 0, 0, NO, NO },
 	{ "setactorangle", PCD_NOP, PCD_SETACTORANGLE, 2, 0, 0, NO, NO },
 	{ "spawnprojectile", PCD_NOP, PCD_SPAWNPROJECTILE, 7, 0, 0, NO, NO },
+	{ "getsectorlightlevel", PCD_NOP, PCD_GETSECTORLIGHTLEVEL, 1, 0, 0, YES, NO },
 
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };
