@@ -170,6 +170,7 @@ static internFuncDef_t InternalFunctions[] =
 	{ "setactorangle", PCD_NOP, PCD_SETACTORANGLE, 2, 0, 0, NO, NO },
 	{ "spawnprojectile", PCD_NOP, PCD_SPAWNPROJECTILE, 7, 0, 0, NO, NO },
 	{ "getsectorlightlevel", PCD_NOP, PCD_GETSECTORLIGHTLEVEL, 1, 0, 0, YES, NO },
+	{ "playerclass", PCD_NOP, PCD_PLAYERCLASS, 1, 0, 0, YES, NO },
 
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };
