@@ -1056,8 +1056,17 @@ static void ProcessSpecialToken(void)
 			}
 			else if(Chr == '<')
 			{
-				tk_Token = TK_LSHIFT;
 				NextChr();
+				if(Chr == '=')
+				{
+					tk_Token = TK_LSASSIGN;
+					NextChr();
+				}
+				else
+				{
+					tk_Token = TK_LSHIFT;
+				}
+				
 			}
 			else
 			{
@@ -1072,8 +1081,16 @@ static void ProcessSpecialToken(void)
 			}
 			else if(Chr == '>')
 			{
-				tk_Token = TK_RSHIFT;
 				NextChr();
+				if(Chr == '=')
+				{
+					tk_Token = TK_RSASSIGN;
+					NextChr();
+				}
+				else
+				{
+					tk_Token = TK_RSHIFT;
+				}
 			}
 			else
 			{
@@ -1097,6 +1114,11 @@ static void ProcessSpecialToken(void)
 				tk_Token = TK_ANDLOGICAL;
 				NextChr();
 			}
+			else if(Chr == '=')
+			{
+				tk_Token = TK_ANDASSIGN;
+				NextChr();
+			}
 			else
 			{
 				tk_Token = TK_ANDBITWISE;
@@ -1106,6 +1128,11 @@ static void ProcessSpecialToken(void)
 			if(Chr == '|')
 			{
 				tk_Token = TK_ORLOGICAL;
+				NextChr();
+			}
+			else if(Chr == '=')
+			{
+				tk_Token = TK_ORASSIGN;
 				NextChr();
 			}
 			else
@@ -1147,7 +1174,15 @@ static void ProcessSpecialToken(void)
 			tk_Token = TK_NUMBERSIGN;
 			break;
 		case '^':
-			tk_Token = TK_EORBITWISE;
+			if(Chr == '=')
+			{
+				tk_Token = TK_EORASSIGN;
+				NextChr();
+			}
+			else
+			{
+				tk_Token = TK_EORBITWISE;
+			}
 			break;
 		case '~':
 			tk_Token = TK_TILDE;

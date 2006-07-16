@@ -22,7 +22,7 @@
 
 // MACROS ------------------------------------------------------------------
 
-#define VERSION_TEXT "1.40"
+#define VERSION_TEXT "1.42"
 #define COPYRIGHT_YEARS_TEXT "1995"
 
 // TYPES -------------------------------------------------------------------
@@ -125,6 +125,7 @@ static void DisplayBanner(void)
 	fprintf(stderr, "ZDoom changes and language extensions by Randy Heit\n");
 	fprintf(stderr, "Further changes by Brad Carney\n");
 	fprintf(stderr, "Even more changes by James Bentler\n");
+	fprintf(stderr, "Some additions by Michael \"Necromage\" Weber\n");
 	fprintf(stderr, "Error reporting improvements and limit expansion by Ty Halderman\n");
 }
 

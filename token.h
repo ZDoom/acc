@@ -122,6 +122,11 @@ typedef enum
 	TK_DISCONNECT,		// 'disconnect'
 	TK_UNLOADING,		// 'unloading'
 	TK_STATIC,			// 'static'
+	TK_ANDASSIGN,		// '&='
+	TK_ORASSIGN,		// '|='
+	TK_EORASSIGN,		// '^='
+	TK_LSASSIGN,		// '<<='
+	TK_RSASSIGN,		// '>>='
 } tokenType_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------
