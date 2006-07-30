@@ -386,6 +386,7 @@ typedef enum
 	PCD_RSWORLDARRAY, 
 	PCD_RSGLOBALARRAY, 
 	//[MW] end my p-codes
+	PCD_GETPLAYERINFO,
 
 	PCODE_COMMAND_COUNT
 } pcd_t;
