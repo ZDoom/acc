@@ -1169,23 +1169,22 @@ static void OuterDefine(boolean force)
 	int value;
 	symbolNode_t *sym;
 
-	// Don't define inside an import
+	MS_Message(MSG_DEBUG, "---- OuterDefine %s----\n",
+		force ? "(forced) " : "");
+	TK_NextTokenMustBe(TK_IDENTIFIER, ERR_INVALID_IDENTIFIER);
+	sym = SY_InsertGlobalUnique(tk_String, SY_CONSTANT);
+	TK_NextToken();
+	value = EvalConstExpression();
+	MS_Message(MSG_DEBUG, "Constant value: %d\n", value);
+	sym->info.constant.value = value;
+	// Defines inside an import are deleted when the import is popped.
 	if(ImportMode != IMPORT_Importing || force)
 	{
-		MS_Message(MSG_DEBUG, "---- OuterDefine %s----\n",
-			force ? "(forced) " : "");
-		TK_NextTokenMustBe(TK_IDENTIFIER, ERR_INVALID_IDENTIFIER);
-		sym = SY_InsertGlobalUnique(tk_String, SY_CONSTANT);
-		TK_NextToken();
-		value = EvalConstExpression();
-		MS_Message(MSG_DEBUG, "Constant value: %d\n", value);
-		sym->info.constant.value = value;
+		sym->info.constant.fileDepth = 0;
 	}
 	else
 	{
-		TK_NextToken();
-		TK_NextToken();
-		EvalConstExpression();
+		sym->info.constant.fileDepth = TK_GetDepth();
 	}
 }
 

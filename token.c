@@ -382,6 +382,7 @@ static int PopNestedSource(enum ImportModes *prevMode)
 
 	MS_Message(MSG_DEBUG, "*Leaving %s\n", tk_SourceName);
 	free(FileStart);
+	SY_FreeConstants(NestDepth);
 	tk_IncludedLines += tk_Line;
 	info = &OpenFiles[--NestDepth];
 	tk_SourceName = info->name;
@@ -416,6 +417,17 @@ void TK_CloseSource(void)
 		}
 		SourceOpen = FALSE;
 	}
+}
+
+//==========================================================================
+//
+// TK_GetDepth
+//
+//==========================================================================
+
+int TK_GetDepth(void)
+{
+	return NestDepth;
 }
 
 //==========================================================================

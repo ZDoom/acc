@@ -16,9 +16,9 @@ EXENAME = acc
 endif
 endif
 
-CFLAGS = -Os -Wall -W -march=pentium -mtune=athlon-4 -fomit-frame-pointer
+CFLAGS = -Os -Wall -W -fomit-frame-pointer
 LDFLAGS = -s
-VERNUM = 137
+VERNUM = 142
 
 OBJS = \
 	acc.o     \

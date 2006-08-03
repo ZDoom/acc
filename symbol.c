@@ -40,6 +40,8 @@ static symbolNode_t *Find(char *name, symbolNode_t *root);
 static symbolNode_t *Insert(char *name, symbolType_t type,
 	symbolNode_t **root);
 static void FreeNodes(symbolNode_t *root);
+static void FreeNodesAtDepth(symbolNode_t **root, int depth);
+static void DeleteNode(symbolNode_t *node, symbolNode_t **parent_p);
 static void ClearShared(symbolNode_t *root);
 
 // EXTERNAL DATA DECLARATIONS ----------------------------------------------
@@ -446,6 +448,98 @@ static void FreeNodes(symbolNode_t *root)
 	FreeNodes(root->right);
 	free(root->name);
 	free(root);
+}
+
+//==========================================================================
+//
+// SY_FreeConstants
+//
+//==========================================================================
+
+void SY_FreeConstants(int depth)
+{
+	MS_Message(MSG_DEBUG, "Freeing constants for depth %d\n", depth);
+	FreeNodesAtDepth(&GlobalRoot, depth);
+}
+
+//==========================================================================
+//
+// FreeNodesAtDepth
+//
+// Like FreeNodes, but it only frees the nodes of type SY_CONSTANT that are
+// marked at the specified depth. The other nodes are relinked to maintain a
+// proper binary tree.
+//
+//==========================================================================
+
+static void FreeNodesAtDepth(symbolNode_t **root, int depth)
+{
+	symbolNode_t *node = *root;
+
+	if(node == NULL)
+	{
+		return;
+	}
+	FreeNodesAtDepth(&node->left, depth);
+	FreeNodesAtDepth(&node->right, depth);
+	if(node->type == SY_CONSTANT && node->info.constant.fileDepth == depth)
+	{
+		MS_Message(MSG_DEBUG, "Deleting constant %s\n", node->name);
+		DeleteNode(node, root);
+	}
+}
+
+//==========================================================================
+//
+// DeleteNode
+//
+//==========================================================================
+
+static void DeleteNode(symbolNode_t *node, symbolNode_t **parent_p)
+{
+	symbolNode_t **temp;
+
+	if(node->left == NULL)
+	{
+		*parent_p = node->right;
+		free(node->name);
+		free(node);
+	}
+	else if(node->right == NULL)
+	{
+		*parent_p = node->left;
+		free(node->name);
+		free(node);
+	}
+	else
+	{
+		// "Randomly" pick the in-order successor or predecessor to take
+		// the place of the deleted node.
+		if(rand() & 1)
+		{
+			// predecessor
+			temp = &node->left;
+			while((*temp)->right != NULL)
+			{
+				temp = &(*temp)->right;
+			}
+		}
+		else
+		{
+			// successor
+			temp = &node->right;
+			while((*temp)->left != NULL)
+			{
+				temp = &(*temp)->left;
+			}
+		}
+		node->name = (*temp)->name;
+		node->type = (*temp)->type;
+		node->unused = (*temp)->unused;
+		node->imported = (*temp)->imported;
+		node->info = (*temp)->info;
+		DeleteNode(*temp, temp);
+	}
 }
 
 //==========================================================================

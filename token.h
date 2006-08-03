@@ -136,6 +136,7 @@ void TK_OpenSource(char *fileName);
 void TK_Include(char *fileName);
 void TK_Import(char *fileName, enum ImportModes prevMode);
 void TK_CloseSource(void);
+int TK_GetDepth(void);
 tokenType_t TK_NextToken(void);
 int TK_NextCharacter(void);
 boolean TK_NextTokenMustBe(tokenType_t token, error_t error);
