@@ -437,6 +437,7 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_RSGLOBALARRAY", 
 	//[MW] end my p-codes
 	"PCD_GETPLAYERINFO",
+	"PCD_CHANGELEVEL",
 	
 };
 
