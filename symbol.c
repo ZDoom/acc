@@ -175,6 +175,8 @@ static internFuncDef_t InternalFunctions[] =
 	{ "playerclass", PCD_NOP, PCD_PLAYERCLASS, 1, 0, 0, YES, NO },
 	{ "getplayerinfo", PCD_NOP, PCD_GETPLAYERINFO, 2, 0, 0, YES, NO },
 	{ "changelevel", PCD_NOP, PCD_CHANGELEVEL, 4, 8, 0, NO, NO },
+	{ "sectordamage", PCD_NOP, PCD_SECTORDAMAGE, 7, 0, 0, NO, NO },
+	{ "replacetextures", PCD_NOP, PCD_REPLACETEXTURES, 7, 4|8|16|32|64, 0, NO, NO },
 	
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };

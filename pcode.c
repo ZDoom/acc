@@ -438,6 +438,8 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	//[MW] end my p-codes
 	"PCD_GETPLAYERINFO",
 	"PCD_CHANGELEVEL",
+	"PCD_SECTORDAMAGE",
+	"PCD_REPLACETEXTURES",
 	
 };
 
