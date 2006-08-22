@@ -2039,6 +2039,9 @@ static void BuildPrintString(void)
 			case 'c': // character
 				printCmd = PCD_PRINTCHARACTER;
 				break;
+			case 'r': // color range
+				printCmd = PCD_PRINTCOLOR;
+				break;
 			case 'n': // [BC] name
 				printCmd = PCD_PRINTNAME;
 				break;

@@ -103,7 +103,7 @@
 #define PROP_FLIGHT			12
 #define PROP_SPEED			15
 
-// Text colors for hudmessage -----------------------------------------------
+// Text colors --------------------------------------------------------------
 
 #define CR_UNTRANSLATED         -1
 #define CR_BRICK                0
@@ -118,6 +118,16 @@
 #define CR_ORANGE               8
 #define CR_WHITE                9
 #define CR_YELLOW               10
+#define CR_BLACK				12
+#define CR_LIGHTBLUE			13
+#define CR_CREAM				14
+#define CR_OLIVE				15
+#define CR_DARKGREEN			16
+#define CR_DARKRED				17
+#define CR_DARKBROWN			18
+#define CR_PURPLE				19
+#define CR_DARKGRAY				20
+#define CR_DARKGREY				20
 
 // HUD message types --------------------------------------------------------
 
