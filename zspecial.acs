@@ -181,7 +181,7 @@ special
 	246:Elevator_MoveToFloor(2),
 	247:Elevator_LowerToNearest(2),
 	248:HealThing(1,2),
-	249:Door_CloseWaitOpen(3),
+	249:Door_CloseWaitOpen(3, 4),
 	250:Floor_Donut(3),
 	251:FloorAndCeiling_LowerRaise(3),
 	252:Ceiling_RaiseToNearest(2),
