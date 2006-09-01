@@ -140,6 +140,10 @@
 // i.e. instead of HUDMSG_PLAIN, you can use HUDMSG_PLAIN | HUDMSG_LOG
 #define HUDMSG_LOG	0x80000000
 
+// OR this with one of the above if the color you passed is a string
+// instead of one of the CR_ constants.
+#define HUDMSG_COLORSTRING	0x40000000
+
 // "Scripted" Marine weapon types -------------------------------------------
 
 #define MARINEWEAPON_Dummy		0
@@ -196,6 +200,20 @@
 #define LEVELINFO_KILLED_MONSTERS	8
 #define LEVELINFO_SUCK_TIME		9
 
+// Flags for ReplaceTextures ------------------------------------------------
+
+#define NOT_BOTTOM				1
+#define NOT_MIDDLE				2
+#define NOT_TOP					4
+#define NOT_FLOOR				8
+#define NOT_CEILING				16
+
+// Flags for SectorDamage ---------------------------------------------------
+
+#define DAMAGE_PLAYERS				1
+#define DAMAGE_NONPLAYERS			2
+#define DAMAGE_IN_AIR				4
+#define DAMAGE_SUBCLASSES_PROTECT	8
 
 // Shared spawnable things from Hexen. You can spawn these in the other -----
 // games if you provide sprites for them, otherwise they'll be invisible. ---
