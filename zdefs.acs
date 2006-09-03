@@ -200,6 +200,18 @@
 #define LEVELINFO_KILLED_MONSTERS	8
 #define LEVELINFO_SUCK_TIME		9
 
+// Properties you can use with GetPlayerInfo() ------------------------------
+
+#define PLAYERINFO_TEAM			0
+#define PLAYERINFO_AIMDIST		1
+#define PLAYERINFO_COLOR		2
+#define PLAYERINFO_GENDER		3
+#define PLAYERINFO_NEVERSWITCH	4
+#define PLAYERINFO_MOVEBOB		5
+#define PLAYERINFO_STILLBOB		6
+#define PLAYERINFO_PLAYERCLASS	7
+
+
 // Flags for ReplaceTextures ------------------------------------------------
 
 #define NOT_BOTTOM				1
