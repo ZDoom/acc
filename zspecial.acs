@@ -161,7 +161,7 @@ special
 	226:ACS_ExecuteAlways(2,5),
 //	227:PointPush_SetForce,
 	228:Plat_RaiseAndStayTx0(2),
-	229:Thing_SetGoal(3),
+	229:Thing_SetGoal(3,4),
 	230:Plat_UpByValueStayTx(3),
 	231:Plat_ToggleCeiling(1),
 	232:Light_StrobeDoom(3),
