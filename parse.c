@@ -3259,6 +3259,11 @@ static void ExprFactor(void)
 		ExprFactor();
 		PC_AppendCmd(PCD_NEGATELOGICAL);
 		break;
+	case TK_TILDE:
+		TK_NextToken();
+		ExprFactor();
+		PC_AppendCmd(PCD_NEGATEBINARY);
+		break;
 	case TK_INC:
 	case TK_DEC:
 		opToken = tk_Token;

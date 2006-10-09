@@ -105,6 +105,11 @@ special
 	127:Thing_SetSpecial(5),
 	128:ThrustThingZ(4),
 	139:Thing_SpawnFacing(2,4),
+	159:Sector_SetPlaneReflection(3),	// GZDoom only!
+	//160:Sector_Set3DFloor				// GZDoom/Vavoom
+	//161:Sector_SetContents			// Vavoom
+	170:Sector_SetCeilingScale2(3),
+	171:Sector_SetFloorScale2(3),
 	172:Plat_UpNearestWaitDownStay(3),
 	173:NoiseAlert(2),
 	174:SendToCommunicator(4),
