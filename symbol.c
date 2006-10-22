@@ -177,6 +177,8 @@ static internFuncDef_t InternalFunctions[] =
 	{ "changelevel", PCD_NOP, PCD_CHANGELEVEL, 4, 8, 0, NO, NO },
 	{ "sectordamage", PCD_NOP, PCD_SECTORDAMAGE, 5, 0, 0, NO, NO },
 	{ "replacetextures", PCD_NOP, PCD_REPLACETEXTURES, 3, 4, 0, NO, NO },
+	{ "getactorpitch", PCD_NOP, PCD_GETACTORPITCH, 1, 0, 0, YES, NO },
+	{ "setactorpitch", PCD_NOP, PCD_SETACTORPITCH, 2, 0, 0, NO, NO },
 	
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };

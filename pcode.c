@@ -441,7 +441,8 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_SECTORDAMAGE",
 	"PCD_REPLACETEXTURES",
 	"PCD_NEGATEBINARY",
-	
+	"PCD_GETACTORPITCH",
+	"PCD_SETACTORPITCH",
 };
 
 // CODE --------------------------------------------------------------------
