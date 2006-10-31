@@ -18,7 +18,7 @@ endif
 
 CFLAGS = -Os -Wall -W -fomit-frame-pointer
 LDFLAGS = -s
-VERNUM = 144
+VERNUM = 145
 
 OBJS = \
 	acc.o     \
