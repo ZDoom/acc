@@ -44,6 +44,7 @@
 #define BLOCK_CREATURES         1
 #define BLOCK_EVERYTHING        2
 #define BLOCK_RAILING			3
+#define BLOCK_PLAYERS			4
 
 #define SCROLL                  0
 #define CARRY                   1
