@@ -28,8 +28,8 @@
 // Increased limits - Ty 03jan2000
 // 32 is okay
 #define MAX_IDENTIFIER_LENGTH 32
-// 256 long quoted string is okay
-#define MAX_QUOTED_LENGTH 256
+// 32k long quoted string should be okay
+#define MAX_QUOTED_LENGTH 32768
 // 512 max file name is okay in DOS/Win
 #define MAX_FILE_NAME_LENGTH 512
 // Was 64
