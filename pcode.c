@@ -443,6 +443,7 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_NEGATEBINARY",
 	"PCD_GETACTORPITCH",
 	"PCD_SETACTORPITCH",
+	"PCD_PRINTBIND",
 };
 
 // CODE --------------------------------------------------------------------

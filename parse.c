@@ -2045,6 +2045,9 @@ static void BuildPrintString(void)
 			case 'f': // [RH] fixed point
 				printCmd = PCD_PRINTFIXED;
 				break;
+			case 'k': // [GRB] key binding
+				printCmd = PCD_PRINTBIND;
+				break;
 			default:
 				printCmd = PCD_PRINTSTRING;
 				ERR_Error(ERR_UNKNOWN_PRTYPE, YES);
