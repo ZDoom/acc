@@ -3432,6 +3432,10 @@ static void ConstExprFactor(void)
 			tk_Token != TK_SEMICOLON &&
 			tk_Token != TK_RPAREN)
 		{
+			if(tk_Token == TK_EOF)
+			{
+				ERR_Exit(ERR_EOF, YES);
+			}
 			TK_NextToken();
 		}
 		break;
