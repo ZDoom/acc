@@ -91,6 +91,7 @@ special
 	 15:Autosave(0),
 	 17:Thing_Raise(1),
 	 18:StartConversation(1,2),
+	 19:Thing_Stop(1),
 	 33:ForceField(0),
 	 34:ClearForceField(1),
 	 38:Ceiling_Waggle(5),
