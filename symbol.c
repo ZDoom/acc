@@ -181,6 +181,8 @@ static internFuncDef_t InternalFunctions[] =
 	{ "setactorpitch", PCD_NOP, PCD_SETACTORPITCH, 2, 0, 0, NO, NO },
 	{ "setactorstate", PCD_NOP, PCD_SETACTORSTATE, 3, 4, 0, YES, NO },
 	{ "thing_damage2", PCD_NOP, PCD_THINGDAMAGE2, 3, 0, 0, YES, NO },
+	{ "useinventory", PCD_NOP, PCD_USEINVENTORY, 1, 0, 0, YES, NO },
+	{ "useactorinventory", PCD_NOP, PCD_USEACTORINVENTORY, 2, 0, 0, YES, NO },
 	
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };

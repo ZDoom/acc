@@ -446,6 +446,8 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_PRINTBIND",
 	"PCD_SETACTORSTATE",
 	"PCD_THINGDAMAGE2",
+	"PCD_USEINVENTORY",
+	"PCD_USEACTORINVENTORY",
 };
 
 // CODE --------------------------------------------------------------------
