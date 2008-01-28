@@ -174,6 +174,7 @@
 #define APROP_Frightened	14
 #define APROP_Gravity		15
 #define APROP_Friendly		16
+#define APROP_SpawnHealth	17
 #define APROP_SeeSound		5	// Sounds can only be set, not gotten
 #define APROP_AttackSound	6
 #define APROP_PainSound		7
