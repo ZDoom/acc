@@ -332,6 +332,7 @@ static struct ScriptTypes ScriptCounts[] =
 	{ "lightning",		LIGHTNING_SCRIPTS_BASE,		0 },
 	{ "disconnect",		DISCONNECT_SCRIPTS_BASE,	0 },
 	{ "unloading",		UNLOADING_SCRIPTS_BASE,		0 },
+	{ "return",			RETURN_SCRIPTS_BASE,		0 },
 	{ NULL,				-1,							0 }
 };
 
@@ -620,6 +621,7 @@ static void OuterScript(void)
 		case TK_WHITERETURN:
 		case TK_LIGHTNING:
 		case TK_UNLOADING:
+		case TK_RETURN:
 			ERR_Error(ERR_UNCLOSED_WITH_ARGS, YES);
 			break;
 
@@ -646,6 +648,10 @@ static void OuterScript(void)
 
 	case TK_ENTER:		// [BC]
 		scriptType = ENTER_SCRIPTS_BASE;
+		break;
+
+	case TK_RETURN:
+		scriptType = RETURN_SCRIPTS_BASE;
 		break;
 
 	case TK_PICKUP:		// [BC]

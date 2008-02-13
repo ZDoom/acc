@@ -28,7 +28,8 @@ enum
 	WHITE_RETURN_SCRIPTS_BASE	= 8000,	// [BC]
 	LIGHTNING_SCRIPTS_BASE		= 12000,
 	UNLOADING_SCRIPTS_BASE		= 13000,
-	DISCONNECT_SCRIPTS_BASE		= 14000
+	DISCONNECT_SCRIPTS_BASE		= 14000,
+	RETURN_SCRIPTS_BASE			= 15000,
 };
 
 // Values added to script number to indicate flags (requires new-style .o)
