@@ -448,6 +448,9 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_THINGDAMAGE2",
 	"PCD_USEINVENTORY",
 	"PCD_USEACTORINVENTORY",
+	"PCD_CHECKACTORCEILINGTEXTURE",
+	"PCD_CHECKACTORFLOORTEXTURE",
+	"PCD_GETACTORLIGHTLEVEL",
 };
 
 // CODE --------------------------------------------------------------------

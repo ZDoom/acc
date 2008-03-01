@@ -183,6 +183,9 @@ static internFuncDef_t InternalFunctions[] =
 	{ "thing_damage2", PCD_NOP, PCD_THINGDAMAGE2, 3, 0, 0, YES, NO },
 	{ "useinventory", PCD_NOP, PCD_USEINVENTORY, 1, 0, 0, YES, NO },
 	{ "useactorinventory", PCD_NOP, PCD_USEACTORINVENTORY, 2, 0, 0, YES, NO },
+	{ "checkactorceilingtexture", PCD_NOP, PCD_CHECKACTORCEILINGTEXTURE, 2, 0, 0, YES, NO },
+	{ "checkactorfloortexture", PCD_NOP, PCD_CHECKACTORFLOORTEXTURE, 2, 0, 0, YES, NO },
+	{ "getactorlightlevel", PCD_NOP, PCD_GETACTORLIGHTLEVEL, 1, 0, 0, YES, NO },
 	
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };
