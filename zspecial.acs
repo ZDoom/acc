@@ -109,7 +109,7 @@ special
 	128:ThrustThingZ(4),
 	139:Thing_SpawnFacing(2,4),
 	
-	158:FS_Execute(1,4)					// GZDoom only!
+	158:FS_Execute(1,4),				// GZDoom only!
 	159:Sector_SetPlaneReflection(3),	// GZDoom only!
 	//160:Sector_Set3DFloor				// GZDoom/Vavoom
 	//161:Sector_SetContents			// Vavoom
