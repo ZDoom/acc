@@ -187,6 +187,8 @@ static internFuncDef_t InternalFunctions[] =
 	{ "checkactorfloortexture", PCD_NOP, PCD_CHECKACTORFLOORTEXTURE, 2, 0, 0, YES, NO },
 	{ "getactorlightlevel", PCD_NOP, PCD_GETACTORLIGHTLEVEL, 1, 0, 0, YES, NO },
 	{ "setmugshotstate", PCD_NOP, PCD_SETMUGSHOTSTATE, 1, 0, 0, NO, NO },
+	{ "thingcountsector", PCD_NOP, PCD_THINGCOUNTSECTOR, 3, 0, 0, YES, NO },
+	{ "thingcountnamesector", PCD_NOP, PCD_THINGCOUNTNAMESECTOR, 3, 0, 0, YES, NO },
 	
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };

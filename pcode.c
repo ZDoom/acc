@@ -452,6 +452,8 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_CHECKACTORFLOORTEXTURE",
 	"PCD_GETACTORLIGHTLEVEL",
 	"PCD_SETMUGSHOTSTATE",
+	"PCD_THINGCOUNTSECTOR",
+	"PCD_THINGCOUNTNAMESECTOR",
 };
 
 // CODE --------------------------------------------------------------------
