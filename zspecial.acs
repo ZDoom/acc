@@ -99,6 +99,8 @@ special
 	 39:Teleport_ZombieChanger(2),
 	 47:Ceiling_MoveToValue(3,4),
 	 49:GlassBreak(0,1),
+	 51:Sector_SetLink(4),
+	 52:Scroll_Wall(5),
 	 76:TeleportOther(3),
 	 77:TeleportGroup(5),
 	 78:TeleportInSector(4,5),
