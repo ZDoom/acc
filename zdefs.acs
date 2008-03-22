@@ -24,6 +24,11 @@
 #define TEXTURE_MIDDLE          1
 #define TEXTURE_BOTTOM          2
 
+// same information as combinable bit flags
+#define TEXFLAG_TOP				1
+#define TEXFLAG_MIDDLE			2
+#define TEXFLAG_BOTTOM			4
+
 #define GAME_SINGLE_PLAYER      0
 #define GAME_NET_COOPERATIVE    1
 #define GAME_NET_DEATHMATCH     2
@@ -601,3 +606,6 @@
 #define CHANGELEVEL_NOMONSTERS 4
 #define CHANGELEVEL_CHANGESKILL 8
 #define CHANGELEVEL_NOINTERMISSION 16
+
+#define NO_CHANGE -32767.0
+

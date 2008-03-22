@@ -101,6 +101,7 @@ special
 	 49:GlassBreak(0,1),
 	 51:Sector_SetLink(4),
 	 52:Scroll_Wall(5),
+	 53:Line_SetTextureOffset(5),
 	 76:TeleportOther(3),
 	 77:TeleportGroup(5),
 	 78:TeleportInSector(4,5),
