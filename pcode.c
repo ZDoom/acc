@@ -454,6 +454,7 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_SETMUGSHOTSTATE",
 	"PCD_THINGCOUNTSECTOR",
 	"PCD_THINGCOUNTNAMESECTOR",
+	"PCD_CHECKPLAYERCAMERA",
 };
 
 // CODE --------------------------------------------------------------------

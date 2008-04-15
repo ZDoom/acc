@@ -189,6 +189,7 @@ static internFuncDef_t InternalFunctions[] =
 	{ "setmugshotstate", PCD_NOP, PCD_SETMUGSHOTSTATE, 1, 0, 0, NO, NO },
 	{ "thingcountsector", PCD_NOP, PCD_THINGCOUNTSECTOR, 3, 0, 0, YES, NO },
 	{ "thingcountnamesector", PCD_NOP, PCD_THINGCOUNTNAMESECTOR, 3, 0, 0, YES, NO },
+	{ "checkplayercamera", PCD_NOP, PCD_CHECKPLAYERCAMERA, 1, 0, 0, YES, NO },
 	
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };
