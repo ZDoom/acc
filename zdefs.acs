@@ -609,3 +609,5 @@
 
 #define NO_CHANGE -32767.0
 
+#define SECF_SILENT 1
+#define SECF_NOFALLINGDAMAGE 2
