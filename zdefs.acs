@@ -236,6 +236,22 @@
 #define DAMAGE_IN_AIR				4
 #define DAMAGE_SUBCLASSES_PROTECT	8
 
+// Flags for MorphActor -----------------------------------------------------
+
+#define MRF_OLDEFFECTS			0x00000000
+#define MRF_ADDSTAMINA			0x00000001
+#define MRF_FULLHEALTH			0x00000002
+#define MRF_UNDOBYTOMEOFPOWER	0x00000004
+#define MRF_UNDOBYCHAOSDEVICE	0x00000008
+#define MRF_FAILNOTELEFRAG		0x00000010
+#define MRF_FAILNOLAUGH			0x00000020
+#define MRF_WHENINVULNERABLE	0x00000040
+#define MRF_LOSEACTUALWEAPON	0x00000080
+#define MRF_NEWTIDBEHAVIOUR		0x00000100
+#define MRF_UNDOBYDEATH			0x00000200
+#define MRF_UNDOBYDEATHFORCED	0x00000400
+#define MRF_UNDOBYDEATHSAVES	0x00000800
+
 // Shared spawnable things from Hexen. You can spawn these in the other -----
 // games if you provide sprites for them, otherwise they'll be invisible. ---
 

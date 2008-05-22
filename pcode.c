@@ -455,6 +455,8 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_THINGCOUNTSECTOR",
 	"PCD_THINGCOUNTNAMESECTOR",
 	"PCD_CHECKPLAYERCAMERA",
+	"PCD_MORPHACTOR",
+	"PCD_UNMORPHACTOR",
 };
 
 // CODE --------------------------------------------------------------------
