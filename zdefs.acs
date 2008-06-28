@@ -387,7 +387,8 @@
 #define T_WIZARD                19
 #define T_IRONLICH              20
 #define T_ITEMHEALTHPOTION      23
-#define T_ITEMHEALTHFLASH       24
+#define T_ITEMHEALTHFLASH       24	// incorrect name but keep it for compatibility
+#define T_ITEMHEALTHFLASK       24
 #define T_ITEMHEALTHFULL        25
 #define T_CROSSBOW              27
 #define T_BLASTER               28
