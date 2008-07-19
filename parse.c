@@ -1548,7 +1548,7 @@ static void LeadingLineSpecial(boolean executewait)
 		PC_AppendCmd(PCD_LSPEC1+(argCount-1));
 		if(pc_NoShrink)
 		{
-			PC_AppendLong(specialValue);
+			PC_AppendInt(specialValue);
 		}
 		else
 		{
@@ -1561,33 +1561,33 @@ static void LeadingLineSpecial(boolean executewait)
 	}
 	else
 	{
-		boolean uselongform;
+		boolean useintform;
 
 		if(pc_NoShrink)
 		{
 			PC_AppendCmd(PCD_LSPEC1DIRECT+(argCount-1));
-			PC_AppendLong(specialValue);
-			uselongform = YES;
+			PC_AppendInt(specialValue);
+			useintform = YES;
 		}
 		else
 		{
-			uselongform = NO;
+			useintform = NO;
 			for (i = 0; i < argCount; i++)
 			{
-				if ((unsigned int)argSave[i] > 255)
+				if ((U_INT)argSave[i] > 255)
 				{
-					uselongform = YES;
+					useintform = YES;
 					break;
 				}
 			}
-			PC_AppendCmd((argCount-1)+(uselongform?PCD_LSPEC1DIRECT:PCD_LSPEC1DIRECTB));
+			PC_AppendCmd((argCount-1)+(useintform?PCD_LSPEC1DIRECT:PCD_LSPEC1DIRECTB));
 			PC_AppendByte(specialValue);
 		}
-		if (uselongform)
+		if (useintform)
 		{
 			for (i = 0; i < argCount; i++)
 			{
-				PC_AppendLong(argSave[i]);
+				PC_AppendInt(argSave[i]);
 			}
 		}
 		else
@@ -1600,7 +1600,7 @@ static void LeadingLineSpecial(boolean executewait)
 		if(executewait)
 		{
 			PC_AppendCmd(PCD_SCRIPTWAITDIRECT);
-			PC_AppendLong(argSave[0]);
+			PC_AppendInt(argSave[0]);
 		}
 	}
 	TK_NextToken();
@@ -1743,7 +1743,7 @@ static void ProcessInternFunc(symbolNode_t *sym)
 						}
 						else
 						{
-							PC_AppendLong(EvalConstExpression());
+							PC_AppendInt(EvalConstExpression());
 						}
 					}
 					else
@@ -1756,7 +1756,7 @@ static void ProcessInternFunc(symbolNode_t *sym)
 							}
 							else
 							{
-								PC_AppendLong(0);
+								PC_AppendInt(0);
 							}
 						}
 						else
@@ -1788,16 +1788,16 @@ static void ProcessInternFunc(symbolNode_t *sym)
 							switch (sym->type)
 							{
 							case SY_SCRIPTVAR:
-								PC_AppendLong(sym->info.var.index | OUTVAR_SCRIPT_SPEC);
+								PC_AppendInt(sym->info.var.index | OUTVAR_SCRIPT_SPEC);
 								break;
 							case SY_MAPVAR:
-								PC_AppendLong(sym->info.var.index | OUTVAR_MAP_SPEC);
+								PC_AppendInt(sym->info.var.index | OUTVAR_MAP_SPEC);
 								break;
 							case SY_WORLDVAR:
-								PC_AppendLong(sym->info.var.index | OUTVAR_WORLD_SPEC);
+								PC_AppendInt(sym->info.var.index | OUTVAR_WORLD_SPEC);
 								break;
 							case SY_GLOBALVAR:
-								PC_AppendLong(sym->info.var.index | OUTVAR_GLOBAL_SPEC);
+								PC_AppendInt(sym->info.var.index | OUTVAR_GLOBAL_SPEC);
 								break;
 							default:
 								ERR_Error (ERR_PARM_MUST_BE_VAR, YES);
@@ -1838,7 +1838,7 @@ static void ProcessInternFunc(symbolNode_t *sym)
 			}
 			else
 			{
-				PC_AppendLong(0);
+				PC_AppendInt(0);
 			}
 		}
 		else
@@ -1859,7 +1859,7 @@ static void ProcessInternFunc(symbolNode_t *sym)
 	}
 	else if (specialDirect)
 	{
-		boolean uselongform = NO;
+		boolean useintform = NO;
 		pcd_t shortpcd;
 
 		switch (sym->info.internFunc.directCommand)
@@ -1871,29 +1871,29 @@ static void ProcessInternFunc(symbolNode_t *sym)
 			shortpcd = PCD_RANDOMDIRECTB;
 			break;
 		default:
-			uselongform = YES;
+			useintform = YES;
 			shortpcd = PCD_NOP;
 			break;
 		}
 
-		if (!uselongform)
+		if (!useintform)
 		{
 			for (i = 0; i < argCount; i++)
 			{
-				if ((unsigned int)argSave[i] > 255)
+				if ((U_INT)argSave[i] > 255)
 				{
-					uselongform = YES;
+					useintform = YES;
 					break;
 				}
 			}
 		}
 
-		if (uselongform)
+		if (useintform)
 		{
 			PC_AppendCmd(sym->info.internFunc.directCommand);
 			for (i = 0; i < argCount; i++)
 			{
-				PC_AppendLong (argSave[i]);
+				PC_AppendInt (argSave[i]);
 			}
 		}
 		else
@@ -2006,7 +2006,7 @@ static void ProcessScriptFunc(symbolNode_t *sym, boolean discardReturn)
 	}
 	if (pc_NoShrink)
 	{
-		PC_AppendLong(sym->info.scriptFunc.funcNumber);
+		PC_AppendInt(sym->info.scriptFunc.funcNumber);
 	}
 	else
 	{
@@ -2279,7 +2279,7 @@ static void LeadingIf(void)
 	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 	PC_AppendCmd(PCD_IFNOTGOTO);
 	jumpAddrPtr1 = pc_Address;
-	PC_SkipLong();
+	PC_SkipInt();
 	TK_NextToken();
 	if(ProcessStatement(STMT_IF) == NO)
 	{
@@ -2289,18 +2289,18 @@ static void LeadingIf(void)
 	{
 		PC_AppendCmd(PCD_GOTO);
 		jumpAddrPtr2 = pc_Address;
-		PC_SkipLong();
-		PC_WriteLong(pc_Address, jumpAddrPtr1);
+		PC_SkipInt();
+		PC_WriteInt(pc_Address, jumpAddrPtr1);
 		TK_NextToken();
 		if(ProcessStatement(STMT_ELSE) == NO)
 		{
 			ERR_Error(ERR_INVALID_STATEMENT, YES);
 		}
-		PC_WriteLong(pc_Address, jumpAddrPtr2);
+		PC_WriteInt(pc_Address, jumpAddrPtr2);
 	}
 	else
 	{
-		PC_WriteLong(pc_Address, jumpAddrPtr1);
+		PC_WriteInt(pc_Address, jumpAddrPtr1);
 	}
 }
 
@@ -2330,10 +2330,10 @@ static void LeadingFor(void)
 	TK_NextToken();
 	PC_AppendCmd(PCD_IFGOTO);
 	ifgotoAddr = pc_Address;
-	PC_SkipLong();
+	PC_SkipInt();
 	PC_AppendCmd(PCD_GOTO);
 	gotoAddr = pc_Address;
-	PC_SkipLong();
+	PC_SkipInt();
 	incAddr = pc_Address;
 	forSemicolonHack = TRUE;
 	if(ProcessStatement(STMT_FOR) == NO)
@@ -2342,17 +2342,17 @@ static void LeadingFor(void)
 	}
 	forSemicolonHack = FALSE;
 	PC_AppendCmd(PCD_GOTO);
-	PC_AppendLong(exprAddr);
-	PC_WriteLong(pc_Address,ifgotoAddr);
+	PC_AppendInt(exprAddr);
+	PC_WriteInt(pc_Address,ifgotoAddr);
 	if(ProcessStatement(STMT_FOR) == NO)
 	{
 		ERR_Error(ERR_INVALID_STATEMENT, YES);
 	}
 	PC_AppendCmd(PCD_GOTO);
-	PC_AppendLong(incAddr);
+	PC_AppendInt(incAddr);
 	WriteContinues(incAddr);
 	WriteBreaks();
-	PC_WriteLong(pc_Address,gotoAddr);
+	PC_WriteInt(pc_Address,gotoAddr);
 }
 
 //==========================================================================
@@ -2376,16 +2376,16 @@ static void LeadingWhileUntil(void)
 	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 	PC_AppendCmd(stmtToken == TK_WHILE ? PCD_IFNOTGOTO : PCD_IFGOTO);
 	outAddrPtr = pc_Address;
-	PC_SkipLong();
+	PC_SkipInt();
 	TK_NextToken();
 	if(ProcessStatement(STMT_WHILEUNTIL) == NO)
 	{
 		ERR_Error(ERR_INVALID_STATEMENT, YES);
 	}
 	PC_AppendCmd(PCD_GOTO);
-	PC_AppendLong(topAddr);
+	PC_AppendInt(topAddr);
 
-	PC_WriteLong(pc_Address, outAddrPtr);
+	PC_WriteInt(pc_Address, outAddrPtr);
 
 	WriteContinues(topAddr);
 	WriteBreaks();
@@ -2424,7 +2424,7 @@ static void LeadingDo(void)
 	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 	TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
 	PC_AppendCmd(stmtToken == TK_WHILE ? PCD_IFGOTO : PCD_IFNOTGOTO);
-	PC_AppendLong(topAddr);
+	PC_AppendInt(topAddr);
 	WriteContinues(exprAddr);
 	WriteBreaks();
 	TK_NextToken();
@@ -2452,7 +2452,7 @@ static void LeadingSwitch(void)
 
 	PC_AppendCmd(PCD_GOTO);
 	switcherAddrPtr = pc_Address;
-	PC_SkipLong();
+	PC_SkipInt();
 
 	TK_NextToken();
 	if(ProcessStatement(STMT_SWITCH) == NO)
@@ -2462,9 +2462,9 @@ static void LeadingSwitch(void)
 
 	PC_AppendCmd(PCD_GOTO);
 	outAddrPtr = pc_Address;
-	PC_SkipLong();
+	PC_SkipInt();
 
-	PC_WriteLong(pc_Address, switcherAddrPtr);
+	PC_WriteInt(pc_Address, switcherAddrPtr);
 	defaultAddress = 0;
 
 	if(pc_HexenCase)
@@ -2477,8 +2477,8 @@ static void LeadingSwitch(void)
 				continue;
 			}
 			PC_AppendCmd(PCD_CASEGOTO);
-			PC_AppendLong(cInfo->value);
-			PC_AppendLong(cInfo->address);
+			PC_AppendInt(cInfo->value);
+			PC_AppendInt(cInfo->address);
 		}
 	}
 	else if(CaseIndex != 0)
@@ -2503,14 +2503,14 @@ static void LeadingSwitch(void)
 			PC_AppendCmd(PCD_CASEGOTOSORTED);
 			if(pc_Address%4 != 0)
 			{ // Align to a 4-byte boundary
-				U_LONG pad = 0;
+				U_INT pad = 0;
 				PC_Append((void *)&pad, 4-(pc_Address%4));
 			}
-			PC_AppendLong(maxCase - minCase);
+			PC_AppendInt(maxCase - minCase);
 			for(; minCase < maxCase; ++minCase)
 			{
-				PC_AppendLong(minCase->value);
-				PC_AppendLong(minCase->address);
+				PC_AppendInt(minCase->value);
+				PC_AppendInt(minCase->address);
 			}
 		}
 	}
@@ -2519,10 +2519,10 @@ static void LeadingSwitch(void)
 	if(defaultAddress != 0)
 	{
 		PC_AppendCmd(PCD_GOTO);
-		PC_AppendLong(defaultAddress);
+		PC_AppendInt(defaultAddress);
 	}
 
-	PC_WriteLong(pc_Address, outAddrPtr);
+	PC_WriteInt(pc_Address, outAddrPtr);
 
 	WriteBreaks();
 }
@@ -2650,7 +2650,7 @@ static void LeadingBreak(void)
 	TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
 	PC_AppendCmd(PCD_GOTO);
 	PushBreak();
-	PC_SkipLong();
+	PC_SkipInt();
 	TK_NextToken();
 }
 
@@ -2681,7 +2681,7 @@ static void WriteBreaks(void)
 {
 	while(BreakIndex && BreakInfo[BreakIndex-1].level > StatementLevel)
 	{
-		PC_WriteLong(pc_Address, BreakInfo[--BreakIndex].addressPtr);
+		PC_WriteInt(pc_Address, BreakInfo[--BreakIndex].addressPtr);
 	}
 }
 
@@ -2720,7 +2720,7 @@ static void LeadingContinue(void)
 	TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
 	PC_AppendCmd(PCD_GOTO);
 	PushContinue();
-	PC_SkipLong();
+	PC_SkipInt();
 	TK_NextToken();
 }
 
@@ -2755,7 +2755,7 @@ static void WriteContinues(int address)
 	}
 	while(ContinueInfo[ContinueIndex-1].level > StatementLevel)
 	{
-		PC_WriteLong(address, ContinueInfo[--ContinueIndex].addressPtr);
+		PC_WriteInt(address, ContinueInfo[--ContinueIndex].addressPtr);
 	}
 }
 
@@ -2862,7 +2862,7 @@ static void LeadingVarAssign(symbolNode_t *sym)
 			PC_AppendCmd(GetIncDecPCD(tk_Token, sym->type));
 			if (pc_NoShrink)
 			{
-				PC_AppendLong(sym->info.var.index);
+				PC_AppendInt(sym->info.var.index);
 			}
 			else
 			{
@@ -3191,7 +3191,7 @@ static void ExprLineSpecial(void)
 		PC_AppendCmd(PCD_LSPEC5RESULT);
 		if(pc_NoShrink)
 		{
-			PC_AppendLong(specialValue);
+			PC_AppendInt(specialValue);
 		}
 		else
 		{
@@ -3962,7 +3962,7 @@ static void UnspeculateFunction(symbolNode_t *sym)
 
 			if(pc_NoShrink)
 			{
-				PC_WriteLong(sym->info.scriptFunc.funcNumber, fillin->address);
+				PC_WriteInt(sym->info.scriptFunc.funcNumber, fillin->address);
 			}
 			else
 			{

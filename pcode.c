@@ -486,7 +486,7 @@ void PC_OpenObject(char *name, size_t size, int flags)
 	pc_ScriptCount = 0;
 	ObjectOpened = YES;
 	PC_AppendString("ACS");
-	PC_SkipLong(); // Script table offset
+	PC_SkipInt(); // Script table offset
 }
 
 //==========================================================================
@@ -529,16 +529,16 @@ static void CloseOld(void)
 	int i;
 
 	STR_WriteStrings();
-	PC_WriteLong((U_LONG)pc_Address, 4);
-	PC_AppendLong((U_LONG)pc_ScriptCount);
+	PC_WriteInt((U_INT)pc_Address, 4);
+	PC_AppendInt((U_INT)pc_ScriptCount);
 	for(i = 0; i < pc_ScriptCount; ++i)
 	{
 		scriptInfo_t *info = &ScriptInfo[i];
 		MS_Message(MSG_DEBUG, "Script %d, address = %d, arg count = %d\n",
 			info->number, info->address, info->argCount);
-		PC_AppendLong((U_LONG)(info->number + info->type * 1000));
-		PC_AppendLong((U_LONG)info->address);
-		PC_AppendLong((U_LONG)info->argCount);
+		PC_AppendInt((U_INT)(info->number + info->type * 1000));
+		PC_AppendInt((U_INT)info->address);
+		PC_AppendInt((U_INT)info->argCount);
 	}
 	STR_WriteList();
 }
@@ -580,7 +580,7 @@ static void CloseNew(void)
 	if(j > 0)
 	{
 		PC_Append("SPTR", 4);
-		PC_AppendLong(j * 8);
+		PC_AppendInt(j * 8);
 		for(i = 0; i < pc_ScriptCount; i++)
 		{
 			scriptInfo_t *info = &ScriptInfo[i];
@@ -591,7 +591,7 @@ static void CloseNew(void)
 				PC_AppendWord(info->number);
 				PC_AppendByte(info->type);
 				PC_AppendByte(info->argCount);
-				PC_AppendLong((U_LONG)info->address);
+				PC_AppendInt((U_INT)info->address);
 			}
 		}
 	}
@@ -607,7 +607,7 @@ static void CloseNew(void)
 	if(j > 0)
 	{
 		PC_Append("SVCT", 4);
-		PC_AppendLong(j * 4);
+		PC_AppendInt(j * 4);
 		for(i = 0; i < pc_ScriptCount; ++i)
 		{
 			scriptInfo_t *info = &ScriptInfo[i];
@@ -632,7 +632,7 @@ static void CloseNew(void)
 	if (j > 0)
 	{
 		PC_Append("SFLG", 4);
-		PC_AppendLong(j * 4);
+		PC_AppendInt(j * 4);
 		for(i = 0; i < pc_ScriptCount; ++i)
 		{
 			scriptInfo_t *info = &ScriptInfo[i];
@@ -647,7 +647,7 @@ static void CloseNew(void)
 	if(pc_FunctionCount > 0)
 	{
 		PC_Append("FUNC", 4);
-		PC_AppendLong(pc_FunctionCount * 8);
+		PC_AppendInt(pc_FunctionCount * 8);
 		for(i = 0; i < pc_FunctionCount; ++i)
 		{
 			functionInfo_t *info = &FunctionInfo[i];
@@ -658,7 +658,7 @@ static void CloseNew(void)
 			PC_AppendByte(info->localCount);
 			PC_AppendByte((U_BYTE)(info->hasReturnValue?1:0));
 			PC_AppendByte(0);
-			PC_AppendLong((U_LONG)info->address);
+			PC_AppendInt((U_INT)info->address);
 		}
 		STR_WriteListChunk(STRLIST_FUNCTIONS, MAKE4CC('F','N','A','M'), NO);
 	}
@@ -695,11 +695,11 @@ static void CloseNew(void)
 		if (i < j)
 		{
 			PC_Append("MINI", 4);
-			PC_AppendLong((j-i)*4+4);
-			PC_AppendLong(i);						// First map var defined
+			PC_AppendInt((j-i)*4+4);
+			PC_AppendInt(i);						// First map var defined
 			for(; i < j; ++i)
 			{
-				PC_AppendLong(MapVariables[i].initializer);
+				PC_AppendInt(MapVariables[i].initializer);
 			}
 		}
 	}
@@ -720,12 +720,12 @@ static void CloseNew(void)
 		if(count > 0)
 		{
 			PC_Append("MSTR", 4);
-			PC_AppendLong(count*4);
+			PC_AppendInt(count*4);
 			for(i = 0; i < pa_MapVarCount; ++i)
 			{
 				if(MapVariables[i].isString)
 				{
-					PC_AppendLong(i);
+					PC_AppendInt(i);
 				}
 			}
 		}
@@ -741,12 +741,12 @@ static void CloseNew(void)
 		if(count > 0)
 		{
 			PC_Append("ASTR", 4);
-			PC_AppendLong(count*4);
+			PC_AppendInt(count*4);
 			for(i = 0; i < pa_MapVarCount; ++i)
 			{
 				if(ArrayOfStrings[i])
 				{
-					PC_AppendLong(i);
+					PC_AppendInt(i);
 				}
 			}
 		}
@@ -781,12 +781,12 @@ static void CloseNew(void)
 	if(count > 0)
 	{
 		PC_Append("MIMP", 4);
-		PC_AppendLong(count);
+		PC_AppendInt(count);
 		for(i = 0; i < pa_MapVarCount; ++i)
 		{
 			if(MapVariables[i].imported && !ArraySizes[i])
 			{
-				PC_AppendLong(i);
+				PC_AppendInt(i);
 				PC_AppendString(MapVariables[i].name);
 			}
 		}
@@ -807,13 +807,13 @@ static void CloseNew(void)
 		if(count)
 		{
 			PC_Append("ARAY", 4);
-			PC_AppendLong(count*8);
+			PC_AppendInt(count*8);
 			for(i = 0; i < pa_MapVarCount; ++i)
 			{
 				if(ArraySizes[i] && !MapVariables[i].imported)
 				{
-					PC_AppendLong(i);
-					PC_AppendLong(ArraySizes[i]);
+					PC_AppendInt(i);
+					PC_AppendInt(ArraySizes[i]);
 				}
 			}
 			for(i = 0; i < pa_MapVarCount; ++i)
@@ -823,11 +823,11 @@ static void CloseNew(void)
 					int j;
 
 					PC_Append("AINI", 4);
-					PC_AppendLong(ArraySizes[i]*4+4);
-					PC_AppendLong((U_LONG)i);
+					PC_AppendInt(ArraySizes[i]*4+4);
+					PC_AppendInt((U_INT)i);
 					for(j = 0; j < ArraySizes[i]; ++j)
 					{
-						PC_AppendLong((U_LONG)ArrayInits[i][j]);
+						PC_AppendInt((U_INT)ArrayInits[i][j]);
 					}
 				}
 			}
@@ -845,14 +845,14 @@ static void CloseNew(void)
 		if(count)
 		{
 			PC_Append("AIMP", 4);
-			PC_AppendLong(count+4);
-			PC_AppendLong(j);
+			PC_AppendInt(count+4);
+			PC_AppendInt(j);
 			for(i = 0; i < pa_MapVarCount; ++i)
 			{
 				if(ArraySizes[i] && MapVariables[i].imported)
 				{
-					PC_AppendLong(i);
-					PC_AppendLong(ArraySizes[i]);
+					PC_AppendInt(i);
+					PC_AppendInt(ArraySizes[i]);
 					PC_AppendString(MapVariables[i].name);
 				}
 			}
@@ -863,7 +863,7 @@ static void CloseNew(void)
 	if(ImportMode == IMPORT_Exporting)
 	{
 		PC_Append("ALIB", 4);
-		PC_AppendLong(0);
+		PC_AppendInt(0);
 	}
 
 	// Record libraries imported by this object.
@@ -877,7 +877,7 @@ static void CloseNew(void)
 		if(count > 0)
 		{
 			PC_Append("LOAD", 4);
-			PC_AppendLong(count);
+			PC_AppendInt(count);
 			for(i = 0; i < NumImports; ++i)
 			{
 				PC_AppendString(Imports[i]);
@@ -885,7 +885,7 @@ static void CloseNew(void)
 		}
 	}
 
-	PC_AppendLong((U_LONG)chunkStart);
+	PC_AppendInt((U_INT)chunkStart);
 	if(pc_NoShrink)
 	{
 		PC_Append("ACSE", 4);
@@ -894,7 +894,7 @@ static void CloseNew(void)
 	{
 		PC_Append("ACSe", 4);
 	}
-	PC_WriteLong((U_LONG)pc_Address, 4);
+	PC_WriteInt((U_INT)pc_Address, 4);
 
 	// WadAuthor compatibility when creating a library is pointless, because
 	// that editor does not know anything about libraries and will never
@@ -905,9 +905,9 @@ static void CloseNew(void)
 	}
 	else
 	{
-		PC_AppendLong(0);
+		PC_AppendInt(0);
 	}
-	PC_AppendLong(0);
+	PC_AppendInt(0);
 }
 
 //==========================================================================
@@ -923,7 +923,7 @@ static void CreateDummyScripts(void)
 	MS_Message(MSG_DEBUG, "Creating dummy scripts to make WadAuthor happy.\n");
 	if(pc_Address%4 != 0)
 	{ // Need to align
-		U_LONG pad = 0;
+		U_INT pad = 0;
 		PC_Append((void *)&pad, 4-(pc_Address%4));
 	}
 	pc_DummyAddress = pc_Address;
@@ -959,7 +959,7 @@ static void RecordDummyScripts(void)
 			++count;
 		}
 	}
-	PC_AppendLong((U_LONG)count);
+	PC_AppendInt((U_INT)count);
 	for(i = 0; i < pc_ScriptCount; ++i)
 	{
 		scriptInfo_t *info = &ScriptInfo[i];
@@ -967,9 +967,9 @@ static void RecordDummyScripts(void)
 		{
 			MS_Message(MSG_DEBUG, "Dummy script %d, address = %d, arg count = %d\n",
 				info->number, info->address, info->argCount);
-			PC_AppendLong((U_LONG)info->number);
-			PC_AppendLong((U_LONG)pc_DummyAddress + i*4);
-			PC_AppendLong((U_LONG)info->argCount);
+			PC_AppendInt((U_INT)info->number);
+			PC_AppendInt((U_INT)pc_DummyAddress + i*4);
+			PC_AppendInt((U_INT)info->argCount);
 		}
 	}
 }
@@ -1037,13 +1037,13 @@ void PC_AppendWord(U_WORD val)
 	}
 }
 
-void PC_AppendLong(U_LONG val)
+void PC_AppendInt(U_INT val)
 {
 	if (ImportMode != IMPORT_Importing)
 	{
 		MS_Message(MSG_DEBUG, "AL> %06d = %d\n", pc_Address, val);
-		val = MS_LittleULONG(val);
-		Append(&val, sizeof(U_LONG));
+		val = MS_LittleUINT(val);
+		Append(&val, sizeof(U_INT));
 	}
 }
 
@@ -1069,8 +1069,8 @@ void PC_AppendCmd(pcd_t command)
 		{
 			MS_Message(MSG_DEBUG, "AC> %06d = #%d:%s\n", pc_Address,
 				command, PCDNames[command]);
-			command = MS_LittleULONG(command);
-			Append(&command, sizeof(U_LONG));
+			command = MS_LittleUINT(command);
+			Append(&command, sizeof(U_INT));
 		}
 		else
 		{
@@ -1143,7 +1143,7 @@ void PC_AppendShrink(U_BYTE val)
 {
 	if(pc_NoShrink)
 	{
-		PC_AppendLong(val);
+		PC_AppendInt(val);
 	}
 	else
 	{
@@ -1157,12 +1157,12 @@ void PC_AppendShrink(U_BYTE val)
 //
 //==========================================================================
 
-void PC_AppendPushVal(U_LONG val)
+void PC_AppendPushVal(U_INT val)
 {
 	if(pc_NoShrink || val > 255)
 	{
 		PC_AppendCmd(PCD_PUSHNUMBER);
-		PC_AppendLong(val);
+		PC_AppendInt(val);
 	}
 	else
 	{
@@ -1216,13 +1216,13 @@ void PC_WriteWord(U_WORD val, int address)
 }
 */
 
-void PC_WriteLong(U_LONG val, int address)
+void PC_WriteInt(U_INT val, int address)
 {
 	if (ImportMode != IMPORT_Importing)
 	{
 		MS_Message(MSG_DEBUG, "WL> %06d = %d\n", address, val);
-		val = MS_LittleULONG(val);
-		Write(&val, sizeof(U_LONG), address);
+		val = MS_LittleUINT(val);
+		Write(&val, sizeof(U_INT), address);
 	}
 	pc_LastAppendedCommand = PCD_NOP;
 }
@@ -1246,8 +1246,8 @@ void PC_WriteCmd(pcd_t command, int address)
 	{
 		MS_Message(MSG_DEBUG, "WC> %06d = #%d:%s\n", address,
 			command, PCDNames[command]);
-		command = MS_LittleULONG(command);
-		Write(&command, sizeof(U_LONG), address);
+		command = MS_LittleUINT(command);
+		Write(&command, sizeof(U_INT), address);
 	}
 }
 
@@ -1295,12 +1295,12 @@ void PC_SkipWord(void)
 }
 */
 
-void PC_SkipLong(void)
+void PC_SkipInt(void)
 {
 	if (ImportMode != IMPORT_Importing)
 	{
-		MS_Message(MSG_DEBUG, "SL> %06d (skip long)\n", pc_Address);
-		Skip(sizeof(U_LONG));
+		MS_Message(MSG_DEBUG, "SL> %06d (skip int)\n", pc_Address);
+		Skip(sizeof(U_INT));
 	}
 }
 

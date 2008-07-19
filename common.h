@@ -87,14 +87,16 @@ enum
 
 // TYPES -------------------------------------------------------------------
 
-typedef unsigned long	boolean;
+typedef unsigned int	boolean;
 typedef unsigned char	byte;
 typedef signed char		S_BYTE;
 typedef unsigned char	U_BYTE;
 typedef signed short	S_WORD;
 typedef unsigned short	U_WORD;
-typedef signed long		S_LONG;
-typedef unsigned long	U_LONG;
+typedef int			S_INT;
+typedef unsigned int	U_INT;
+// typedef signed long		S_LONG;
+// typedef unsigned long	U_LONG;
 
 enum ImportModes
 {

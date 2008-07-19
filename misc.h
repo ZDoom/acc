@@ -32,7 +32,8 @@ typedef enum
 void *MS_Alloc(size_t size, error_t error);
 void *MS_Realloc(void *base, size_t size, error_t error);
 U_WORD MS_LittleUWORD(U_WORD val);
-U_LONG MS_LittleULONG(U_LONG val);
+// U_LONG MS_LittleULONG(U_LONG val);
+U_INT MS_LittleUINT(U_INT val);
 int MS_LoadFile(char *name, char **buffer);
 boolean MS_SaveFile(char *name, void *buffer, int length);
 int MS_StrCmp(char *s1, char *s2);

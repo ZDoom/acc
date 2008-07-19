@@ -113,13 +113,13 @@ U_WORD MS_LittleUWORD(U_WORD val)
 
 //==========================================================================
 //
-// MS_LittleULONG
+// MS_LittleUINT
 //
-// Converts a host U_LONG (4 bytes) to little endian byte order.
+// Converts a host U_INT (4 bytes) to little endian byte order.
 //
 //==========================================================================
 
-U_LONG MS_LittleULONG(U_LONG val)
+U_INT MS_LittleUINT(U_INT val)
 {
 	if(acs_BigEndianHost == NO)
 	{

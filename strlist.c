@@ -274,7 +274,7 @@ int STR_ListSize(int list)
 void STR_WriteStrings(void)
 {
 	int i;
-	U_LONG pad;
+	U_INT pad;
 
 	MS_Message(MSG_DEBUG, "---- STR_WriteStrings ----\n");
 	for(i = 0; i < LanguageInfo[0]->list.stringCount; i++)
@@ -300,10 +300,10 @@ void STR_WriteList(void)
 	int i;
 
 	MS_Message(MSG_DEBUG, "---- STR_WriteList ----\n");
-	PC_AppendLong((U_LONG)LanguageInfo[0]->list.stringCount);
+	PC_AppendInt((U_INT)LanguageInfo[0]->list.stringCount);
 	for(i = 0; i < LanguageInfo[0]->list.stringCount; i++)
 	{
-		PC_AppendLong((U_LONG)LanguageInfo[0]->list.strings[i].address);
+		PC_AppendInt((U_INT)LanguageInfo[0]->list.strings[i].address);
 	}
 }
 
@@ -321,10 +321,10 @@ void STR_WriteChunk(int language, boolean encrypt)
 	MS_Message(MSG_DEBUG, "---- STR_WriteChunk %d ----\n", language);
 	PC_Append(encrypt ? "STRE" : "STRL", 4);
 	lenadr = pc_Address;
-	PC_SkipLong();
+	PC_SkipInt();
 	PC_Append(&lang->name, 4);
-	PC_AppendLong(lang->list.stringCount);
-	PC_AppendLong(0);	// Used in-game for stringing lists together
+	PC_AppendInt(lang->list.stringCount);
+	PC_AppendInt(0);	// Used in-game for stringing lists together
 
 	DumpStrings (&lang->list, lenadr, NO, encrypt);
 }
@@ -343,14 +343,14 @@ void STR_WriteListChunk(int list, int id, boolean quad)
 	{
 		MS_Message(MSG_DEBUG, "---- STR_WriteListChunk %d %c%c%c%c----\n", list,
 			id&255, (id>>8)&255, (id>>16)&255, (id>>24)&255);
-		PC_AppendLong((U_LONG)id);
+		PC_AppendInt((U_INT)id);
 		lenadr = pc_Address;
-		PC_SkipLong();
-		PC_AppendLong(StringLists[list]->stringCount);
+		PC_SkipInt();
+		PC_AppendInt(StringLists[list]->stringCount);
 		if (quad && pc_Address%8 != 0)
 		{ // If writing quadword indices, align the indices to an
 		  // 8-byte boundary.
-			U_LONG pad = 0;
+			U_INT pad = 0;
 			PC_Append (&pad, 4);
 		}
 		DumpStrings(StringLists[list], lenadr, quad, NO);
@@ -373,16 +373,16 @@ static void DumpStrings(stringList_t *list, int lenadr, boolean quad, boolean cr
 	{
 		if (list->strings[i].name != NULL)
 		{
-			PC_AppendLong((U_LONG)ofs);
+			PC_AppendInt((U_INT)ofs);
 			ofs += strlen(list->strings[i].name) + 1;
 		}
 		else
 		{
-			PC_AppendLong(0);
+			PC_AppendInt(0);
 		}
 		if (quad)
 		{
-			PC_AppendLong(0);
+			PC_AppendInt(0);
 		}
 	}
 
@@ -410,11 +410,11 @@ static void DumpStrings(stringList_t *list, int lenadr, boolean quad, boolean cr
 	}
 	if(pc_Address%4 != 0)
 	{ // Need to align
-		U_LONG pad = 0;
+		U_INT pad = 0;
 		PC_Append((void *)&pad, 4-(pc_Address%4));
 	}
 
-	PC_WriteLong(pc_Address - lenadr - 4, lenadr);
+	PC_WriteInt(pc_Address - lenadr - 4, lenadr);
 }
 
 static void Encrypt(void *data, int key, int len)
