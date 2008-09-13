@@ -109,6 +109,63 @@
 #define PROP_FLIGHT			12
 #define PROP_SPEED			15
 
+// Player input -------------------------------------------------------------
+
+// These are the original inputs sent by the player.
+#define INPUT_OLDBUTTONS		0
+#define INPUT_BUTTONS			1
+#define INPUT_PITCH				2
+#define INPUT_YAW				3
+#define INPUT_ROLL				4
+#define INPUT_FORWARDMOVE		5
+#define INPUT_SIDEMOVE			6
+#define INPUT_UPMOVE			7
+
+// These are the inputs, as modified by P_PlayerThink().
+// Most of the time, these will match the original inputs, but
+// they can be different if a player is frozen or using a
+// chainsaw.
+#define MODINPUT_OLDBUTTONS		8
+#define MODINPUT_BUTTONS		9
+#define MODINPUT_PITCH			10
+#define MODINPUT_YAW			11
+#define MODINPUT_ROLL			12
+#define MODINPUT_FORWARDMOVE	13
+#define MODINPUT_SIDEMOVE		14
+#define MODINPUT_UPMOVE			15
+
+// Player buttons -----------------------------------------------------------
+
+#define BT_ATTACK				1
+#define BT_USE					2
+#define BT_JUMP					4
+#define BT_CROUCH				8
+#define BT_TURN180				16
+#define BT_ALTATTACK			32
+#define BT_RELOAD				64
+#define BT_ZOOM					128
+
+#define BT_SPEED				256
+#define BT_STRAFE				512
+
+#define BT_MOVERIGHT			1024
+#define BT_MOVELEFT				2048
+#define BT_BACK					4096
+#define BT_FORWARD				8192
+#define BT_RIGHT				16384
+#define BT_LEFT					32768
+#define BT_LOOKUP				65536
+#define BT_LOOKDOWN				131072
+#define BT_MOVEUP				262144
+#define BT_MOVEDOWN				524288
+#define BT_SHOWSCORES			1048576
+
+// Do whatever you want with these.
+#define BT_USER1				2097152
+#define BT_USER2				4194304
+#define BT_USER3				8388608
+#define BT_USER4				16777216
+
 // Text colors --------------------------------------------------------------
 
 #define CR_UNTRANSLATED         -1
