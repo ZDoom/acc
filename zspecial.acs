@@ -111,7 +111,9 @@ special
 	125:Thing_Move(2,3),
 	127:Thing_SetSpecial(5),
 	128:ThrustThingZ(4),
+	129:UsePuzzleItem(0),	// only for setting it on a line. Cannot be called!
 	139:Thing_SpawnFacing(2,4),
+	154:Teleport_NoStop(2, 3),
 	
 	158:FS_Execute(1,4),				// GZDoom only!
 	159:Sector_SetPlaneReflection(3),	// GZDoom only!
