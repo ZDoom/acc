@@ -171,6 +171,22 @@ int MS_LoadFile(char *name, char **buffer)
 	return size;
 }
 
+
+//==========================================================================
+//
+// MS_FileExists
+//
+// Pascal 21/11/08
+//
+//==========================================================================
+boolean MS_FileExists(char *name)
+{
+	struct stat info;
+	int ret = stat(name, &info);
+	return (ret == 0);
+}
+
+
 //==========================================================================
 //
 // MS_SaveFile

@@ -175,6 +175,7 @@ static struct
 	{ ERR_DISCONNECT_NEEDS_1_ARG, "Disconnect scripts must have 1 argument." },
 	{ ERR_UNCLOSED_WITH_ARGS, "Most special scripts must not have arguments." },
 	{ ERR_NOT_A_CHAR_ARRAY, "%s has %d dimensions. Use %d subscripts to get a char array." },
+	{ ERR_CANT_FIND_INCLUDE, "Couldn't find include file \"%s\"." },
 	{ ERR_NONE, NULL }
 };
 

@@ -35,6 +35,7 @@ U_WORD MS_LittleUWORD(U_WORD val);
 // U_LONG MS_LittleULONG(U_LONG val);
 U_INT MS_LittleUINT(U_INT val);
 int MS_LoadFile(char *name, char **buffer);
+boolean MS_FileExists(char *name);
 boolean MS_SaveFile(char *name, void *buffer, int length);
 int MS_StrCmp(char *s1, char *s2);
 char *MS_StrLwr(char *string);

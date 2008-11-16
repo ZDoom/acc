@@ -127,6 +127,7 @@ static void DisplayBanner(void)
 	fprintf(stderr, "Even more changes by James Bentler\n");
 	fprintf(stderr, "Some additions by Michael \"Necromage\" Weber\n");
 	fprintf(stderr, "Error reporting improvements and limit expansion by Ty Halderman\n");
+	fprintf(stderr, "Include paths added by Pascal vd Heiden\n");
 }
 
 //==========================================================================
@@ -158,21 +159,25 @@ static void Init(void)
 //
 // ProcessArgs
 //
+// Pascal 12/11/08
+// Allowing space after options (option parameter as the next argument)
+//
 //==========================================================================
 
 static void ProcessArgs(void)
 {
-	int i;
-	int count;
+	int i = 1;
+	int count = 0;
 	char *text;
 	char option;
-
-	count = 0;
-	for(i = 1; i < ArgCount; i++)
+	
+	while(i < ArgCount)
 	{
 		text = ArgVector[i];
+		
 		if(*text == '-')
 		{
+			// Option
 			text++;
 			if(*text == 0)
 			{
@@ -181,44 +186,63 @@ static void ProcessArgs(void)
 			option = toupper(*text++);
 			switch(option)
 			{
+				case 'I':
+					if((i + 1) < ArgCount)
+					{
+						TK_AddIncludePath(ArgVector[++i]);
+					}
+					break;
+					
 				case 'D':
 					acs_DebugMode = YES;
 					acs_VerboseMode = YES;
-					if(*text != 0)
+					if((i + 1) < ArgCount)
 					{
-						OpenDebugFile(text);
+						OpenDebugFile(ArgVector[++i]);
 					}
 					break;
+					
 				case 'H':
 					pc_NoShrink = TRUE;
 					pc_HexenCase = TRUE;
 					break;
+					
 				default:
 					DisplayUsage();
 					break;
 			}
-			continue;
 		}
-		count++;
-		switch(count)
+		else
 		{
-			case 1:
-				strcpy(acs_SourceFileName, text);
-				MS_SuggestFileExt(acs_SourceFileName, ".acs");
-				break;
-			case 2:
-				strcpy(ObjectFileName, text);
-				MS_SuggestFileExt(ObjectFileName, ".o");
-				break;
-			default:
-				DisplayUsage();
-				break;
+			// Input/output file
+			count++;
+			switch(count)
+			{
+				case 1:
+					strcpy(acs_SourceFileName, text);
+					MS_SuggestFileExt(acs_SourceFileName, ".acs");
+					break;
+					
+				case 2:
+					strcpy(ObjectFileName, text);
+					MS_SuggestFileExt(ObjectFileName, ".o");
+					break;
+					
+				default:
+					DisplayUsage();
+					break;
+			}
 		}
+		
+		// Next arg
+		i++;
 	}
+	
 	if(count == 0)
 	{
 		DisplayUsage();
 	}
+	
 	if(count == 1)
 	{
 		strcpy(ObjectFileName, acs_SourceFileName);
@@ -236,8 +260,9 @@ static void ProcessArgs(void)
 static void DisplayUsage(void)
 {
 	puts("\nUsage: ACC [options] source[.acs] [object[.o]]\n");
-	puts("-d[file]  Output debugging information");
-	puts("-h        Create pcode compatible with Hexen and old ZDooms");
+	puts("-i [path]  Add include path to find include files");
+	puts("-d [file]  Output debugging information");
+	puts("-h         Create pcode compatible with Hexen and old ZDooms");
 	exit(1);
 }
 
