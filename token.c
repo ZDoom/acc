@@ -320,7 +320,7 @@ void TK_AddIncludePath(char *sourcePath)
 		strcpy(IncludePaths[NumIncludePaths], sourcePath);
 		
 		// Not ending with directory delimiter?
-		if((IncludePaths[NumIncludePaths] + strlen(IncludePaths[NumIncludePaths]) - 1) != DIRECTORY_DELIMITER_CHAR)
+		if(*(IncludePaths[NumIncludePaths] + strlen(IncludePaths[NumIncludePaths]) - 1) != DIRECTORY_DELIMITER_CHAR)
 		{
 			// Add a directory delimiter to the include path
 			strcat(IncludePaths[NumIncludePaths], DIRECTORY_DELIMITER);
@@ -1008,10 +1008,7 @@ static void ProcessQuoteToken(void)
 			*text++ = Chr;
 		}
 		// escape the character after a backslash [JB]
-		if(Chr == ASCII_BACKSLASH)
-			escaped ^= (Chr == ASCII_BACKSLASH);
-		else
-			escaped = FALSE;
+		escaped ^= (Chr == ASCII_BACKSLASH);
 		NextChr();
 	}
 	*text = 0;
