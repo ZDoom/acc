@@ -193,6 +193,7 @@ static internFuncDef_t InternalFunctions[] =
 	{ "morphactor", PCD_NOP, PCD_MORPHACTOR, 7, 2|4|8|16|32|64, 0, YES, NO },
 	{ "unmorphactor", PCD_NOP, PCD_UNMORPHACTOR, 2, 2, 0, YES, NO },
 	{ "getplayerinput", PCD_NOP, PCD_GETPLAYERINPUT, 2, 0, 0, YES, NO },
+	{ "classifyactor", PCD_NOP, PCD_CLASSIFYACTOR, 1, 0, 0, YES, NO },
 	
 	{ NULL, PCD_NOP, PCD_NOP, 0, 0, 0, NO, NO }
 };
