@@ -2054,6 +2054,12 @@ static void BuildPrintString(void)
 			case 'k': // [GRB] key binding
 				printCmd = PCD_PRINTBIND;
 				break;
+			case 'b': // [RH] binary integer
+				printCmd = PCD_PRINTBINARY;
+				break;
+			case 'x': // [RH] hexadecimal integer
+				printCmd = PCD_PRINTHEX;
+				break;
 			default:
 				printCmd = PCD_PRINTSTRING;
 				ERR_Error(ERR_UNKNOWN_PRTYPE, YES);
