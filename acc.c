@@ -196,9 +196,9 @@ static void ProcessArgs(void)
 				case 'D':
 					acs_DebugMode = YES;
 					acs_VerboseMode = YES;
-					if((i + 1) < ArgCount)
+					if(*text != 0)
 					{
-						OpenDebugFile(ArgVector[++i]);
+						OpenDebugFile(text);
 					}
 					break;
 					
@@ -261,7 +261,7 @@ static void DisplayUsage(void)
 {
 	puts("\nUsage: ACC [options] source[.acs] [object[.o]]\n");
 	puts("-i [path]  Add include path to find include files");
-	puts("-d [file]  Output debugging information");
+	puts("-d[file]   Output debugging information");
 	puts("-h         Create pcode compatible with Hexen and old ZDooms");
 	exit(1);
 }

@@ -1008,7 +1008,10 @@ static void ProcessQuoteToken(void)
 			*text++ = Chr;
 		}
 		// escape the character after a backslash [JB]
-		escaped ^= (Chr == ASCII_BACKSLASH);
+		if(Chr == ASCII_BACKSLASH)
+			escaped ^= (Chr == ASCII_BACKSLASH);
+		else
+			escaped = FALSE;
 		NextChr();
 	}
 	*text = 0;
