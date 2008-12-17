@@ -44,6 +44,7 @@ void MS_SuggestFileExt(char *base, char *extension);
 void MS_StripFileExt(char *name);
 boolean MS_StripFilename(char *path);
 void MS_Message(msg_t type, char *text, ...);
+boolean MS_IsPathAbsolute(char *name);
 
 // PUBLIC DATA DECLARATIONS ------------------------------------------------
 

@@ -117,7 +117,7 @@ static boolean IncLineNumber;
 static char *FileNames;
 static size_t FileNamesLen, FileNamesMax;
 
-// Pascal 11/12/08
+// Pascal 12/11/08
 // Include paths. Lowest is searched first.
 // Include path 0 is always set to the directory of the file being parsed.
 static char IncludePaths[MAX_INCLUDE_PATHS][MAX_FILE_NAME_LENGTH];
@@ -308,7 +308,7 @@ static char *AddFileName(const char *name)
 // AddIncludePath
 // This adds an include path with less priority than the ones already added
 // 
-// Pascal 11/12/08
+// Pascal 12/11/08
 //
 //==========================================================================
 
@@ -335,7 +335,7 @@ void TK_AddIncludePath(char *sourcePath)
 // SetLocalIncludePath
 // This sets the first include path
 // 
-// Pascal 11/12/08
+// Pascal 12/11/08
 //
 //==========================================================================
 
@@ -382,16 +382,26 @@ void TK_Include(char *fileName)
 	info->lastChar = Chr;
 	info->imported = NO;
 	
-	// Pascal 11/12/08
-	// Find the file in the include paths
-	for(i = 0; i < NumIncludePaths; i++)
+	// Pascal 30/11/08
+	// Handle absolute paths
+	if(MS_IsPathAbsolute(fileName))
 	{
-		strcpy(sourceName, IncludePaths[i]);
-		strcat(sourceName, fileName);
-		if(MS_FileExists(sourceName))
+		strcpy(sourceName, fileName);
+		foundfile = MS_FileExists(sourceName);
+	}
+	else
+	{
+		// Pascal 12/11/08
+		// Find the file in the include paths
+		for(i = 0; i < NumIncludePaths; i++)
 		{
-			foundfile = TRUE;
-			break;
+			strcpy(sourceName, IncludePaths[i]);
+			strcat(sourceName, fileName);
+			if(MS_FileExists(sourceName))
+			{
+				foundfile = TRUE;
+				break;
+			}
 		}
 	}
 	
@@ -455,7 +465,7 @@ static int PopNestedSource(enum ImportModes *prevMode)
 	tk_Token = TK_NONE;
 	AlreadyGot = FALSE;
 	
-	// Pascal 11/12/08
+	// Pascal 12/11/08
 	// Set the first include path back to this file directory
 	SetLocalIncludePath(tk_SourceName);
 	

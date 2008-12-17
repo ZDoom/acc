@@ -369,3 +369,26 @@ void MS_Message(msg_t type, char *text, ...)
 		va_end(argPtr);
 	}
 }
+
+//==========================================================================
+//
+// MS_IsPathAbsolute
+//
+// Pascal 30/11/08
+//
+//==========================================================================
+
+boolean MS_IsPathAbsolute(char *name)
+{
+#ifdef WIN32
+	// In windows, the second character must be : if it is an
+	// absolute path (the first character indicates the drive)
+	if(name[0] != '\0')
+		return (name[1] == ':') ? TRUE : FALSE;
+	else
+		return FALSE;
+#else
+	// In linux, the first character must be / for a root path
+	return (name[0] == '/') ? TRUE : FALSE;
+#endif
+}
