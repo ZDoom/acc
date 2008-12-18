@@ -320,10 +320,10 @@ void TK_AddIncludePath(char *sourcePath)
 		strcpy(IncludePaths[NumIncludePaths], sourcePath);
 		
 		// Not ending with directory delimiter?
-		if(*(IncludePaths[NumIncludePaths] + strlen(IncludePaths[NumIncludePaths]) - 1) != DIRECTORY_DELIMITER_CHAR)
+		if(!MS_IsDirectoryDelimiter(*(IncludePaths[NumIncludePaths] + strlen(IncludePaths[NumIncludePaths]) - 1)))
 		{
 			// Add a directory delimiter to the include path
-			strcat(IncludePaths[NumIncludePaths], DIRECTORY_DELIMITER);
+			strcat(IncludePaths[NumIncludePaths], "/");
 		}
 		NumIncludePaths++;
 	}
@@ -345,11 +345,6 @@ static void SetLocalIncludePath(char *sourceName)
 	if(MS_StripFilename(IncludePaths[0]) == NO)
 	{
 		IncludePaths[0][0] = 0;
-	}
-	else
-	{
-		// Add a directory delimiter to the include path
-		strcat(IncludePaths[0], DIRECTORY_DELIMITER);
 	}
 }
 
@@ -386,7 +381,24 @@ void TK_Include(char *fileName)
 	// Handle absolute paths
 	if(MS_IsPathAbsolute(fileName))
 	{
+#if defined(_WIN32) || defined(__MSDOS__)
+		sourceName[0] = '\0';
+		if(MS_IsDirectoryDelimiter(fileName[0]))
+		{
+			// The source file is absolute for the drive, but does not
+			// specify a drive. Use the path for the current file to
+			// get the drive letter, if it has one.
+			if(IncludePaths[0][0] != '\0' && IncludePaths[0][1] == ':')
+			{
+				sourceName[0] = IncludePaths[0][0];
+				sourceName[1] = ':';
+				sourceName[2] = '\0';
+			}
+		}
+		strcat(sourceName, fileName);
+#else
 		strcpy(sourceName, fileName);
+#endif
 		foundfile = MS_FileExists(sourceName);
 	}
 	else
@@ -410,7 +422,9 @@ void TK_Include(char *fileName)
 		ERR_ErrorAt(tk_SourceName, tk_Line);
 		ERR_Exit(ERR_CANT_FIND_INCLUDE, YES, fileName, tk_SourceName, tk_Line);
 	}
-	
+
+	MS_Message(MSG_DEBUG, "*Include file found at %s\n", sourceName);
+
 	// Now change the first include path to the file directory
 	SetLocalIncludePath(sourceName);
 	
@@ -1018,8 +1032,8 @@ static void ProcessQuoteToken(void)
 			*text++ = Chr;
 		}
 		// escape the character after a backslash [JB]
-		if(Chr == ASCII_BACKSLASH)
-			escaped ^= (Chr == ASCII_BACKSLASH);
+		if(Chr == '\\')
+			escaped ^= (Chr == '\\');
 		else
 			escaped = FALSE;
 		NextChr();

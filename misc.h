@@ -15,9 +15,6 @@
 
 // MACROS ------------------------------------------------------------------
 
-#define ASCII_SLASH 47
-#define ASCII_BACKSLASH 92
-
 // TYPES -------------------------------------------------------------------
 
 typedef enum
@@ -45,6 +42,7 @@ void MS_StripFileExt(char *name);
 boolean MS_StripFilename(char *path);
 void MS_Message(msg_t type, char *text, ...);
 boolean MS_IsPathAbsolute(char *name);
+boolean MS_IsDirectoryDelimiter(char test);
 
 // PUBLIC DATA DECLARATIONS ------------------------------------------------
 

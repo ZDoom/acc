@@ -364,7 +364,7 @@ static char *ErrorFileName(void)
 	}
 	else
 	{
-		strcat(errFileName, DIRECTORY_DELIMITER ERROR_FILE_NAME);
+		strcat(errFileName, ERROR_FILE_NAME);
 	}
 	return errFileName;
 }
