@@ -147,6 +147,7 @@ void TK_SkipLine(void);
 void TK_SkipPast(tokenType_t token);
 void TK_SkipTo(tokenType_t token);
 void TK_AddIncludePath(char *sourceName);
+void TK_AddProgramIncludePath(char *argv0);
 
 // PUBLIC DATA DECLARATIONS ------------------------------------------------
 

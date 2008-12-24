@@ -242,6 +242,8 @@ static void ProcessArgs(void)
 	{
 		DisplayUsage();
 	}
+
+	TK_AddProgramIncludePath(ArgVector[0]);
 	
 	if(count == 1)
 	{

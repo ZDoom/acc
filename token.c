@@ -7,12 +7,18 @@
 
 // HEADER FILES ------------------------------------------------------------
 
+#if defined(_WIN32) && !defined(_MSC_VER)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #ifdef __NeXT__
 #include <libc.h>
 #else
 #ifndef unix
 #include <io.h>
 #endif
+#include <limits.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #endif
@@ -305,7 +311,7 @@ static char *AddFileName(const char *name)
 
 //==========================================================================
 //
-// AddIncludePath
+// TK_AddIncludePath
 // This adds an include path with less priority than the ones already added
 // 
 // Pascal 12/11/08
@@ -329,6 +335,43 @@ void TK_AddIncludePath(char *sourcePath)
 	}
 }
 
+//==========================================================================
+//
+// TK_AddProgramIncludePath
+// Adds an include path for the directory of the executable.
+//
+//==========================================================================
+
+void TK_AddProgramIncludePath(char *progname)
+{
+	if(NumIncludePaths < MAX_INCLUDE_PATHS)
+	{
+#ifdef _WIN32
+#ifdef _MSC_VER
+		if (_get_pgmptr(&progname) != 0)
+		{
+			return;
+		}
+#else
+		char progbuff[1024];
+		GetModuleFileName(0, progbuff, sizeof(progbuff));
+		progbuff[sizeof(progbuff)-1] = '\0';
+		progname = progbuff;
+#endif
+#else
+		char progbuff[PATH_MAX];
+		if (realpath(progname, progbuff) != NULL)
+		{
+			progname = progbuff;
+		}
+#endif
+		strcpy(IncludePaths[NumIncludePaths], progname);
+		if(MS_StripFilename(IncludePaths[NumIncludePaths]))
+		{
+			NumIncludePaths++;
+		}
+	}
+}
 
 //==========================================================================
 //
