@@ -411,9 +411,20 @@ static void eprintf(const char *fmt, ...)
 
 static void veprintf(const char *fmt, va_list args)
 {
+#ifdef va_copy
+	va_list copy;
+	va_copy(copy, args);
+#endif
 	vfprintf(stderr, fmt, args);
 	if(ErrorFile)
 	{
+#ifdef va_copy
+		vfprintf(ErrorFile, fmt, copy);
+#else
 		vfprintf(ErrorFile, fmt, args);
+#endif
 	}
+#ifdef va_copy
+	va_end(copy);
+#endif
 }

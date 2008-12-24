@@ -860,7 +860,7 @@ static void OuterFunction(void)
 
 	TK_TokenMustBe(TK_LBRACE, ERR_MISSING_LBRACE);
 	TK_NextToken();
-	do ; while(ProcessStatement(STMT_SCRIPT) == YES);
+	do {} while(ProcessStatement(STMT_SCRIPT) == YES);
 
 	if(pc_LastAppendedCommand != PCD_RETURNVOID &&
 	   pc_LastAppendedCommand != PCD_RETURNVAL)
@@ -1390,7 +1390,7 @@ static void LeadingCompoundStatement(statement_t owner)
 {
 	StatementLevel += AdjustStmtLevel[owner];
 	TK_NextToken(); // Eat the TK_LBRACE
-	do ; while(ProcessStatement(owner) == YES);
+	do {} while(ProcessStatement(owner) == YES);
 	TK_TokenMustBe(TK_RBRACE, ERR_INVALID_STATEMENT);
 	TK_NextToken();
 	StatementLevel -= AdjustStmtLevel[owner];
@@ -1447,7 +1447,7 @@ static void LeadingVarDeclare(void)
 		if(tk_Token == TK_LBRACKET)
 		{
 			ERR_Error(ERR_ARRAY_MAPVAR_ONLY, YES);
-			do ; while(TK_NextToken() != TK_COMMA && tk_Token != TK_SEMICOLON);
+			do {} while(TK_NextToken() != TK_COMMA && tk_Token != TK_SEMICOLON);
 		}
 		else if(tk_Token == TK_ASSIGN)
 		{
