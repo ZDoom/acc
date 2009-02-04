@@ -1253,6 +1253,7 @@ static boolean ProcessStatement(statement_t owner)
 		ERR_Exit(ERR_STATEMENT_OVERFLOW, YES);
 	}
 	StatementHistory[StatementIndex++] = owner;
+	StatementLevel += AdjustStmtLevel[owner];
 	switch(tk_Token)
 	{
 		case TK_INT:
@@ -1373,10 +1374,12 @@ static boolean ProcessStatement(statement_t owner)
 			break;
 		default:
 			StatementIndex--;
+			StatementLevel -= AdjustStmtLevel[owner];
 			return NO;
 			break;
 	}
 	StatementIndex--;
+	StatementLevel -= AdjustStmtLevel[owner];
 	return YES;
 }
 
@@ -1388,12 +1391,12 @@ static boolean ProcessStatement(statement_t owner)
 
 static void LeadingCompoundStatement(statement_t owner)
 {
-	StatementLevel += AdjustStmtLevel[owner];
+	//StatementLevel += AdjustStmtLevel[owner];
 	TK_NextToken(); // Eat the TK_LBRACE
 	do {} while(ProcessStatement(owner) == YES);
 	TK_TokenMustBe(TK_RBRACE, ERR_INVALID_STATEMENT);
 	TK_NextToken();
-	StatementLevel -= AdjustStmtLevel[owner];
+	//StatementLevel -= AdjustStmtLevel[owner];
 }
 
 //==========================================================================
@@ -2326,7 +2329,7 @@ static void LeadingFor(void)
 	MS_Message(MSG_DEBUG, "---- LeadingFor ----\n");
 	TK_NextTokenMustBe(TK_LPAREN, ERR_MISSING_LPAREN);
 	TK_NextToken();
-	if(ProcessStatement(STMT_FOR) == NO)
+	if(ProcessStatement(STMT_IF) == NO)
 	{
 		ERR_Error(ERR_INVALID_STATEMENT, YES);
 	}
@@ -2342,7 +2345,7 @@ static void LeadingFor(void)
 	PC_SkipInt();
 	incAddr = pc_Address;
 	forSemicolonHack = TRUE;
-	if(ProcessStatement(STMT_FOR) == NO)
+	if(ProcessStatement(STMT_IF) == NO)
 	{
 		ERR_Error(ERR_INVALID_STATEMENT, YES);
 	}
