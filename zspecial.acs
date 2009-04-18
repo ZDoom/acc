@@ -114,7 +114,14 @@ special
 	129:UsePuzzleItem(0),	// only for setting it on a line. Cannot be called!
 	139:Thing_SpawnFacing(2,4),
 	154:Teleport_NoStop(2, 3),
-	
+
+	// Skulltag Functions
+	143:Player_RemoveItem(2),
+	144:Player_GiveItem(2),
+	145:Player_SetTeam(1),
+	152:Team_Score(2),
+	153:Team_GivePoints(3),
+
 	158:FS_Execute(1,4),				// GZDoom only!
 	159:Sector_SetPlaneReflection(3),	// GZDoom only!
 	//160:Sector_Set3DFloor				// GZDoom/Vavoom
