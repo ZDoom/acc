@@ -695,42 +695,6 @@
 #define T_HIGHJUMP				188
 #define T_HASTE					189
 
-// Skulltag Dead Things -----------------------------------------------------
-#define T_DEADCYBERDEMON		190
-
-// Skulltag Misc ------------------------------------------------------------
-#define T_BOBBINGSKULLINFLAMES	191
-
-// Skulltag Impaling Things -------------------------------------------------
-#define T_IMPALINGSPIKE			192
-#define T_IMPALINGSPIKECGUN		193
-#define T_IMPALINGSPIKEZOMB		194
-
-// Skulltag Statues ---------------------------------------------------------
-#define T_IMPSTATUE				195
-#define T_DEMONSTATUE			196
-#define T_ARCHSTATUE			197
-#define T_BARONSTATUE			198
-#define T_CYBERDEMONSTATUE		199
-#define T_MASSMOUTHSTATUE		200
-
-// More Skulltag Misc -------------------------------------------------------
-#define T_GREYSTALAGMITE		201
-#define T_SHORTGREYPILLAR		202
-#define T_TALLGREYPILLAR		203
-#define T_GREYPILLARHEART		204
-#define T_TALLGOTHICPILLAR		205
-#define T_REVENANTHAND			206
-#define T_IMPHEAD				207
-#define T_HISSY					208
-
-// Skulltag Score Pillars ---------------------------------------------------
-#define T_HELLPILLAR			209
-#define T_GOTHICPILLAR			210
-#define T_STARBASEPILLAR		211
-#define T_MILITARYPILLAR		212
-#define T_LABORTORYPILLAR		213
-
 
 // Events when you have input grabbed
 
