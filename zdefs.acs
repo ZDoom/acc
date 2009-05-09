@@ -225,9 +225,9 @@
 // Actor properties you can get/set -----------------------------------------
 
 #define APROP_Health		0
-#define APROP_Speed		1
+#define APROP_Speed			1
 #define APROP_Damage		2
-#define APROP_Alpha		3
+#define APROP_Alpha			3
 #define APROP_RenderStyle	4
 #define APROP_SeeSound		5	// Sounds can only be set, not gotten
 #define APROP_AttackSound	6
@@ -243,6 +243,7 @@
 #define APROP_Friendly		16
 #define APROP_SpawnHealth	17
 #define APROP_Dropped		18
+#define APROP_Notarget		19
 
 // Render Styles ------------------------------------------------------------
 
