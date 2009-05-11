@@ -223,6 +223,12 @@ special
 	-6:GetSectorUDMFFixed(2),
 	-7:GetSideUDMFInt(3),
 	-8:GetSideUDMFFixed(3),
+	-9:GetActorMomX(1),
+	-10:GetActorMomY(1),
+	-11:GetActorMomZ(1),
+	-12:SetActivator(1),
+	-13:SetActivatorToTarget(1),
+	-14:GetActorViewHeight(1),
 
 	-1000:__EndOfList__(10);
 	
