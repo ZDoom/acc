@@ -46,4 +46,9 @@ boolean MS_IsDirectoryDelimiter(char test);
 
 // PUBLIC DATA DECLARATIONS ------------------------------------------------
 
+#ifdef _MSC_VER
+// Get rid of the annoying deprecation warnings with VC++2005 and newer.
+#pragma warning(disable:4996)
+#endif
+
 #endif

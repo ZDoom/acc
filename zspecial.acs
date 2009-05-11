@@ -212,4 +212,17 @@ special
 	252:Ceiling_RaiseToNearest(2),
 	253:Ceiling_LowerToLowest(2),
 	254:Ceiling_LowerToFloor(2),
-	255:Ceiling_CrushRaiseAndStaySilA(4,5);
+	255:Ceiling_CrushRaiseAndStaySilA(4,5),
+	
+	// internal functions have negative values
+	-1:GetLineUDMFInt(2),
+	-2:GetLineUDMFFixed(2),
+	-3:GetThingUDMFInt(2),
+	-4:GetThingUDMFFixed(2),
+	-5:GetSectorUDMFInt(2),
+	-6:GetSectorUDMFFixed(2),
+	-7:GetSideUDMFInt(3),
+	-8:GetSideUDMFFixed(3),
+
+	-1000:__EndOfList__(10);
+	

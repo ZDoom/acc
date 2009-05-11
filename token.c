@@ -96,7 +96,7 @@ tokenType_t tk_Token;
 int tk_Line;
 int tk_Number;
 char *tk_String;
-U_BYTE tk_SpecialValue;
+int tk_SpecialValue;
 int tk_SpecialArgCount;
 char *tk_SourceName;
 int tk_IncludedLines;

@@ -57,7 +57,7 @@ typedef struct
 
 typedef struct
 {
-	U_BYTE value;
+	int value;
 	int argCount;
 } symSpecial_t;
 

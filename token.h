@@ -155,7 +155,7 @@ extern tokenType_t tk_Token;
 extern int tk_Line;
 extern int tk_Number;
 extern char *tk_String;
-extern U_BYTE tk_SpecialValue;
+extern int tk_SpecialValue;
 extern int tk_SpecialArgCount;
 extern char *tk_SourceName;
 extern int tk_IncludedLines;
