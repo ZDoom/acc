@@ -229,6 +229,7 @@ special
 	-12:SetActivator(1),
 	-13:SetActivatorToTarget(1),
 	-14:GetActorViewHeight(1),
+	-15:GetChar(2),
 
 	-1000:__EndOfList__(10);
 	
