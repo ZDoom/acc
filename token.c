@@ -666,7 +666,7 @@ int TK_NextCharacter(void)
 
 void TK_SkipPast(tokenType_t token)
 {
-	while (tk_Token != token)
+	while (tk_Token != token && tk_Token != TK_EOF)
 	{
 		TK_NextToken();
 	}
@@ -681,7 +681,7 @@ void TK_SkipPast(tokenType_t token)
 
 void TK_SkipTo(tokenType_t token)
 {
-	while (tk_Token != token)
+	while (tk_Token != token && tk_Token != TK_EOF)
 	{
 		TK_NextToken();
 	}
