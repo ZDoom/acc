@@ -956,8 +956,8 @@ static void ProcessNumberToken(void)
 
 static void EvalFixedConstant(int whole)
 {
-	int frac;
-	int divisor;
+	double frac;
+	double divisor;
 
 	frac = 0;
 	divisor = 1;
@@ -967,7 +967,7 @@ static void EvalFixedConstant(int whole)
 		divisor *= 10;
 		NextChr();
 	}
-	tk_Number = (whole<<16)+((frac<<16)/divisor);
+	tk_Number = (whole<<16)+(int)(65536.0*frac/divisor);
 	tk_Token = TK_NUMBER;
 }
 
