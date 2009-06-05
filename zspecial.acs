@@ -233,6 +233,7 @@ special
 	-16:GetAirSupply(1),
 	-17:SetAirSupply(2),
 	-18:SetSkyScrollSpeed(2),
+	-19:GetArmorType(2),
 
 	-1000:__EndOfList__(10);
 	
