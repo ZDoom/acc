@@ -234,6 +234,8 @@ special
 	-17:SetAirSupply(2),
 	-18:SetSkyScrollSpeed(2),
 	-19:GetArmorType(2),
+	-20:SpawnSpotForced(4),
+	-21:SpawnSpotFacingForced(3),
 
 	-1000:__EndOfList__(10);
 	
