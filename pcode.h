@@ -35,7 +35,8 @@ enum
 // Values added to script number to indicate flags (requires new-style .o)
 enum
 {
-	NET_SCRIPT_FLAG			= 0x00010000
+	NET_SCRIPT_FLAG			= 0x00010000,
+	CLIENTSIDE_SCRIPT_FLAG	= 0x00020000, // [BB]
 };
 
 // Or'ed with variable index when passing variables of type "out"

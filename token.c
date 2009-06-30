@@ -189,6 +189,7 @@ static struct keyword_s
 	{ "libdefine", TK_LIBDEFINE },
 	{ "bool", TK_BOOL },
 	{ "net", TK_NET },
+	{ "clientside", TK_CLIENTSIDE }, // [BB]
 	{ "disconnect", TK_DISCONNECT },
 	{ "unloading", TK_UNLOADING },
 	{ "static", TK_STATIC }

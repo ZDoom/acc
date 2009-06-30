@@ -696,6 +696,13 @@ static void OuterScript(void)
 		scriptNumber += NET_SCRIPT_FLAG;
 		TK_NextToken();
 	}
+	// [BB] If NET and CLIENTSIDE are specified, this construction can only parse
+	// "NET CLIENTSIDE" but not "CLIENTSIDE NET".
+	if(tk_Token == TK_CLIENTSIDE)
+	{
+		scriptNumber += CLIENTSIDE_SCRIPT_FLAG;
+		TK_NextToken();
+	}
 	CountScript(scriptType);
 	PC_AddScript(scriptNumber + scriptType, ScriptVarCount);
 	pc_LastAppendedCommand = PCD_NOP;

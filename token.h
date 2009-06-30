@@ -119,6 +119,7 @@ typedef enum
 	TK_LIBDEFINE,		// 'libdefine'
 	TK_BOOL,			// 'bool'
 	TK_NET,				// 'net'
+	TK_CLIENTSIDE,		// 'clientside'
 	TK_DISCONNECT,		// 'disconnect'
 	TK_UNLOADING,		// 'unloading'
 	TK_STATIC,			// 'static'
