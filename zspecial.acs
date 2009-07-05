@@ -237,6 +237,7 @@ special
 	-19:GetArmorType(2),
 	-20:SpawnSpotForced(4),
 	-21:SpawnSpotFacingForced(3),
+	-22:CheckActorProperty(3),
 
 	-1000:__EndOfList__(10);
 	
