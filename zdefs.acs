@@ -244,6 +244,7 @@
 #define APROP_SpawnHealth	17
 #define APROP_Dropped		18
 #define APROP_Notarget		19
+#define APROP_Species		20
 
 // Render Styles ------------------------------------------------------------
 
