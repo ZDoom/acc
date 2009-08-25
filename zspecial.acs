@@ -103,6 +103,7 @@ special
 	 52:Scroll_Wall(5),
 	 53:Line_SetTextureOffset(5),
 	 54:Sector_ChangeFlags(3),
+	 55:Line_SetBlocking(3),
 	 56:Line_SetTextureScale(5),
 	 76:TeleportOther(3),
 	 77:TeleportGroup(5),
