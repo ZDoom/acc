@@ -239,7 +239,9 @@ special
 	-20:SpawnSpotForced(4),
 	-21:SpawnSpotFacingForced(3),
 	-22:CheckActorProperty(3),
-    -23:SetActorVelocity(6),
+	-23:SetActorVelocity(6),
+	-24:SetUserVariable(3),
+	-25:GetUserVariable(2),
 
 	-1000:__EndOfList__(10);
 	
