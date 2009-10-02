@@ -75,7 +75,7 @@ special
 	74:Teleport_NewMap(2,3),
 	75:Teleport_EndGame(0),
 	72:ThrustThing(2,4),
-	73:DamageThing(1),
+	73:DamageThing(1,2),
 	130:Thing_Activate(1),
 	131:Thing_Deactivate(1),
 	133:Thing_Destroy(1,2),
