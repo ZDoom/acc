@@ -242,6 +242,7 @@ special
 	-23:SetActorVelocity(6),
 	-24:SetUserVariable(3),
 	-25:GetUserVariable(2),
+	-26:Radius_Quake2(6),
 
 	-1000:__EndOfList__(10);
 	
