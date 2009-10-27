@@ -246,6 +246,9 @@ special
 	-27:CheckActorClass(2),
 	-28:SetUserArray(4),
 	-29:GetUserArray(3),
+	-30:SoundSequenceOnActor(2),
+	-31:SoundSequenceOnSector(3),
+	-32:SoundSequenceOnPolyobj(2),
 
 	-1000:__EndOfList__(10);
 	

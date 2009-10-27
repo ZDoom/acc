@@ -629,6 +629,13 @@
 #define ACTOR_GENERIC			256
 
 
+// Physical volumes for SoundSequenceOnSector
+
+#define SECSEQ_FLOOR			1
+#define SECSEQ_CEILING			2
+#define SECSEQ_FULLHEIGHT		3
+#define SECSEQ_INTERIOR			4
+
 // ==========================================================================
 // Skulltag Definitions
 // ==========================================================================
