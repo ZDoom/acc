@@ -332,6 +332,7 @@ void TK_AddIncludePath(char *sourcePath)
 			// Add a directory delimiter to the include path
 			strcat(IncludePaths[NumIncludePaths], "/");
 		}
+		MS_Message(MSG_DEBUG, "Add include path %d: \"%s\"\n", NumIncludePaths, IncludePaths[NumIncludePaths]);
 		NumIncludePaths++;
 	}
 }
@@ -349,10 +350,14 @@ void TK_AddProgramIncludePath(char *progname)
 	{
 #ifdef _WIN32
 #ifdef _MSC_VER
+#if _MSC_VER >= 1300
 		if (_get_pgmptr(&progname) != 0)
 		{
 			return;
 		}
+#else
+		progname = _pgmptr;
+#endif
 #else
 		char progbuff[1024];
 		GetModuleFileName(0, progbuff, sizeof(progbuff));
@@ -369,6 +374,7 @@ void TK_AddProgramIncludePath(char *progname)
 		strcpy(IncludePaths[NumIncludePaths], progname);
 		if(MS_StripFilename(IncludePaths[NumIncludePaths]))
 		{
+			MS_Message(MSG_DEBUG, "Program include path is %d: \"%s\"\n", NumIncludePaths, IncludePaths[NumIncludePaths]);
 			NumIncludePaths++;
 		}
 	}

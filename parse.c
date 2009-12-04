@@ -1700,8 +1700,8 @@ static void LeadingFunction()
 	}
 	else
 	{
-		PC_AppendByte(argCount);
-		PC_AppendWord(specialValue);
+		PC_AppendByte((U_BYTE)argCount);
+		PC_AppendWord((U_WORD)specialValue);
 	}
 	PC_AppendCmd(PCD_DROP);
 	TK_NextToken();
@@ -3304,7 +3304,7 @@ static void ExprLineSpecial(void)
 			}
 			else
 			{
-				PC_AppendByte(specialValue);
+				PC_AppendByte((U_BYTE)specialValue);
 			}
 		}
 		else
@@ -3319,8 +3319,8 @@ static void ExprLineSpecial(void)
 			}
 			else
 			{
-				PC_AppendByte(argCount);
-				PC_AppendWord(-specialValue);
+				PC_AppendByte((U_BYTE)argCount);
+				PC_AppendWord((U_WORD)-specialValue);
 			}
 		}
 	}
