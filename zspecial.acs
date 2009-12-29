@@ -124,6 +124,7 @@ special
 	152:Team_Score(2),
 	153:Team_GivePoints(3),
 
+	157:SetGlobalFogParameter(2),		// GZDoom only!
 	158:FS_Execute(1,4),				// GZDoom only!
 	159:Sector_SetPlaneReflection(3),	// GZDoom only!
 	//160:Sector_Set3DFloor				// GZDoom/Vavoom
