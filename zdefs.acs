@@ -97,6 +97,7 @@
 #define PROP_INSTANTWEAPONSWITCH        2
 #define PROP_FLY			3
 #define PROP_TOTALLYFROZEN		4
+#define PROP_BUDDHA			16
 
 // The following properties correspond to powers given by certain items
 #define PROP_INVULNERABILITY		5
