@@ -18,7 +18,7 @@ endif
 
 CFLAGS = -Os -Wall -W -fomit-frame-pointer
 LDFLAGS = -s
-VERNUM = 148
+VERNUM = 149
 
 OBJS = \
 	acc.o     \
@@ -143,4 +143,4 @@ zipbin: $(EXENAME) $(ACS)
 	kzip /y acc$(VERNUM).zip $(EXENAME) $(ACS)
 
 zipwbin: Release/acc.exe $(ACS)
-	kzip /y acc$(VERNUM)win.zip acc.exe $(ACS)
+	kzip /y acc$(VERNUM)win.zip Release/acc.exe $(ACS)

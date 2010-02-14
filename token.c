@@ -1379,6 +1379,7 @@ static void ProcessSpecialToken(void)
 					tk_Number = '\r';
 					break;
 				case '\'':
+				case '\\':
 					tk_Number = Chr;
 					break;
 				default:
