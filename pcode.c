@@ -830,6 +830,7 @@ static void CloseNew(void)
 					PC_Append("AINI", 4);
 					PC_AppendInt(ArraySizes[i]*4+4);
 					PC_AppendInt((U_INT)i);
+					MS_Message(MSG_DEBUG, "Writing array initializers for array %d (size %d)\n", i, ArraySizes[i]);
 					for(j = 0; j < ArraySizes[i]; ++j)
 					{
 						PC_AppendInt((U_INT)ArrayInits[i][j]);

@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include <malloc.h>
 #include <stdio.h>
+#include <assert.h>
 
 #include "common.h"
 #include "parse.h"
@@ -3886,12 +3887,13 @@ static void ParseArrayIndices(symbolNode_t *sym, int requiredIndices)
 	}
 }
 
-static int *ProcessArrayLevel(int level, int *entry, int ndim,
+static void ProcessArrayLevel(int level, int *entry, int ndim,
 	int dims[MAX_ARRAY_DIMS], int muls[MAX_ARRAY_DIMS], char *name)
 {
+	int warned_too_many = NO;
 	int i;
 
-	for(i = 0; i < dims[level-1]; ++i)
+	for(i = 0; ; ++i)
 	{
 		if(tk_Token == TK_COMMA)
 		{
@@ -3901,14 +3903,7 @@ static int *ProcessArrayLevel(int level, int *entry, int ndim,
 		else if(tk_Token == TK_RBRACE)
 		{
 			TK_NextToken();
-			if(level > 1)
-			{
-				return entry + muls[level-2] - i;
-			}
-			else
-			{
-				return entry + (muls[0]*dims[0]) - i;
-			}
+			return;
 		}
 		else
 		{
@@ -3923,15 +3918,28 @@ static int *ProcessArrayLevel(int level, int *entry, int ndim,
 				}
 				else
 				{
-					*entry++ = EvalConstExpression();
+					int val;
+
+					if (i >= dims[level - 1] && !warned_too_many)
+					{
+						warned_too_many = YES;
+						ERR_Error(ERR_TOO_MANY_ARRAY_INIT, YES);
+					}
+					val = EvalConstExpression();
 					ArrayHasStrings |= pa_ConstExprIsString;
+					if (i < dims[level - 1])
+					{
+						entry[i] = val;
+					}
 				}
 			}
 			else
 			{
 				TK_TokenMustBe(TK_LBRACE, ERR_MISSING_LBRACE_ARR);
 				TK_NextToken();
-				entry = ProcessArrayLevel(level+1, entry, ndim, dims, muls, name);
+				ProcessArrayLevel(level+1, entry, ndim, dims, muls, name);
+				assert(level > 0);
+				entry += muls[level-1];
 			}
 			if(i < dims[level-1]-1)
 			{
@@ -3956,7 +3964,6 @@ static int *ProcessArrayLevel(int level, int *entry, int ndim,
 	}
 	TK_TokenMustBe(TK_RBRACE, ERR_MISSING_RBRACE_ARR);
 	TK_NextToken();
-	return entry;
 }
 
 //==========================================================================
