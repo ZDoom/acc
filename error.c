@@ -155,6 +155,7 @@ static struct
 	{ ERR_EOF, "Unexpected end of file." },
 	{ ERR_UNDEFINED_FUNC, "Function %s is used but not defined." },
 	{ ERR_TOO_MANY_ARRAY_DIMS, "Too many array dimensions." },
+	{ ERR_TOO_MANY_ARRAY_INIT, "Too many initializers for array." },
 	{ ERR_MISSING_LBRACKET, "Missing '['." },
 	{ ERR_MISSING_RBRACKET, "Missing ']'." },
 	{ ERR_ZERO_DIMENSION, "Arrays cannot have a dimension of zero." },
