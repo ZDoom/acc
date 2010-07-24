@@ -250,6 +250,7 @@
 #define APROP_Score			22
 #define APROP_Notrigger		23
 #define APROP_DamageFactor	24
+#define APROP_MasterTID 	25
 
 // Render Styles ------------------------------------------------------------
 
