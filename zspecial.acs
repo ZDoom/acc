@@ -253,6 +253,8 @@ special
 	-30:SoundSequenceOnActor(2),
 	-31:SoundSequenceOnSector(3),
 	-32:SoundSequenceOnPolyobj(2),
+	-33:GetPolyobjX(1),
+	-34:GetPolyobjY(1),
 
 	-1000:__EndOfList__(10);
 	
