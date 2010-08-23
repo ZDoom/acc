@@ -83,7 +83,7 @@ special
 	 76:TeleportOther(3),
 	 77:TeleportGroup(5),
 	 78:TeleportInSector(4,5),
-	 79:Thing_SetConcversation(2),
+	 79:Thing_SetConversation(2),
 	 80:ACS_Execute(2,5),
 	 81:ACS_Suspend(2),
 	 82:ACS_Terminate(2),
