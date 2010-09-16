@@ -251,6 +251,8 @@
 #define APROP_Notrigger		23
 #define APROP_DamageFactor	24
 #define APROP_MasterTID 	25
+#define APROP_TargetTID 	26
+#define APROP_TracerTID 	27
 
 // Render Styles ------------------------------------------------------------
 
