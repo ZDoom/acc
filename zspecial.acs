@@ -129,7 +129,7 @@ special
 	130:Thing_Activate(1),
 	131:Thing_Deactivate(1),
 	132:Thing_Remove(1),
-	133:Thing_Destroy(1,2),
+	133:Thing_Destroy(1,3),
 	134:Thing_Projectile(5),
 	135:Thing_Spawn(3,4),
 	136:Thing_ProjectileGravity(5),
