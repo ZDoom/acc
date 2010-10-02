@@ -101,6 +101,7 @@ special
 	 94:Pillar_BuildAndCrush(4,5),
 	 95:FloorAndCeiling_LowerByValue(3),
 	 96:FloorAndCeiling_RaiseByValue(3),
+	 97:Ceiling_LowerAndCrushDist(3,5),
 
 //	100:Scroll_Texture_Left
 //	101:Scroll_Texture_Right
