@@ -253,6 +253,7 @@
 #define APROP_MasterTID 	25
 #define APROP_TargetTID 	26
 #define APROP_TracerTID 	27
+#define APROP_Waterlevel	28
 
 // Render Styles ------------------------------------------------------------
 
