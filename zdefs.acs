@@ -256,6 +256,7 @@
 #define APROP_Waterlevel	28
 #define APROP_ScaleX        29
 #define APROP_ScaleY        30
+#define APROP_Dormant		31
 
 // Render Styles ------------------------------------------------------------
 
