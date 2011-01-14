@@ -257,6 +257,7 @@
 #define APROP_ScaleX        29
 #define APROP_ScaleY        30
 #define APROP_Dormant		31
+#define APROP_Mass			32
 
 // Render Styles ------------------------------------------------------------
 
