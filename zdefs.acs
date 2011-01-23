@@ -508,9 +508,6 @@
 #define T_SNAKEPROJECTILEBIG    139
 #define T_WIZARDSHOT            140
 
-// All D'Sparil teleport destinations must be spawned before D'Sparil alone.
-// D'Sparil can be spawned alone manually, and he is also spawned automatically
-// when he "dies" on his serpent.
 #define T_DSPARILTELEPORTDEST   141
 #define T_DSPARILONSERPENT      142
 #define T_DSPARILALONE          143
@@ -805,6 +802,7 @@
 #define BLOCKF_EVERYTHING 32
 #define BLOCKF_RAILING 64
 #define BLOCKF_USE 128
+#define BLOCKF_SIGHT 256
 
 #define FOGP_DENSITY 0
 #define FOGP_OUTSIDEDENSITY 1
