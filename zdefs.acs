@@ -28,6 +28,7 @@
 #define TEXFLAG_TOP				1
 #define TEXFLAG_MIDDLE			2
 #define TEXFLAG_BOTTOM			4
+#define TEXFLAG_ADDOFFSET		8
 
 #define GAME_SINGLE_PLAYER      0
 #define GAME_NET_COOPERATIVE    1
