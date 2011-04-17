@@ -4,7 +4,7 @@ target = $(strip $(shell $(CC) -dumpmachine))
 # DOS and Windows executables should have the .exe extension.
 # Other operating systems should be extension-less.
 
-CC = gcc
+CC ?= gcc
 
 ifeq ($(findstring mingw32,$(target)),mingw32)
 EXENAME = acc.exe
@@ -16,8 +16,8 @@ EXENAME = acc
 endif
 endif
 
-CFLAGS = -Os -Wall -W -fomit-frame-pointer
-LDFLAGS = -s
+CFLAGS ?= -Os -Wall -W -fomit-frame-pointer
+LDFLAGS ?= -s
 VERNUM = 150
 
 OBJS = \

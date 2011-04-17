@@ -244,6 +244,9 @@ static void ProcessArgs(void)
 	}
 
 	TK_AddIncludePath(".");
+#ifdef unix
+	TK_AddIncludePath("/usr/local/share/acc/");
+#endif
 	TK_AddProgramIncludePath(ArgVector[0]);
 	
 	if(count == 1)
