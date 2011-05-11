@@ -128,6 +128,7 @@ typedef enum
 	TK_EORASSIGN,		// '^='
 	TK_LSASSIGN,		// '<<='
 	TK_RSASSIGN,		// '>>='
+	TK_STRPARAM_EVAL,	// 'strparam'
 } tokenType_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------

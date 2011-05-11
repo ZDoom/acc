@@ -1314,6 +1314,15 @@ static boolean ProcessStatement(statement_t owner)
 		case TK_LOG:
 			LeadingPrint();
 			break;
+
+		case TK_STRPARAM_EVAL:
+			LeadingPrint();
+			PC_AppendCmd(PCD_DROP);
+			/* Duplicate code: LeadingPrint() post-processing: */
+			TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
+			TK_NextToken();
+			break;
+
 		case TK_HUDMESSAGE:
 		case TK_HUDMESSAGEBOLD:
 			LeadingHudMessage();
@@ -1396,6 +1405,7 @@ static boolean ProcessStatement(statement_t owner)
 		case TK_DEC:
 			LeadingIncDec(tk_Token);
 			break;
+
 		default:
 			StatementIndex--;
 			StatementLevel -= AdjustStmtLevel[owner];
@@ -2227,23 +2237,32 @@ static void LeadingPrint(void)
 	tokenType_t stmtToken;
 
 	MS_Message(MSG_DEBUG, "---- LeadingPrint ----\n");
-	stmtToken = tk_Token; // Will be TK_PRINT or TK_PRINTBOLD or TK_LOG
+	stmtToken = tk_Token; // Will be TK_PRINT or TK_PRINTBOLD, TK_LOG or TK_STRPARAM_EVAL [FDARI]
 	PC_AppendCmd(PCD_BEGINPRINT);
 	TK_NextTokenMustBe(TK_LPAREN, ERR_MISSING_LPAREN);
 	BuildPrintString();
 	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
-	if(stmtToken == TK_PRINT)
+
+	switch (stmtToken)
 	{
+	case TK_PRINT:
 		PC_AppendCmd(PCD_ENDPRINT);
-	}
-	else if(stmtToken == TK_PRINTBOLD)
-	{
+		break;
+
+	case TK_PRINTBOLD:
 		PC_AppendCmd(PCD_ENDPRINTBOLD);
-	}
-	else
-	{
+		break;
+
+	case TK_STRPARAM_EVAL:
+		PC_AppendCmd(PCD_SAVESTRING);
+		return; // THE CALLER MUST DO THE POST-PROCESSING
+
+	case TK_LOG:
+	default:
 		PC_AppendCmd(PCD_ENDLOG);
+		break;
 	}
+
 	TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
 	TK_NextToken();
 }
@@ -3507,6 +3526,10 @@ static void ExprFactor(void)
 		break;
 	case TK_LINESPECIAL:
 		ExprLineSpecial();
+		break;
+	case TK_STRPARAM_EVAL:
+		LeadingPrint();
+		TK_NextToken();
 		break;
 	default:
 		ERR_Error(ERR_BAD_EXPR, YES);

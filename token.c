@@ -192,7 +192,8 @@ static struct keyword_s
 	{ "clientside", TK_CLIENTSIDE }, // [BB]
 	{ "disconnect", TK_DISCONNECT },
 	{ "unloading", TK_UNLOADING },
-	{ "static", TK_STATIC }
+	{ "static", TK_STATIC },
+	{ "strparam", TK_STRPARAM_EVAL }, // [FDARI]
 };
 
 #define NUM_KEYWORDS (sizeof(Keywords)/sizeof(Keywords[0]))

@@ -462,6 +462,7 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_PRINTBINARY",
 	"PCD_PRINTHEX",
 	"PCD_CALLFUNC",
+	"PCD_SAVESTRING",		// [FDARI]
 };
 
 // CODE --------------------------------------------------------------------
