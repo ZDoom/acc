@@ -194,6 +194,7 @@ static struct keyword_s
 	{ "unloading", TK_UNLOADING },
 	{ "static", TK_STATIC },
 	{ "strparam", TK_STRPARAM_EVAL }, // [FDARI]
+	{ "strcpy", TK_STRCPY }, // [FDARI]
 };
 
 #define NUM_KEYWORDS (sizeof(Keywords)/sizeof(Keywords[0]))

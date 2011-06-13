@@ -129,6 +129,7 @@ typedef enum
 	TK_LSASSIGN,		// '<<='
 	TK_RSASSIGN,		// '>>='
 	TK_STRPARAM_EVAL,	// 'strparam'
+	TK_STRCPY,          // 'strcpy'
 } tokenType_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------

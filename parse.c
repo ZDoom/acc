@@ -97,7 +97,8 @@ static void LeadingLineSpecial(boolean executewait);
 static void LeadingFunction();
 static void LeadingIdentifier(void);
 static void BuildPrintString(void);
-static void PrintCharArray(void);
+static void ActionOnCharRange(boolean write);
+static void LeadingStrcpy(void);
 static void LeadingPrint(void);
 static void LeadingHudMessage(void);
 static void LeadingVarAssign(symbolNode_t *sym);
@@ -1323,6 +1324,13 @@ static boolean ProcessStatement(statement_t owner)
 			TK_NextToken();
 			break;
 
+		case TK_STRCPY:
+			LeadingStrcpy();
+			PC_AppendCmd(PCD_DROP);
+			TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
+			TK_NextToken();
+			break;
+
 		case TK_HUDMESSAGE:
 		case TK_HUDMESSAGEBOLD:
 			LeadingHudMessage();
@@ -2142,7 +2150,7 @@ static void BuildPrintString(void)
 		switch(TK_NextCharacter())
 		{
 			case 'a': // character array support [JB]
-				PrintCharArray();
+				ActionOnCharRange(NO);
 				continue;
 			case 's': // string
 				printCmd = PCD_PRINTSTRING;
@@ -2186,15 +2194,27 @@ static void BuildPrintString(void)
 
 //==========================================================================
 //
-// PrintCharArray // JB
+// ActionOnCharRange // FDARI (mutation of PrintCharArray // JB)
 //
 //==========================================================================
 
-static void PrintCharArray(void)
+static void ActionOnCharRange(boolean write)
 {
+	boolean rangeConstraints;
 	symbolNode_t *sym;
 	TK_NextTokenMustBe(TK_COLON, ERR_MISSING_COLON);
 	TK_NextToken();
+
+	if (tk_Token == TK_LPAREN)
+	{
+		rangeConstraints = YES;
+		TK_NextToken();
+	}
+	else
+	{
+		rangeConstraints = NO;
+	}
+
 	sym = SpeculateSymbol(tk_String, NO);
 	if((sym->type != SY_MAPARRAY) && (sym->type != SY_WORLDARRAY)
 		&& (sym->type != SY_GLOBALARRAY))
@@ -2212,18 +2232,107 @@ static void PrintCharArray(void)
 	}
 
 	PC_AppendPushVal(sym->info.array.index);
+
+	
+	if (rangeConstraints)
+	{
+		switch (tk_Token)
+		{
+		case TK_RPAREN:
+			rangeConstraints = NO;
+			TK_NextToken();
+			break;
+		case TK_COMMA:
+			TK_NextToken();
+			EvalExpression();
+
+			switch (tk_Token)
+			{
+			case TK_RPAREN:
+				TK_NextToken();
+				PC_AppendPushVal(0x7FFFFFFF); 
+				break;
+			case TK_COMMA:
+				TK_NextToken();
+				EvalExpression(); // limit on capacity
+				TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
+				TK_NextToken();
+				break;
+			default:
+				ERR_Error(ERR_MISSING_RPAREN, YES);
+				break;
+			}
+
+			break;
+		default:
+			ERR_Error(ERR_MISSING_RPAREN, YES);
+			break;
+		}
+	}
+
+	if (write)
+	{
+		if (!rangeConstraints)
+		{
+			PC_AppendPushVal(0);
+			PC_AppendPushVal(0x7FFFFFFF);
+		}
+
+		TK_TokenMustBe(TK_COMMA, ERR_MISSING_COMMA);
+		TK_NextToken();
+		EvalExpression();
+
+		if (tk_Token == TK_COMMA)
+		{
+			TK_NextToken();
+			EvalExpression();
+		}
+		else
+		{
+			PC_AppendPushVal(0);
+		}
+	}
+
 	if(sym->type == SY_MAPARRAY)
 	{
-		PC_AppendCmd(PCD_PRINTMAPCHARARRAY);
+		if (write) PC_AppendCmd(PCD_STRCPYTOMAPCHRANGE);
+		else PC_AppendCmd( rangeConstraints ? PCD_PRINTMAPCHRANGE : PCD_PRINTMAPCHARARRAY );
 	}
 	else if(sym->type == SY_WORLDARRAY)
 	{
-		PC_AppendCmd(PCD_PRINTWORLDCHARARRAY);
+		if (write) PC_AppendCmd(PCD_STRCPYTOWORLDCHRANGE);
+		else PC_AppendCmd( rangeConstraints ? PCD_PRINTWORLDCHRANGE : PCD_PRINTWORLDCHARARRAY );
 	}
 	else // if(sym->type == SY_GLOBALARRAY)
 	{
-		PC_AppendCmd(PCD_PRINTGLOBALCHARARRAY);
+		if (write) PC_AppendCmd(PCD_STRCPYTOGLOBALCHRANGE);
+		else PC_AppendCmd( rangeConstraints ? PCD_PRINTGLOBALCHRANGE : PCD_PRINTGLOBALCHARARRAY );
 	}
+}
+
+//==========================================================================
+//
+// LeadingStrcpy
+//
+//==========================================================================
+
+static void LeadingStrcpy(void)
+{
+	MS_Message(MSG_DEBUG, "---- LeadingStrcpy ----\n");
+	TK_NextTokenMustBe(TK_LPAREN, ERR_MISSING_LPAREN);
+	
+	switch(TK_NextCharacter()) // structure borrowed from printbuilder
+	{
+		case 'a':
+			ActionOnCharRange(YES);
+			break;
+
+		default:
+			ERR_Error(ERR_UNKNOWN_PRTYPE, YES);
+			break;
+	}
+
+	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 }
 
 //==========================================================================
@@ -3529,6 +3638,10 @@ static void ExprFactor(void)
 		break;
 	case TK_STRPARAM_EVAL:
 		LeadingPrint();
+		TK_NextToken();
+		break;
+	case TK_STRCPY:
+		LeadingStrcpy();
 		TK_NextToken();
 		break;
 	default:
