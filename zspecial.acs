@@ -252,7 +252,7 @@ special
 	-9:GetActorVelX(1),
 	-10:GetActorVelY(1),
 	-11:GetActorVelZ(1),
-	-12:SetActivator(1),
+	-12:SetActivator(1,2),
 	-13:SetActivatorToTarget(1),
 	-14:GetActorViewHeight(1),
 	-15:GetChar(2),
@@ -278,6 +278,7 @@ special
 	-35:CheckSight(3),
 	-36:SpawnForced(6),
 	-37:AnnouncerSound(2),
+	-38:SetPointer(2,4),
 
 	-1000:__EndOfList__(10);
 	
