@@ -4071,6 +4071,17 @@ static void ProcessArrayLevel(int level, int *entry, int ndim,
 			}
 			else
 			{
+				//Bugfix for r3226 by Zom-B
+				if (i >= dims[level - 1])
+				{
+					if (!warned_too_many)
+					{
+						warned_too_many = YES;
+						ERR_Error(ERR_TOO_MANY_ARRAY_INIT, YES);
+					}
+					// Allow execution to continue without stray memory access
+					entry -= muls[level-1];
+				}
 				TK_TokenMustBe(TK_LBRACE, ERR_MISSING_LBRACE_ARR);
 				TK_NextToken();
 				ProcessArrayLevel(level+1, entry, ndim, dims, muls, name);
