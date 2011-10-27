@@ -225,7 +225,7 @@ special
 	239:Floor_RaiseByValueTxTy(3),
 	240:Floor_RaiseByTexture(2),
 	241:Floor_LowerToLowestTxTy(2),
-	242:Floor_LowerToHighest(3),
+	242:Floor_LowerToHighest(3,4),
 	243:Exit_Normal(1),
 	244:Exit_Secret(1),
 	245:Elevator_RaiseToNearest(2),
