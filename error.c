@@ -128,7 +128,7 @@ static struct
 	{ ERR_OUT_OF_MEMORY, "Out of memory." },
 	{ ERR_TOO_MANY_STRINGS, "Too many strings. Current max is %d" },
 	{ ERR_UNKNOWN_PRTYPE, "Unknown cast type in print statement." },
-	{ ERR_SCRIPT_OUT_OF_RANGE, "Script number must be between 1 and 999." },
+	{ ERR_SCRIPT_OUT_OF_RANGE, "Script number must be between 1 and 32767." },
 	{ ERR_MISSING_PARAM, "Missing required argument." },
 	{ ERR_SCRIPT_ALREADY_DEFINED, "Script already has a body." },
 	{ ERR_FUNCTION_ALREADY_DEFINED, "Function already has a body." },

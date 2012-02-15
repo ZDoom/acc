@@ -15,28 +15,28 @@
 
 // MACROS ------------------------------------------------------------------
 
-// Values added to script number to indicate its type
+// Values to indicate a script's type
 enum
 {
-	OPEN_SCRIPTS_BASE			= 1000,
-	RESPAWN_SCRIPTS_BASE		= 2000,	// [BC]
-	DEATH_SCRIPTS_BASE			= 3000,	// [BC]
-	ENTER_SCRIPTS_BASE			= 4000,	// [BC]
-	PICKUP_SCRIPTS_BASE			= 5000,	// [BC]
-	BLUE_RETURN_SCRIPTS_BASE	= 6000,	// [BC]
-	RED_RETURN_SCRIPTS_BASE		= 7000,	// [BC]
-	WHITE_RETURN_SCRIPTS_BASE	= 8000,	// [BC]
-	LIGHTNING_SCRIPTS_BASE		= 12000,
-	UNLOADING_SCRIPTS_BASE		= 13000,
-	DISCONNECT_SCRIPTS_BASE		= 14000,
-	RETURN_SCRIPTS_BASE			= 15000,
+	OPEN_SCRIPTS_BASE			= 1,
+	RESPAWN_SCRIPTS_BASE		= 2,	// [BC]
+	DEATH_SCRIPTS_BASE			= 3,	// [BC]
+	ENTER_SCRIPTS_BASE			= 4,	// [BC]
+	PICKUP_SCRIPTS_BASE			= 5,	// [BC]
+	BLUE_RETURN_SCRIPTS_BASE	= 6,	// [BC]
+	RED_RETURN_SCRIPTS_BASE		= 7,	// [BC]
+	WHITE_RETURN_SCRIPTS_BASE	= 8,	// [BC]
+	LIGHTNING_SCRIPTS_BASE		= 12,
+	UNLOADING_SCRIPTS_BASE		= 13,
+	DISCONNECT_SCRIPTS_BASE		= 14,
+	RETURN_SCRIPTS_BASE			= 15,
 };
 
-// Values added to script number to indicate flags (requires new-style .o)
+// Values to indicate script flags (requires new-style .o)
 enum
 {
-	NET_SCRIPT_FLAG			= 0x00010000,
-	CLIENTSIDE_SCRIPT_FLAG	= 0x00020000, // [BB]
+	NET_SCRIPT_FLAG			= 0x0001,
+	CLIENTSIDE_SCRIPT_FLAG	= 0x0002, // [BB]
 };
 
 // Or'ed with variable index when passing variables of type "out"
@@ -447,8 +447,8 @@ void PC_Skip(size_t size);
 //void PC_SkipByte(void);
 //void PC_SkipWord(void);
 void PC_SkipInt(void);
-void PC_AddScript(int number, int argCount);
-void PC_SetScriptVarCount(int number, int varCount);
+void PC_AddScript(int number, int type, int flags, int argCount);
+void PC_SetScriptVarCount(int number, int type, int varCount);
 void PC_AddFunction(struct symbolNode_s *sym);
 void PC_PutMapVariable(int index, int value);
 void PC_NameMapVariable(int index, struct symbolNode_s *sym);

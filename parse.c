@@ -523,7 +523,7 @@ static void OuterScript(void)
 {
 	int scriptNumber;
 	symbolNode_t *sym;
-	int scriptType;
+	int scriptType, scriptFlags;
 
 	MS_Message(MSG_DEBUG, "---- OuterScript ----\n");
 	BreakIndex = 0;
@@ -558,10 +558,15 @@ static void OuterScript(void)
 		TK_NextToken();
 		scriptNumber = 0;
 	}
+	else if(tk_Token == TK_STRING)
+	{ // Named scripts start counting at -1 and go down from there.
+		scriptNumber = -1 - STR_FindInList(STRLIST_NAMEDSCRIPTS, tk_String);
+		TK_NextToken();
+	}
 	else
 	{
 		scriptNumber = EvalConstExpression();
-		if(scriptNumber < 1 || scriptNumber > 999)
+		if(scriptNumber < 1 || scriptNumber > 32767)
 		{
 			TK_Undo();
 			ERR_Error(ERR_SCRIPT_OUT_OF_RANGE, YES, NULL);
@@ -570,8 +575,18 @@ static void OuterScript(void)
 			return;
 		}
 	}
-	MS_Message(MSG_DEBUG, "Script number: %d\n", scriptNumber);
+	if (scriptNumber >= 0)
+	{
+		MS_Message(MSG_DEBUG, "Script number: %d\n", scriptNumber);
+	}
+	else
+	{
+		MS_Message(MSG_DEBUG, "Script name: %s (%d)\n",
+			STR_GetString(STRLIST_NAMEDSCRIPTS, -scriptNumber - 1),
+			scriptNumber);
+	}
 	scriptType = 0;
+	scriptFlags = 0;
 	if(tk_Token == TK_LPAREN)
 	{
 		if(TK_NextToken() == TK_VOID)
@@ -695,18 +710,18 @@ static void OuterScript(void)
 	TK_NextToken();
 	if(tk_Token == TK_NET)
 	{
-		scriptNumber += NET_SCRIPT_FLAG;
+		scriptFlags |= NET_SCRIPT_FLAG;
 		TK_NextToken();
 	}
 	// [BB] If NET and CLIENTSIDE are specified, this construction can only parse
 	// "NET CLIENTSIDE" but not "CLIENTSIDE NET".
 	if(tk_Token == TK_CLIENTSIDE)
 	{
-		scriptNumber += CLIENTSIDE_SCRIPT_FLAG;
+		scriptFlags |= CLIENTSIDE_SCRIPT_FLAG;
 		TK_NextToken();
 	}
 	CountScript(scriptType);
-	PC_AddScript(scriptNumber + scriptType, ScriptVarCount);
+	PC_AddScript(scriptNumber, scriptType, scriptFlags, ScriptVarCount);
 	pc_LastAppendedCommand = PCD_NOP;
 	if(ProcessStatement(STMT_SCRIPT) == NO)
 	{
@@ -716,7 +731,7 @@ static void OuterScript(void)
 	{
 		PC_AppendCmd(PCD_TERMINATE);
 	}
-	PC_SetScriptVarCount(scriptNumber + scriptType, ScriptVarCount);
+	PC_SetScriptVarCount(scriptNumber, scriptType, ScriptVarCount);
 	pa_ScriptCount++;
 }
 

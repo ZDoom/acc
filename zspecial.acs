@@ -280,6 +280,13 @@ special
 	-36:SpawnForced(6),
 	-37:AnnouncerSound(2),
 	-38:SetPointer(2,4),
+	-39:ACS_NamedExecute(2,5),
+	-40:ACS_NamedSuspend(2),
+	-41:ACS_NamedTerminate(2),
+	-42:ACS_NamedLockedExecute(5),
+	-43:ACS_NamedLockedExecuteDoor(5),
+	-44:ACS_NamedExecuteWithResult(1,4),
+	-45:ACS_NamedExecuteAlways(2,5),
 
 	-1000:__EndOfList__(10);
 	

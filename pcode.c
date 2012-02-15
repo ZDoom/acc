@@ -24,7 +24,7 @@
 
 typedef struct scriptInfo_s
 {
-	U_WORD number;
+	S_WORD number;
 	U_BYTE type;
 	U_BYTE argCount;
 	U_WORD varCount;
@@ -99,7 +99,7 @@ static int ObjectFlags;
 static int PushByteAddr;
 static char Imports[MAX_IMPORTS][9];
 static int NumImports;
-static boolean HaveScriptFlags;
+static boolean HaveExtendedScripts;
 
 static char *PCDNames[PCODE_COMMAND_COUNT] =
 {
@@ -510,7 +510,7 @@ void PC_CloseObject(void)
 	}
 	if(!pc_NoShrink || (NumLanguages > 1) || (NumStringLists > 0) ||
 		(pc_FunctionCount > 0) || MapVariablesInit || NumArrays != 0 ||
-		pc_EncryptStrings || NumImports != 0 || HaveScriptFlags)
+		pc_EncryptStrings || NumImports != 0 || HaveExtendedScripts)
 	{
 		CloseNew();
 	}
@@ -649,6 +649,9 @@ static void CloseNew(void)
 			}
 		}
 	}
+
+	// Write the string table for named scripts.
+	STR_WriteListChunk(STRLIST_NAMEDSCRIPTS, MAKE4CC('S','N','A','M'), NO);
 
 	if(pc_FunctionCount > 0)
 	{
@@ -936,7 +939,8 @@ static void CreateDummyScripts(void)
 	pc_DummyAddress = pc_Address;
 	for(i = 0; i < pc_ScriptCount; ++i)
 	{
-		if(!ScriptInfo[i].imported)
+		// Only create dummies for scripts WadAuthor could care about.
+		if(!ScriptInfo[i].imported && ScriptInfo[i].number >= 0 && ScriptInfo[i].number <= 255)
 		{
 			PC_AppendCmd(PCD_TERMINATE);
 			if(!pc_NoShrink)
@@ -957,26 +961,27 @@ static void CreateDummyScripts(void)
 
 static void RecordDummyScripts(void)
 {
-	int i, count;
+	int i, j, count;
 
 	for(i = count = 0; i < pc_ScriptCount; ++i)
 	{
-		if(!ScriptInfo[i].imported)
+		if(!ScriptInfo[i].imported && ScriptInfo[i].number >= 0 && ScriptInfo[i].number <= 255)
 		{
 			++count;
 		}
 	}
 	PC_AppendInt((U_INT)count);
-	for(i = 0; i < pc_ScriptCount; ++i)
+	for(i = j = 0; i < pc_ScriptCount; ++i)
 	{
 		scriptInfo_t *info = &ScriptInfo[i];
-		if(!info->imported)
+		if(!info->imported && info->number >= 0 && ScriptInfo[i].number <= 255)
 		{
 			MS_Message(MSG_DEBUG, "Dummy script %d, address = %d, arg count = %d\n",
 				info->number, info->address, info->argCount);
 			PC_AppendInt((U_INT)info->number);
-			PC_AppendInt((U_INT)pc_DummyAddress + i*4);
+			PC_AppendInt((U_INT)pc_DummyAddress + j*4);
 			PC_AppendInt((U_INT)info->argCount);
+			j++;
 		}
 	}
 }
@@ -1348,21 +1353,14 @@ void PC_NameMapVariable(int index, symbolNode_t *sym)
 //
 //==========================================================================
 
-void PC_AddScript(int inNumber, int argCount)
+void PC_AddScript(int number, int type, int flags, int argCount)
 {
 	scriptInfo_t *script;
 	int i;
-	U_BYTE type;
-	U_WORD flags;
-	U_WORD number;
 
-	type = (inNumber & 65535) / 1000;
-	number = (inNumber & 65535) % 1000;
-	flags = (inNumber >> 16) & 65535;
-
-	if (flags != 0)
+	if (flags != 0 || number < 0 || number >= 1000)
 	{
-		HaveScriptFlags = YES;
+		HaveExtendedScripts = YES;
 	}
 
 	for (i = 0; i < pc_ScriptCount; i++)
@@ -1399,18 +1397,13 @@ void PC_AddScript(int inNumber, int argCount)
 //
 //==========================================================================
 
-void PC_SetScriptVarCount(int inNumber, int varCount)
+void PC_SetScriptVarCount(int number, int type, int varCount)
 {
 	int i;
-	U_BYTE type;
-	U_WORD number;
-
-	type = (inNumber & 65535) / 1000;
-	number = (inNumber & 65535) % 1000;
 
 	for(i = 0; i < pc_ScriptCount; i++)
 	{
-		if(ScriptInfo[i].number == number)
+		if(ScriptInfo[i].number == number && ScriptInfo[i].type == type)
 		{
 			ScriptInfo[i].varCount = varCount;
 			break;
