@@ -25,6 +25,7 @@ void STR_WriteList(void);
 int STR_FindLanguage(char *name);
 int STR_FindInLanguage(int language, char *name);
 int STR_FindInList(int list, char *name);
+int STR_FindInListInsensitive(int list, char *name);
 int STR_AppendToList(int list, char *name);
 const char *STR_GetString(int list, int index);
 void STR_WriteChunk(int language, boolean encrypt);

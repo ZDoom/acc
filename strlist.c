@@ -17,6 +17,10 @@
 
 // MACROS ------------------------------------------------------------------
 
+#ifdef _WIN32
+#define strcasecmp stricmp
+#endif
+
 // TYPES -------------------------------------------------------------------
 
 typedef struct
@@ -45,6 +49,7 @@ typedef struct
 
 static int STR_PutStringInSomeList(stringList_t *list, int index, char *name);
 static int STR_FindInSomeList(stringList_t *list, char *name);
+static int STR_FindInSomeListInsensitive(stringList_t *list, char *name);
 static void DumpStrings(stringList_t *list, int lenadr, boolean quad, boolean crypt);
 static void Encrypt(void *data, int key, int len);
 
@@ -167,6 +172,44 @@ static int STR_FindInSomeList(stringList_t *list, char *name)
 	for(i = 0; i < list->stringCount; i++)
 	{
 		if(strcmp(list->strings[i].name, name) == 0)
+		{
+			return i;
+		}
+	}
+	// Add to list
+	return STR_PutStringInSomeList(list, i, name);
+}
+
+//==========================================================================
+//
+// STR_FindInListInsensitive
+//
+//==========================================================================
+
+int STR_FindInListInsensitive(int list, char *name)
+{
+	if (StringLists[list] == NULL)
+	{
+		StringLists[list] = MS_Alloc(sizeof(stringList_t), ERR_OUT_OF_MEMORY);
+		StringLists[list]->stringCount = 0;
+		NumStringLists++;
+	}
+	return STR_FindInSomeListInsensitive (StringLists[list], name);
+}
+
+//==========================================================================
+//
+// STR_FindInSomeListInsensitive
+//
+//==========================================================================
+
+static int STR_FindInSomeListInsensitive(stringList_t *list, char *name)
+{
+	int i;
+
+	for(i = 0; i < list->stringCount; i++)
+	{
+		if(strcasecmp(list->strings[i].name, name) == 0)
 		{
 			return i;
 		}

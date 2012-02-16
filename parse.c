@@ -560,7 +560,7 @@ static void OuterScript(void)
 	}
 	else if(tk_Token == TK_STRING)
 	{ // Named scripts start counting at -1 and go down from there.
-		scriptNumber = -1 - STR_FindInList(STRLIST_NAMEDSCRIPTS, tk_String);
+		scriptNumber = -1 - STR_FindInListInsensitive(STRLIST_NAMEDSCRIPTS, tk_String);
 		TK_NextToken();
 	}
 	else
