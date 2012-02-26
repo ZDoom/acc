@@ -88,7 +88,7 @@ special
 	 81:ACS_Suspend(2),
 	 82:ACS_Terminate(2),
 	 83:ACS_LockedExecute(5),
-	 84:ACS_ExecuteWithResult(1,4),
+	 84:ACS_ExecuteWithResult(1,5),
 	 85:ACS_LockedExecuteDoor(5),
 	 86:Polyobj_MoveToSpot(3),
 	 87:Polyobj_Stop(1),
