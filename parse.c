@@ -604,7 +604,7 @@ static void OuterScript(void)
 			{
 				TK_NextTokenMustBe(TK_INT, ERR_BAD_VAR_TYPE);
 				TK_NextTokenMustBe(TK_IDENTIFIER, ERR_INVALID_IDENTIFIER);
-				if(ScriptVarCount == 3)
+				if(ScriptVarCount == 4)
 				{
 					ERR_Error(ERR_TOO_MANY_SCRIPT_ARGS, YES);
 				}
@@ -612,7 +612,7 @@ static void OuterScript(void)
 				{ // Redefined
 					ERR_Error(ERR_REDEFINED_IDENTIFIER, YES, tk_String);
 				}
-				else if(ScriptVarCount < 3)
+				else if(ScriptVarCount < 4)
 				{
 					sym = SY_InsertLocal(tk_String, SY_SCRIPTVAR);
 					sym->info.var.index = ScriptVarCount;
