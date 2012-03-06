@@ -480,6 +480,8 @@ static void Outside(void)
 				{
 					MS_Message(MSG_DEBUG, "Strings will be encrypted\n");
 					pc_EncryptStrings = TRUE;
+					if(pc_NoShrink)
+						ERR_Error(ERR_HEXEN_COMPAT, YES);
 				}
 				TK_NextToken();
 				break;

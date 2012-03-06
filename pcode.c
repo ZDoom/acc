@@ -512,6 +512,8 @@ void PC_CloseObject(void)
 		(pc_FunctionCount > 0) || MapVariablesInit || NumArrays != 0 ||
 		pc_EncryptStrings || NumImports != 0 || HaveExtendedScripts)
 	{
+		if(pc_NoShrink)
+			ERR_Exit(ERR_HEXEN_COMPAT, NO);
 		CloseNew();
 	}
 	else
@@ -1329,6 +1331,8 @@ void PC_PutMapVariable(int index, int value)
 		MapVariables[index].isString = pa_ConstExprIsString;
 		MapVariables[index].initializer = value;
 		MapVariablesInit = YES;
+		if(pc_NoShrink)
+			ERR_Error(ERR_HEXEN_COMPAT, YES);
 	}
 }
 
@@ -1361,6 +1365,8 @@ void PC_AddScript(int number, int type, int flags, int argCount)
 	if (flags != 0 || number < 0 || number >= 1000)
 	{
 		HaveExtendedScripts = YES;
+		if(pc_NoShrink)
+			ERR_Error(ERR_HEXEN_COMPAT, YES);
 	}
 
 	for (i = 0; i < pc_ScriptCount; i++)
@@ -1425,6 +1431,11 @@ void PC_AddFunction(symbolNode_t *sym)
 	{
 		ERR_Error(ERR_TOO_MANY_FUNCTIONS, YES, NULL);
 	}
+	else if(pc_NoShrink)
+	{
+		ERR_Error(ERR_HEXEN_COMPAT, YES);
+	}
+
 	function = &FunctionInfo[pc_FunctionCount];
 	function->hasReturnValue = (U_BYTE)sym->info.scriptFunc.hasReturnValue;
 	function->argCount = (U_BYTE)sym->info.scriptFunc.argCount;
@@ -1445,6 +1456,8 @@ void PC_AddArray(int index, int size)
 {
 	NumArrays++;
 	ArraySizes[index] = size;
+	if(pc_NoShrink)
+		ERR_Error(ERR_HEXEN_COMPAT, YES);
 }
 
 //==========================================================================
@@ -1485,6 +1498,10 @@ int PC_AddImport(char *name)
 	if (NumImports >= MAX_IMPORTS)
 	{
 		ERR_Exit(ERR_TOO_MANY_IMPORTS, YES);
+	}
+	else if(pc_NoShrink)
+	{
+		ERR_Exit(ERR_HEXEN_COMPAT, YES);
 	}
 	strncpy(Imports[NumImports], name, 8);
 	return NumImports++;

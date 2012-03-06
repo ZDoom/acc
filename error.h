@@ -146,6 +146,7 @@ typedef enum
 	ERR_NOT_A_CHAR_ARRAY,
 	ERR_CANT_FIND_INCLUDE,
 	ERR_SCRIPT_NAMED_NONE,
+	ERR_HEXEN_COMPAT,
 } error_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------
