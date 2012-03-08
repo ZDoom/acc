@@ -4034,6 +4034,11 @@ static void ParseArrayIndices(symbolNode_t *sym, int requiredIndices)
 		TK_TokenMustBe(TK_RBRACKET, ERR_MISSING_RBRACKET);
 		TK_NextToken();
 	}
+	if(i < requiredIndices)
+	{
+		ERR_Error(ERR_TOO_FEW_DIM_USED, YES,
+			sym->name, requiredIndices - i);
+	}
 	// if there were unspecified indices, multiply the offset by their sizes [JB]
 	if(requiredIndices < sym->info.array.ndim - 1)
 	{

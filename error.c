@@ -160,6 +160,7 @@ static struct
 	{ ERR_MISSING_RBRACKET, "Missing ']'." },
 	{ ERR_ZERO_DIMENSION, "Arrays cannot have a dimension of zero." },
 	{ ERR_TOO_MANY_DIM_USED, "%s only has %d dimensions." },
+	{ ERR_TOO_FEW_DIM_USED, "%s access needs %d more dimensions." },
 	{ ERR_ARRAY_MAPVAR_ONLY, "Only map variables can be arrays." },
 	{ ERR_NOT_AN_ARRAY, "%s is not an array." },
 	{ ERR_MISSING_LBRACE_ARR, "Missing opening '{' in array initializer." },
