@@ -465,6 +465,8 @@ extern int pc_ScriptCount;
 extern int pc_FunctionCount;
 extern boolean pc_NoShrink;
 extern boolean pc_HexenCase;
+extern boolean pc_EnforceHexen;
+extern boolean pc_WarnNotHexen;
 extern boolean pc_WadAuthor;
 extern boolean pc_EncryptStrings;
 extern int pc_LastAppendedCommand;

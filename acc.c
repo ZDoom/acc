@@ -205,6 +205,8 @@ static void ProcessArgs(void)
 				case 'H':
 					pc_NoShrink = TRUE;
 					pc_HexenCase = TRUE;
+					pc_EnforceHexen = toupper(*text) != 'H';
+					pc_WarnNotHexen = toupper(*text) == 'H';
 					break;
 					
 				default:
@@ -269,6 +271,7 @@ static void DisplayUsage(void)
 	puts("-i [path]  Add include path to find include files");
 	puts("-d[file]   Output debugging information");
 	puts("-h         Create pcode compatible with Hexen and old ZDooms");
+	puts("-hh        Like -h, but use of new features is only a warning");
 	exit(1);
 }
 

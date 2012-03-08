@@ -178,7 +178,8 @@ static struct
 	{ ERR_NOT_A_CHAR_ARRAY, "%s has %d dimensions. Use %d subscripts to get a char array." },
 	{ ERR_CANT_FIND_INCLUDE, "Couldn't find include file \"%s\"." },
 	{ ERR_SCRIPT_NAMED_NONE, "Scripts may not be named \"None\"." },
-	{ ERR_HEXEN_COMPAT, "Attempt to use feature not supported by Hexen pcode with -h specified." },
+	{ ERR_HEXEN_COMPAT, "Attempt to use feature not supported by Hexen." },
+	{ ERR_NOT_HEXEN, "Cannot save; new features are not compatible with Hexen." },
 	{ ERR_NONE, NULL }
 };
 
