@@ -148,6 +148,7 @@ typedef enum
 	ERR_SCRIPT_NAMED_NONE,
 	ERR_HEXEN_COMPAT,
 	ERR_NOT_HEXEN,
+	ERR_SPECIAL_RANGE,
 } error_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------

@@ -1545,7 +1545,7 @@ static void LeadingLineSpecial(boolean executewait)
 	int argCountMin;
 	int argCountMax;
 	int argSave[8];
-	U_BYTE specialValue;
+	U_INT specialValue;
 	boolean direct;
 
 	MS_Message(MSG_DEBUG, "---- LeadingLineSpecial ----\n");
@@ -1620,6 +1620,10 @@ static void LeadingLineSpecial(boolean executewait)
 		}
 		else
 		{
+			if (specialValue > 255)
+			{
+				ERR_Error(ERR_SPECIAL_RANGE, YES);
+			}
 			PC_AppendByte(specialValue);
 		}
 		if(executewait)

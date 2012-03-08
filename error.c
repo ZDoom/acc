@@ -180,6 +180,7 @@ static struct
 	{ ERR_SCRIPT_NAMED_NONE, "Scripts may not be named \"None\"." },
 	{ ERR_HEXEN_COMPAT, "Attempt to use feature not supported by Hexen." },
 	{ ERR_NOT_HEXEN, "Cannot save; new features are not compatible with Hexen." },
+	{ ERR_SPECIAL_RANGE, "Line specials with values higher than 255 require #nocompact." },
 	{ ERR_NONE, NULL }
 };
 
