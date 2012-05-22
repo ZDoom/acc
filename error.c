@@ -169,7 +169,7 @@ static struct
 	{ ERR_LOCAL_VAR_SHADOWED, "A global identifier already has this name." },
 	{ ERR_MULTIPLE_IMPORTS, "You can only #import one file." },
 	{ ERR_IMPORT_IN_EXPORT, "You cannot #import from inside an imported file." },
-	{ ERR_EXPORTER_NOT_FLAGGED, "A file that you #import must have an #imported line." },
+	{ ERR_EXPORTER_NOT_FLAGGED, "A file that you #import must have a #library line." },
 	{ ERR_TOO_MANY_IMPORTS, "Too many files imported." },
 	{ ERR_NO_NEED_ARRAY_SIZE, "Only map arrays need a size." },
 	{ ERR_NO_MULTIDIMENSIONS, "Only map arrays can have more than one dimension." },
