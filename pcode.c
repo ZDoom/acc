@@ -466,6 +466,12 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_PRINTHEX",
 	"PCD_CALLFUNC",
 	"PCD_SAVESTRING",		// [FDARI]
+	"PCD_PRINTMAPCHRANGE",	// [FDARI] output range
+	"PCD_PRINTWORLDCHRANGE",
+	"PCD_PRINTGLOBALCHRANGE",
+	"PCD_STRCPYTOMAPCHRANGE",	// [FDARI] input range
+	"PCD_STRCPYTOWORLDCHRANGE",
+	"PCD_STRCPYTOGLOBALCHRANGE",
 };
 
 // CODE --------------------------------------------------------------------
