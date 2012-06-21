@@ -265,13 +265,16 @@
 
 // Render Styles ------------------------------------------------------------
 
-#define STYLE_None		0	// Do not draw
+#define STYLE_None			0	// Do not draw
 #define STYLE_Normal		1	// Normal; just copy the image to the screen
-#define STYLE_Fuzzy		2	// Draw silhouette using "fuzz" effect
+#define STYLE_Fuzzy			2	// Draw silhouette using "fuzz" effect
 #define STYLE_SoulTrans		3	// Draw translucent with amount in r_transsouls
 #define STYLE_OptFuzzy		4	// Draw as fuzzy or translucent, based on user preference
+#define STYLE_Stencil		5	// Draw as solid color
 #define STYLE_Translucent	64	// Draw translucent
-#define STYLE_Add		65	// Draw additive
+#define STYLE_Add			65	// Draw additive
+#define STYLE_Shaded		66	// 
+#define STYLE_TranslucentStencil 67
 
 // Properties you can use with GetLevelInfo() -------------------------------
 
