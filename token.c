@@ -183,6 +183,7 @@ static struct keyword_s
 	{ "wadauthor", TK_WADAUTHOR },
 	{ "nowadauthor", TK_NOWADAUTHOR },
 	{ "acs_executewait", TK_ACSEXECUTEWAIT },
+	{ "acs_namedexecutewait", TK_ACSNAMEDEXECUTEWAIT },
 	{ "encryptstrings", TK_ENCRYPTSTRINGS },
 	{ "import", TK_IMPORT },
 	{ "library", TK_LIBRARY },

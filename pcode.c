@@ -465,13 +465,16 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_PRINTBINARY",
 	"PCD_PRINTHEX",
 	"PCD_CALLFUNC",
-	"PCD_SAVESTRING",		// [FDARI]
-	"PCD_PRINTMAPCHRANGE",	// [FDARI] output range
+	"PCD_SAVESTRING",			// [FDARI]
+	"PCD_PRINTMAPCHRANGE",		// [FDARI] output range
 	"PCD_PRINTWORLDCHRANGE",
 	"PCD_PRINTGLOBALCHRANGE",
 	"PCD_STRCPYTOMAPCHRANGE",	// [FDARI] input range
 	"PCD_STRCPYTOWORLDCHRANGE",
 	"PCD_STRCPYTOGLOBALCHRANGE",
+	"PCD_PUSHFUNCTION",			// from Eternity
+	"PCD_CALLSTACK",			// from Eternity
+	"PCD_SCRIPTWAITNAMED",
 };
 
 // CODE --------------------------------------------------------------------
@@ -1092,6 +1095,7 @@ void PC_AppendString(char *string)
 
 void PC_AppendCmd(pcd_t command)
 {
+	boolean dupbyte = NO;
 	if (ImportMode != IMPORT_Importing)
 	{
 		pc_LastAppendedCommand = command;
@@ -1105,7 +1109,14 @@ void PC_AppendCmd(pcd_t command)
 		else
 		{
 			U_BYTE cmd;
-			if (command != PCD_PUSHBYTE && PushByteAddr)
+			if (command == PCD_DUP && PushByteAddr)
+			{ // If the last instruction was PCD_PUSHBYTE, convert this PCD_DUP to a
+			  // duplicate PCD_PUSHBYTE, so it can be merged into a single instruction below.
+				command = PCD_PUSHBYTE;
+				dupbyte = YES;
+				MS_Message(MSG_DEBUG, "AC> PCD_DUP changed to PCD_PUSHBYTE\n");
+			}
+			else if (command != PCD_PUSHBYTE && PushByteAddr)
 			{ // Maybe shrink a PCD_PUSHBYTE sequence into PCD_PUSHBYTES
 				int runlen = (pc_Address - PushByteAddr) / 2;
 				int i;
@@ -1120,7 +1131,7 @@ void PC_AppendCmd(pcd_t command)
 					pc_Buffer[PushByteAddr+1] = runlen;
 					pc_Address = PushByteAddr + runlen + 2;
 					pc_BufferPtr = pc_Buffer + pc_Address;
-					MS_Message (MSG_DEBUG, "AC> Last %d PCD_PUSHBYTEs changed to #%d:PCD_PUSHBYTES\n",
+					MS_Message(MSG_DEBUG, "AC> Last %d PCD_PUSHBYTEs changed to #%d:PCD_PUSHBYTES\n",
 						runlen, PCD_PUSHBYTES);
 				}
 				else if (runlen > 1)
@@ -1132,12 +1143,12 @@ void PC_AppendCmd(pcd_t command)
 					}
 					pc_Address = PushByteAddr + runlen + 1;
 					pc_BufferPtr = pc_Buffer + pc_Address;
-					MS_Message (MSG_DEBUG, "AC> Last %d PCD_PUSHBYTEs changed to #%d:PCD_PUSH%dBYTES\n",
+					MS_Message(MSG_DEBUG, "AC> Last %d PCD_PUSHBYTEs changed to #%d:PCD_PUSH%dBYTES\n",
 						runlen, PCD_PUSH2BYTES+runlen-2, runlen);
 				}
 				PushByteAddr = 0;
 			}
-			else if (command == PCD_PUSHBYTE && PushByteAddr == 0)
+			else if(command == PCD_PUSHBYTE && PushByteAddr == 0)
 			{ // Remember the first PCD_PUSHBYTE, in case there are more
 				PushByteAddr = pc_Address;
 			}
@@ -1158,6 +1169,10 @@ void PC_AppendCmd(pcd_t command)
 				Append(&cmd, sizeof(U_BYTE));
 				cmd = (command - (256-16)) & 255;
 				Append(&cmd, sizeof(U_BYTE));
+			}
+			if (dupbyte)
+			{
+				PC_AppendByte(pc_Buffer[pc_Address-2]);
 			}
 		}
 	}

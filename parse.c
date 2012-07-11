@@ -94,7 +94,7 @@ static boolean ProcessStatement(statement_t owner);
 static void LeadingCompoundStatement(statement_t owner);
 static void LeadingVarDeclare(void);
 static void LeadingLineSpecial(boolean executewait);
-static void LeadingFunction();
+static void LeadingFunction(boolean executewait);
 static void LeadingIdentifier(void);
 static void BuildPrintString(void);
 static void ActionOnCharRange(boolean write);
@@ -1310,13 +1310,18 @@ static boolean ProcessStatement(statement_t owner)
 			}
 			else
 			{
-				LeadingFunction();
+				LeadingFunction(NO);
 			}
 			break;
 		case TK_ACSEXECUTEWAIT:
 			tk_SpecialArgCount = 1 | (5<<16);
 			tk_SpecialValue = 80;
 			LeadingLineSpecial(YES);
+			break;
+		case TK_ACSNAMEDEXECUTEWAIT:
+			tk_SpecialArgCount = 1 | (5<<16);
+			tk_SpecialValue = -39;
+			LeadingFunction(YES);
 			break;
 		case TK_RESTART:
 			LeadingRestart();
@@ -1684,7 +1689,7 @@ static void LeadingLineSpecial(boolean executewait)
 //
 //==========================================================================
 
-static void LeadingFunction()
+static void LeadingFunction(boolean executewait)
 {
 	int i;
 	int argCount;
@@ -1718,6 +1723,10 @@ static void LeadingFunction()
 			}
 			TK_NextToken();
 			EvalExpression();
+			if (i == 0 && executewait)
+			{
+				PC_AppendCmd(PCD_DUP);
+			}
 			if(i < argCountMax)
 			{
 				i++;
@@ -1750,6 +1759,10 @@ static void LeadingFunction()
 		PC_AppendWord((U_WORD)specialValue);
 	}
 	PC_AppendCmd(PCD_DROP);
+	if(executewait)
+	{
+		PC_AppendCmd(PCD_SCRIPTWAITNAMED);
+	}
 	TK_NextToken();
 }
 

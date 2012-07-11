@@ -113,6 +113,7 @@ typedef enum
 	TK_WADAUTHOR,		// 'wadauthor'
 	TK_NOWADAUTHOR,		// 'nowadauthor'
 	TK_ACSEXECUTEWAIT,	// 'acs_executewait'
+	TK_ACSNAMEDEXECUTEWAIT,// 'acs_namedexecutewait'
 	TK_ENCRYPTSTRINGS,	// 'encryptstrings'
 	TK_IMPORT,			// 'import'
 	TK_LIBRARY,			// 'library'

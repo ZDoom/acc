@@ -57,7 +57,8 @@ static internFuncDef_t InternalFunctions[] =
 {
 	{ "tagwait", PCD_TAGWAITDIRECT, PCD_TAGWAIT, 1, 0, 0, NO, YES },
 	{ "polywait", PCD_POLYWAITDIRECT, PCD_POLYWAIT, 1, 0, 0, NO, YES },
-	{ "scriptwait", PCD_SCRIPTWAITDIRECT, PCD_SCRIPTWAIT, 1, 0, 0, NO, YES},
+	{ "scriptwait", PCD_SCRIPTWAITDIRECT, PCD_SCRIPTWAIT, 1, 0, 0, NO, YES },
+	{ "namedscriptwait", PCD_NOP, PCD_SCRIPTWAITNAMED, 1, 0, 0, NO, YES },
 	{ "delay", PCD_DELAYDIRECT, PCD_DELAY, 1, 0, 0, NO, YES },
 	{ "random", PCD_RANDOMDIRECT, PCD_RANDOM, 2, 0, 0, YES, NO },
 	{ "thingcount", PCD_THINGCOUNTDIRECT, PCD_THINGCOUNT, 2, 0, 0, YES, NO },
