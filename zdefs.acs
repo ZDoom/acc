@@ -719,7 +719,7 @@
 
 // Skulltag Armor/Health Items ----------------------------------------------
 #define T_MAXHEALTHBONUS		166
-#define T_MASARMORBONUS			167
+#define T_MAXARMORBONUS			167
 #define T_REDARMOR				168
 
 // Skulltag Powerups --------------------------------------------------------
