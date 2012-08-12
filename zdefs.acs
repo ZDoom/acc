@@ -204,11 +204,26 @@
 
 // OR this with one of the above to log the hudmessage to the console.
 // i.e. instead of HUDMSG_PLAIN, you can use HUDMSG_PLAIN | HUDMSG_LOG
-#define HUDMSG_LOG	0x80000000
+#define HUDMSG_LOG					0x80000000
 
 // OR this with one of the above if the color you passed is a string
 // instead of one of the CR_ constants.
-#define HUDMSG_COLORSTRING	0x40000000
+#define HUDMSG_COLORSTRING			0x40000000
+
+// OR this with one of the above to use additive blending when drawing the
+// HUD message.
+#define HUDMSG_ADDBLEND				0x20000000
+
+// HUD message layers; these are not flags
+#define HUDMSG_LAYER_OVERHUD		0x00000000
+#define HUDMSG_LAYER_UNDERHUD		0x00001000
+#define HUDMSG_LAYER_OVERMAP		0x00002000
+
+// HUD message visibility flags
+#define HUDMSG_NOTWITH3DVIEW		0x00010000
+#define HUDMSG_NOTWITHFULLMAP		0x00020000
+#define HUDMSG_NOTWITHOVERLAYMAP	0x00040000
+
 
 // "Scripted" Marine weapon types -------------------------------------------
 
