@@ -314,6 +314,8 @@
 #define PLAYERINFO_MOVEBOB		5
 #define PLAYERINFO_STILLBOB		6
 #define PLAYERINFO_PLAYERCLASS	7
+#define PLAYERINFO_FOV			8
+#define PLAYERINFO_DESIREDFOV	9
 
 
 // Flags for ReplaceTextures ------------------------------------------------
