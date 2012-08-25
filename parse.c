@@ -1629,7 +1629,7 @@ static void LeadingLineSpecial(boolean executewait)
 			{
 				ERR_Error(ERR_SPECIAL_RANGE, YES);
 			}
-			PC_AppendByte(specialValue);
+			PC_AppendByte((U_BYTE)specialValue);
 		}
 		if(executewait)
 		{
@@ -1658,7 +1658,7 @@ static void LeadingLineSpecial(boolean executewait)
 				}
 			}
 			PC_AppendCmd((argCount-1)+(useintform?PCD_LSPEC1DIRECT:PCD_LSPEC1DIRECTB));
-			PC_AppendByte(specialValue);
+			PC_AppendByte((U_BYTE)specialValue);
 		}
 		if (useintform)
 		{
