@@ -475,6 +475,7 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_PUSHFUNCTION",			// from Eternity
 	"PCD_CALLSTACK",			// from Eternity
 	"PCD_SCRIPTWAITNAMED",
+	"PCD_TRANSLATIONRANGE3",
 };
 
 // CODE --------------------------------------------------------------------

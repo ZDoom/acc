@@ -424,6 +424,7 @@ typedef enum
 	PCD_PUSHFUNCTION,		// from Eternity
 	PCD_CALLSTACK,			// from Eternity
 	PCD_SCRIPTWAITNAMED,
+	PCD_TRANSLATIONRANGE3,
 
 	PCODE_COMMAND_COUNT
 } pcd_t;
