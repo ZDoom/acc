@@ -145,7 +145,7 @@ static internFuncDef_t InternalFunctions[] =
 	{ "vectorangle", PCD_NOP, PCD_VECTORANGLE, 2, 0, 0, YES, NO },
 	{ "vectorlength", PCD_NOP, PCD_VECTORLENGTH, 2, 0, 0, YES, NO },
 	{ "sqrt", PCD_NOP, PCD_SQRT, 1, 0, 0, YES, NO },
-	{ "fixedsqrt", PCD_NOP, PCD_SQRT, 1, 0, 0, YES, NO },
+	{ "fixedsqrt", PCD_NOP, PCD_FIXEDSQRT, 1, 0, 0, YES, NO },
 	{ "checkweapon", PCD_NOP, PCD_CHECKWEAPON, 1, 0, 0, YES, NO },
 	{ "setweapon", PCD_NOP, PCD_SETWEAPON, 1, 0, 0, YES, NO },
 	{ "setmarineweapon", PCD_NOP, PCD_SETMARINEWEAPON, 2, 0, 0, NO, NO },
