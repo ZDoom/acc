@@ -292,6 +292,12 @@ special
 	-48:Sqrt(1),
 	-49:FixedSqrt(1),
 	-50:VectorLength(2),
-
+	-51:SetHUDClipRect(4,5),
+	-52:SetHUDWrapWidth(1),
+	
+	// ZDaemon's
+	-19260:GetTeamScore(1),
+	-19261:SetTeamScore(2),
+	
 	-1000:__EndOfList__(10);
 	

@@ -217,6 +217,9 @@
 // OR this with one of the above to use the extra alpha parameter
 #define HUDMSG_ALPHA				0x10000000
 
+// Or this with one of the above to not wrap lines
+#define HUDMSG_NOWRAP				0x08000000
+
 // HUD message layers; these are not flags
 #define HUDMSG_LAYER_OVERHUD		0x00000000
 #define HUDMSG_LAYER_UNDERHUD		0x00001000
