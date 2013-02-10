@@ -103,7 +103,7 @@ special
 	 96:FloorAndCeiling_RaiseByValue(3),
 	 97:Ceiling_LowerAndCrushDist(3,5),
 	 98:Sector_SetTranslucent(3,4),
-
+	 99:Floor_RaiseAndCrushDoom(3,4),
 //	100:Scroll_Texture_Left
 //	101:Scroll_Texture_Right
 //	102:Scroll_Texture_Up
