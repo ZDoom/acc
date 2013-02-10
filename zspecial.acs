@@ -148,10 +148,10 @@ special
 	154:Teleport_NoStop(2, 3),
 
 	157:SetGlobalFogParameter(2),		// GZDoom only!
-	158:FS_Execute(1,4),				// GZDoom only!
+	158:FS_Execute(1,4),
 	159:Sector_SetPlaneReflection(3),	// GZDoom only!
-//	160:Sector_Set3DFloor				// GZDoom/Vavoom
-//	161:Sector_SetContents				// Vavoom
+//	160:Sector_Set3DFloor
+//	161:Sector_SetContents
 	
 	168:Ceiling_CrushAndRaiseDist(3,5),
 	169:Generic_Crusher2(5),
