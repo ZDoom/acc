@@ -16,7 +16,7 @@ EXENAME = acc
 endif
 endif
 
-CFLAGS ?= -Os -Wall -W -fomit-frame-pointer
+CFLAGS ?= -O2 -Wall -W
 LDFLAGS ?= -s
 VERNUM = 153
 
