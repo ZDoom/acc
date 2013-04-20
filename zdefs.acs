@@ -283,8 +283,9 @@
 #define APROP_Mass			32
 #define APROP_Accuracy      33
 #define APROP_Stamina       34
-#define APROP_Height	35
-#define APROP_Radius	36
+#define APROP_Height		35
+#define APROP_Radius		36
+#define APROP_Reactiontime	37
 
 // Render Styles ------------------------------------------------------------
 
