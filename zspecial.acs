@@ -294,6 +294,9 @@ special
 	-50:VectorLength(2),
 	-51:SetHUDClipRect(4,5),
 	-52:SetHUDWrapWidth(1),
+	-53:SetCVar(2),
+	-54:GetUserCVar(2),
+	-55:SetUserCVar(3),
 	
 	// ZDaemon's
 	-19260:GetTeamScore(1),
