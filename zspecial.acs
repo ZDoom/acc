@@ -297,6 +297,10 @@ special
 	-53:SetCVar(2),
 	-54:GetUserCVar(2),
 	-55:SetUserCVar(3),
+	-56:GetCVarString(1),
+	-57:SetCVarString(2),
+	-58:GetUserCVarString(2),
+	-59:SetUserCVarString(3),
 	
 	// ZDaemon's
 	-19260:GetTeamScore(1),
