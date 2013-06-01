@@ -675,6 +675,21 @@
 #define SECSEQ_FULLHEIGHT		3
 #define SECSEQ_INTERIOR			4
 
+// Channels for PlaySound and StopSound
+
+#define CHAN_AUTO				0
+#define CHAN_WEAPON				1
+#define CHAN_VOICE				2
+#define CHAN_ITEM				3
+#define CHAN_BODY				4
+
+// Standard attenuation values for PlaySound
+
+#define ATTN_NONE				0		// full volume the entire level
+#define ATTN_NORM				1.0
+#define ATTN_IDLE				1.001
+#define ATTN_STATIC				3.0		// dimish very rapidly with distance
+
 // Actor pointer selectors
 
 #DEFINE	AAPTR_DEFAULT 0
