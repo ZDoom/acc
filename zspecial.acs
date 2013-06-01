@@ -312,6 +312,7 @@ special
 	-67:StrMid(3),
 	-68:GetActorClass(1),
 	-69:GetWeapon(0),
+	-70:SoundVolume(3),
 	
 	// ZDaemon's
 	-19260:GetTeamScore(1),
