@@ -286,6 +286,7 @@
 #define APROP_Height		35
 #define APROP_Radius		36
 #define APROP_Reactiontime	37
+#defien APROP_MeleeRange	38
 
 // Render Styles ------------------------------------------------------------
 
