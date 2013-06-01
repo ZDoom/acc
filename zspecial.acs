@@ -310,6 +310,8 @@ special
 	-65:StrLeft(2),
 	-66:StrRight(2),
 	-67:StrMid(3),
+	-68:GetActorClass(1),
+	-69:GetWeapon(0),
 	
 	// ZDaemon's
 	-19260:GetTeamScore(1),
