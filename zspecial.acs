@@ -314,9 +314,18 @@ special
 	-69:GetWeapon(0),
 	-70:SoundVolume(3),
 	
+	// Zandronum's
+	-100:ResetMap(0),
+	-101:PlayerIsSpectator(1),
+	-102:ConsolePlayerNumber(0),
+	-103:GetTeamProperty(2),
+	-104:GetPlayerLivesLeft(1),
+	-105:SetPlayerLivesLeft(2),
+	-106:KickFromGame(2),
+	
 	// ZDaemon's
 	-19260:GetTeamScore(1),
 	-19261:SetTeamScore(2),
 	
-	-1000:__EndOfList__(10);
+	-100000:__EndOfList__(10);
 	

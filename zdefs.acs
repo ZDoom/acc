@@ -735,6 +735,26 @@
 #define TEAM_RED				1
 #define NO_TEAM					2
 
+// Team properties ----------------------------------------------------------
+#define TPROP_Name				0
+#define TPROP_Score				1
+#define TPROP_IsValid			2
+#define TPROP_NumPlayers		3
+#define TPROP_NumLivePlayers	4
+#define TPROP_TextColor			5
+#define TPROP_PlayerStartNum	6
+#define TPROP_Spread			7
+#define TPROP_Carrier			8
+#define TPROP_Assister			9
+#define TPROP_FragCount			10
+#define TPROP_DeathCount		11
+#define TPROP_WinCount			12
+#define TPROP_PointCount		13
+#define TPROP_ReturnTics		14
+#define TPROP_TeamItem			15
+#define TPROP_WinnerTheme		16
+#define TPROP_LoserTheme		17
+
 // Skulltag Invasion --------------------------------------------------------
 #define IS_WAITINGFORPLAYERS	0
 #define IS_FIRSTCOUNTDOWN		1
