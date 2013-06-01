@@ -684,6 +684,13 @@
 #define CHAN_ITEM				3
 #define CHAN_BODY				4
 
+// Modifier flags for PlaySound
+
+#define CHAN_LISTENERZ			8
+#define CHAN_MAYBE_LOCAL		16
+#define CHAN_UI					32
+#define CHAN_NOPAUSE			64
+
 // Standard attenuation values for PlaySound
 
 #define ATTN_NONE				0		// full volume the entire level
