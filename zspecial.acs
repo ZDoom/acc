@@ -304,6 +304,12 @@ special
 	-60:LineAttack(3,6),
 	-61:PlaySound(2,6),
 	-62:StopSound(1,2),
+	-63:strcmp(2,3),
+	-64:stricmp(2,3),
+	-64:strcasecmp(2,3),	// an alias for stricmp
+	-65:StrLeft(2),
+	-66:StrRight(2),
+	-67:StrMid(3),
 	
 	// ZDaemon's
 	-19260:GetTeamScore(1),
