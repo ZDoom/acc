@@ -711,6 +711,10 @@
 #define SOUND_CrushPain			8
 #define SOUND_Howl				9
 
+// Flags for SpawnDecal
+
+#define SDF_ABSANGLE			1
+#define SDF_PERMANENT			2
 
 // Actor pointer selectors
 

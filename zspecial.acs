@@ -314,6 +314,7 @@ special
 	-69:GetWeapon(0),
 	-70:SoundVolume(3),
 	-71:PlayActorSound(2,6),
+	-72:SpawnDecal(2,6),
 	
 	// Zandronum's
 	-100:ResetMap(0),
