@@ -317,6 +317,7 @@ special
 	-72:SpawnDecal(2,6),
 	-73:CheckFont(1),
 	-74:DropItem(2,4),
+	-75:CheckFlag(2),
 	
 	// Zandronum's
 	-100:ResetMap(0),
