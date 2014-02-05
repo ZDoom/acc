@@ -3746,6 +3746,11 @@ static void ConstExprFactor(void)
 		ConstExprFactor();
 		SendExprCommand(PCD_NEGATELOGICAL);
 		break;
+	case TK_TILDE:
+		TK_NextToken();
+		ConstExprFactor();
+		SendExprCommand(PCD_NEGATEBINARY);
+		break;
 	default:
 		ERR_Error(ERR_BAD_CONST_EXPR, YES);
 		PushExStk(0);
@@ -3841,6 +3846,9 @@ static void SendExprCommand(pcd_t pcd)
 			break;
 		case PCD_NEGATELOGICAL:
 			PushExStk(!PopExStk());
+			break;
+		case PCD_NEGATEBINARY:
+			PushExStk(~PopExStk());
 			break;
 		case PCD_LSHIFT:
 			operand2 = PopExStk();
