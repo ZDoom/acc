@@ -3806,19 +3806,19 @@ static void SendExprCommand(pcd_t pcd)
 			break;
 		case PCD_LT:
 			operand2 = PopExStk();
-			PushExStk(PopExStk() >= operand2);
+			PushExStk(PopExStk() < operand2);
 			break;
 		case PCD_GT:
 			operand2 = PopExStk();
-			PushExStk(PopExStk() <= operand2);
+			PushExStk(PopExStk() > operand2);
 			break;
 		case PCD_LE:
 			operand2 = PopExStk();
-			PushExStk(PopExStk() > operand2);
+			PushExStk(PopExStk() <= operand2);
 			break;
 		case PCD_GE:
 			operand2 = PopExStk();
-			PushExStk(PopExStk() < operand2);
+			PushExStk(PopExStk() >= operand2);
 			break;
 		case PCD_ANDLOGICAL:
 			operand2 = PopExStk();
