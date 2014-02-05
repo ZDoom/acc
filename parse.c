@@ -3771,7 +3771,7 @@ static void ConstExprFactor(void)
 
 static void SendExprCommand(pcd_t pcd)
 {
-	int operand2;
+	int operand1, operand2;
 
 	if(ConstantExpression == NO)
 	{
@@ -3821,10 +3821,14 @@ static void SendExprCommand(pcd_t pcd)
 			PushExStk(PopExStk() < operand2);
 			break;
 		case PCD_ANDLOGICAL:
-			PushExStk(PopExStk() && PopExStk());
+			operand2 = PopExStk();
+			operand1 = PopExStk();
+			PushExStk(operand1 && operand2);
 			break;
 		case PCD_ORLOGICAL:
-			PushExStk(PopExStk() || PopExStk());
+			operand2 = PopExStk();
+			operand1 = PopExStk();
+			PushExStk(operand1 || operand2);
 			break;
 		case PCD_ANDBITWISE:
 			PushExStk(PopExStk()&PopExStk());
