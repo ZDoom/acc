@@ -3410,6 +3410,11 @@ static void ExprLevX(int level)
 			unaryMinus = TRUE;
 			TK_NextToken();
 		}
+		if(tk_Token == TK_PLUS)
+		{
+			// Completely ignore unary plus
+			TK_NextToken();
+		}
 		if(ConstantExpression == YES)
 		{
 			ConstExprFactor();
