@@ -318,6 +318,8 @@ special
 	-73:CheckFont(1),
 	-74:DropItem(2,4),
 	-75:CheckFlag(2),
+	-76:SetLineActivation(2),
+	-77:GetLineActivation(1),
 	
 	// Zandronum's
 	-100:ResetMap(0),
