@@ -2103,6 +2103,10 @@ static void ProcessScriptFunc(symbolNode_t *sym, boolean discardReturn)
 	int argCount;
 
 	MS_Message(MSG_DEBUG, "---- ProcessScriptFunc ----\n");
+	if(sym->info.scriptFunc.predefined == YES && discardReturn == NO)
+	{
+		sym->info.scriptFunc.hasReturnValue = YES;
+	}
 	argCount = sym->info.scriptFunc.argCount;
 	TK_NextTokenMustBe(TK_LPAREN, ERR_MISSING_LPAREN);
 	i = 0;
@@ -3694,7 +3698,8 @@ static void ExprFactor(void)
 				ProcessInternFunc(sym);
 				break;
 			case SY_SCRIPTFUNC:
-				if(sym->info.scriptFunc.hasReturnValue == NO)
+				if(sym->info.scriptFunc.predefined == NO
+					&& sym->info.scriptFunc.hasReturnValue == NO)
 				{
 					ERR_Error(ERR_EXPR_FUNC_NO_RET_VAL, YES);
 				}
