@@ -663,9 +663,9 @@ static void OuterScript(void)
 
 		case TK_EVENT:
 			scriptType = EVENT_SCRIPTS_BASE;
-			if(ScriptVarCount != 2)
+			if(ScriptVarCount != 3)
 			{
-				ERR_Error(ERR_EVENT_NEEDS_2_ARG, YES);
+				ERR_Error(ERR_EVENT_NEEDS_3_ARG, YES);
 			}
 			break;
 
@@ -729,7 +729,7 @@ static void OuterScript(void)
 
 	case TK_EVENT:	// [BB]
 		scriptType = EVENT_SCRIPTS_BASE;
-		ERR_Error (ERR_EVENT_NEEDS_2_ARG, YES);
+		ERR_Error (ERR_EVENT_NEEDS_3_ARG, YES);
 		break;
 
 	default:
