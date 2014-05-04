@@ -340,6 +340,7 @@ static struct ScriptTypes ScriptCounts[] =
 	{ "disconnect",		DISCONNECT_SCRIPTS_BASE,	0 },
 	{ "unloading",		UNLOADING_SCRIPTS_BASE,		0 },
 	{ "return",			RETURN_SCRIPTS_BASE,		0 },
+	{ "event",			EVENT_SCRIPTS_BASE,			0 },
 	{ NULL,				-1,							0 }
 };
 
@@ -660,6 +661,14 @@ static void OuterScript(void)
 			ERR_Error(ERR_UNCLOSED_WITH_ARGS, YES);
 			break;
 
+		case TK_EVENT:
+			scriptType = EVENT_SCRIPTS_BASE;
+			if(ScriptVarCount != 2)
+			{
+				ERR_Error(ERR_EVENT_NEEDS_2_ARG, YES);
+			}
+			break;
+
 		default:
 			TK_Undo();
 		}
@@ -716,6 +725,11 @@ static void OuterScript(void)
 	case TK_DISCONNECT:
 		scriptType = DISCONNECT_SCRIPTS_BASE;
 		ERR_Error (ERR_DISCONNECT_NEEDS_1_ARG, YES);
+		break;
+
+	case TK_EVENT:	// [BB]
+		scriptType = EVENT_SCRIPTS_BASE;
+		ERR_Error (ERR_EVENT_NEEDS_2_ARG, YES);
 		break;
 
 	default:

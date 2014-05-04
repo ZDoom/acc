@@ -192,6 +192,7 @@ static struct keyword_s
 	{ "net", TK_NET },
 	{ "clientside", TK_CLIENTSIDE }, // [BB]
 	{ "disconnect", TK_DISCONNECT },
+	{ "event", TK_EVENT }, //[BB]
 	{ "unloading", TK_UNLOADING },
 	{ "static", TK_STATIC },
 	{ "strparam", TK_STRPARAM_EVAL }, // [FDARI]

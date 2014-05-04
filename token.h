@@ -122,6 +122,7 @@ typedef enum
 	TK_NET,				// 'net'
 	TK_CLIENTSIDE,		// 'clientside'
 	TK_DISCONNECT,		// 'disconnect'
+	TK_EVENT,			// 'event'	[BB]
 	TK_UNLOADING,		// 'unloading'
 	TK_STATIC,			// 'static'
 	TK_ANDASSIGN,		// '&='

@@ -178,6 +178,7 @@ static struct
 	{ ERR_HEXEN_COMPAT, "Attempt to use feature not supported by Hexen." },
 	{ ERR_NOT_HEXEN, "Cannot save; new features are not compatible with Hexen." },
 	{ ERR_SPECIAL_RANGE, "Line specials with values higher than 255 require #nocompact." },
+	{ ERR_EVENT_NEEDS_2_ARG, "Event scripts must have 2 arguments." }, // [BB]
 	{ ERR_NONE, NULL }
 };
 

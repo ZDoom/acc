@@ -30,6 +30,7 @@ enum
 	UNLOADING_SCRIPTS_BASE		= 13,
 	DISCONNECT_SCRIPTS_BASE		= 14,
 	RETURN_SCRIPTS_BASE			= 15,
+	EVENT_SCRIPTS_BASE			= 16,	// [BB]
 };
 
 // Values to indicate script flags (requires new-style .o)
