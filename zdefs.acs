@@ -298,6 +298,8 @@
 #define STYLE_SoulTrans		3	// Draw translucent with amount in r_transsouls
 #define STYLE_OptFuzzy		4	// Draw as fuzzy, translucent or shadow, based on user preference
 #define STYLE_Stencil		5	// Draw as solid color
+#define STYLE_AddStencil	6	// Draw as additive solid color
+#define STYLE_AddShaded		7	// 
 #define STYLE_Translucent	64	// Draw translucent
 #define STYLE_Add			65	// Draw additive
 #define STYLE_Shaded		66	// 
