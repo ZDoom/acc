@@ -8,7 +8,7 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "common.h"
 #include "strlist.h"
 #include "error.h"
