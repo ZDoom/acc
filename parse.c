@@ -2259,7 +2259,7 @@ static void ActionOnCharRange(boolean write)
 	if((sym->type != SY_MAPARRAY) && (sym->type != SY_WORLDARRAY)
 		&& (sym->type != SY_GLOBALARRAY))
 	{
-		ERR_Error(ERR_NOT_AN_ARRAY, YES);
+		ERR_Error(ERR_NOT_AN_ARRAY, YES, sym->name);
 	}
 	TK_NextToken();
 	if(sym->info.array.ndim > 1)
