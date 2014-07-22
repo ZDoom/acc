@@ -591,6 +591,7 @@ tokenType_t TK_NextToken(void)
 		AlreadyGot = FALSE;
 		return tk_Token;
 	}
+	tk_String = TokenStringBuffer;
 	validToken = NO;
 	PrevMasterSourcePos = MasterSourcePos;
 	do
@@ -914,8 +915,17 @@ static boolean CheckForConstant(void)
 	{
 		return FALSE;
 	}
-	tk_Token = TK_NUMBER;
-	tk_Number = sym->info.constant.value;
+	if(sym->info.constant.strValue != NULL)
+	{
+		MS_Message(MSG_DEBUG, "Constant string: %s\n", sym->info.constant.strValue);
+		tk_Token = TK_STRING;
+		tk_String = sym->info.constant.strValue;
+	}
+	else
+	{
+		tk_Token = TK_NUMBER;
+		tk_Number = sym->info.constant.value;
+	}
 	return TRUE;
 }
 

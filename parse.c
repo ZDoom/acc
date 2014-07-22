@@ -1223,6 +1223,7 @@ static void OuterDefine(boolean force)
 	value = EvalConstExpression();
 	MS_Message(MSG_DEBUG, "Constant value: %d\n", value);
 	sym->info.constant.value = value;
+	sym->info.constant.strValue = pa_ConstExprIsString ? strdup(STR_Get(value)) : NULL;
 	// Defines inside an import are deleted when the import is popped.
 	if(ImportMode != IMPORT_Importing || force)
 	{

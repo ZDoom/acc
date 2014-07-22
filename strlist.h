@@ -20,6 +20,7 @@
 
 void STR_Init(void);
 int STR_Find(char *name);
+char *STR_Get(int index);
 void STR_WriteStrings(void);
 void STR_WriteList(void);
 int STR_FindLanguage(char *name);

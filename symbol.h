@@ -64,6 +64,7 @@ typedef struct
 typedef struct
 {
 	int value;
+	char *strValue;
 	int fileDepth;
 } symConstant_t;
 

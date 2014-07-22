@@ -523,6 +523,11 @@ static void DeleteNode(symbolNode_t *node, symbolNode_t **parent_p)
 	symbolNode_t **temp;
 	char *nametemp;
 
+	if(node->type == SY_CONSTANT && node->info.constant.strValue != NULL)
+	{
+		free(node->info.constant.strValue);
+		node->info.constant.strValue = NULL;
+	}
 	if(node->left == NULL)
 	{
 		*parent_p = node->right;
