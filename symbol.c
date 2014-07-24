@@ -210,6 +210,7 @@ static char *SymbolTypeNames[] =
 	"SY_MAPVAR",
 	"SY_WORLDVAR",
 	"SY_GLOBALVAR",
+	"SY_SCRIPTARRAY",
 	"SY_MAPARRAY",
 	"SY_WORLDARRAY",
 	"SY_GLOBALARRAY",
@@ -279,7 +280,7 @@ symbolNode_t *SY_FindGlobal(char *name)
 		sym->unused = NO;
 		if(sym->type == SY_SCRIPTFUNC)
 		{
-			PC_AddFunction(sym);
+			PC_AddFunction(sym, 0, NULL);
 		}
 		else if(sym->type == SY_MAPVAR)
 		{

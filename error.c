@@ -80,6 +80,8 @@ static struct
 	{ ERR_TOO_MANY_MAP_VARS, "Too many map variables." },
 	{ ERR_TOO_MANY_SCRIPT_VARS, "Too many script variables." },
 	{ ERR_TOO_MANY_FUNCTION_VARS, "Too many function variables." },
+	{ ERR_TOO_MANY_SCRIPT_ARRAYS, "Too many script arrays." },
+	{ ERR_TOO_MANY_FUNCTION_ARRAYS, "Too many function arrays." },
 	{ ERR_MISSING_WVAR_INDEX, "Missing index in world variable declaration." },
 	{ ERR_MISSING_GVAR_INDEX, "Missing index in global variable declaration." },
 	{ ERR_BAD_WVAR_INDEX, "World variable index out of range." },

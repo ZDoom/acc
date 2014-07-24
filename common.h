@@ -56,6 +56,8 @@
 
 #define MAX_IMPORTS 256
 
+#define MAX_SCRIPT_ARRAYS 255
+
 // Max number of include paths the user can specify
 // This includes the "working directory"!
 #define MAX_INCLUDE_PATHS 16

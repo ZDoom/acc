@@ -426,6 +426,24 @@ typedef enum
 	PCD_SCRIPTWAITNAMED,
 	PCD_TRANSLATIONRANGE3,
 
+	PCD_ASSIGNSCRIPTARRAY,
+	PCD_PUSHSCRIPTARRAY,
+	PCD_ADDSCRIPTARRAY,
+	PCD_SUBSCRIPTARRAY,
+	PCD_MULSCRIPTARRAY,
+	PCD_DIVSCRIPTARRAY,
+	PCD_MODSCRIPTARRAY,
+	PCD_INCSCRIPTARRAY,
+	PCD_DECSCRIPTARRAY,
+	PCD_ANDSCRIPTARRAY,
+	PCD_EORSCRIPTARRAY,
+	PCD_ORSCRIPTARRAY,
+	PCD_LSSCRIPTARRAY,
+	PCD_RSSCRIPTARRAY,
+	PCD_PRINTSCRIPTCHARARRAY,
+	PCD_PRINTSCRIPTCHRANGE,
+	PCD_STRCPYTOSCRIPTCHRANGE,
+
 	PCODE_COMMAND_COUNT
 } pcd_t;
 
@@ -452,8 +470,8 @@ void PC_Skip(size_t size);
 //void PC_SkipWord(void);
 void PC_SkipInt(void);
 void PC_AddScript(int number, int type, int flags, int argCount);
-void PC_SetScriptVarCount(int number, int type, int varCount);
-void PC_AddFunction(struct symbolNode_s *sym);
+void PC_SetScriptVarCount(int number, int type, int varCount, int arrayCount, int *arraySizes);
+void PC_AddFunction(struct symbolNode_s *sym, int arrayCount, int *sizes);
 void PC_PutMapVariable(int index, int value);
 void PC_NameMapVariable(int index, struct symbolNode_s *sym);
 void PC_AddArray(int index, int size);

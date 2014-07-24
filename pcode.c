@@ -28,11 +28,13 @@ typedef struct scriptInfo_s
 	S_WORD number;
 	U_BYTE type;
 	U_BYTE argCount;
+	U_BYTE arrayCount;
 	U_WORD varCount;
 	U_WORD flags;
 	int address;
 	int srcLine;
 	boolean imported;
+	int arraySizes[MAX_SCRIPT_ARRAYS];
 } scriptInfo_t;
 
 typedef struct functionInfo_s
@@ -40,8 +42,10 @@ typedef struct functionInfo_s
 	U_BYTE hasReturnValue;
 	U_BYTE argCount;
 	U_BYTE localCount;
+	U_BYTE arrayCount;
 	int address;
 	int name;
+	int arraySizes[MAX_SCRIPT_ARRAYS];
 } functionInfo_t;
 
 typedef struct mapVarInfo_s
@@ -103,6 +107,7 @@ static int PushByteAddr;
 static char Imports[MAX_IMPORTS][9];
 static int NumImports;
 static boolean HaveExtendedScripts;
+static boolean HaveScriptArrays;
 
 static char *PCDNames[PCODE_COMMAND_COUNT] =
 {
@@ -476,6 +481,23 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_CALLSTACK",			// from Eternity
 	"PCD_SCRIPTWAITNAMED",
 	"PCD_TRANSLATIONRANGE3",
+	"PCD_ASSIGNSCRIPTARRAY",
+	"PCD_PUSHSCRIPTARRAY",
+	"PCD_ADDSCRIPTARRAY",
+	"PCD_SUBSCRIPTARRAY",
+	"PCD_MULSCRIPTARRAY",
+	"PCD_DIVSCRIPTARRAY",
+	"PCD_MODSCRIPTARRAY",
+	"PCD_INCSCRIPTARRAY",
+	"PCD_DECSCRIPTARRAY",
+	"PCD_ANDSCRIPTARRAY",
+	"PCD_EORSCRIPTARRAY",
+	"PCD_ORSCRIPTARRAY",
+	"PCD_LSSCRIPTARRAY",
+	"PCD_RSSCRIPTARRAY",
+	"PCD_PRINTSCRIPTCHARARRAY",
+	"PCD_PRINTSCRIPTCHRANGE",
+	"PCD_STRCPYTOSCRIPTCHRANGE",
 };
 
 // CODE --------------------------------------------------------------------
@@ -523,7 +545,8 @@ void PC_CloseObject(void)
 	}
 	if(!pc_NoShrink || (NumLanguages > 1) || (NumStringLists > 0) ||
 		(pc_FunctionCount > 0) || MapVariablesInit || NumArrays != 0 ||
-		pc_EncryptStrings || NumImports != 0 || HaveExtendedScripts)
+		pc_EncryptStrings || NumImports != 0 || HaveExtendedScripts ||
+		HaveScriptArrays)
 	{
 		if(pc_EnforceHexen)
 		{
@@ -672,9 +695,25 @@ static void CloseNew(void)
 		}
 	}
 
+	// Add chunks for scripts with arrays
+	for(i = 0; i < pc_ScriptCount; ++i)
+	{
+		if(ScriptInfo[i].arrayCount)
+		{
+			PC_Append("SARY", 4);
+			PC_AppendInt(2 + ScriptInfo[i].arrayCount * 4);
+			PC_AppendWord(ScriptInfo[i].number);
+			for(j = 0; j < ScriptInfo[i].arrayCount; ++j)
+			{
+				PC_AppendInt(ScriptInfo[i].arraySizes[j]);
+			}
+		}
+	}
+
 	// Write the string table for named scripts.
 	STR_WriteListChunk(STRLIST_NAMEDSCRIPTS, MAKE4CC('S','N','A','M'), NO);
 
+	// Write the functions provided by this file.
 	if(pc_FunctionCount > 0)
 	{
 		PC_Append("FUNC", 4);
@@ -693,6 +732,22 @@ static void CloseNew(void)
 		}
 		STR_WriteListChunk(STRLIST_FUNCTIONS, MAKE4CC('F','N','A','M'), NO);
 	}
+
+	// Add chunks for functions with arrays
+	for(i = 0; i < pc_FunctionCount; ++i)
+	{
+		if(FunctionInfo[i].arrayCount)
+		{
+			PC_Append("FARY", 4);
+			PC_AppendInt(2 + FunctionInfo[i].arrayCount * 4);
+			PC_AppendWord(i);
+			for(j = 0; j < FunctionInfo[i].arrayCount; ++j)
+			{
+				PC_AppendInt(FunctionInfo[i].arraySizes[j]);
+			}
+		}
+	}
+
 
 	if(NumLanguages > 1)
 	{
@@ -1426,6 +1481,7 @@ void PC_AddScript(int number, int type, int flags, int argCount)
 		script->flags = flags;
 		script->srcLine = tk_Line;
 		script->imported = (ImportMode == IMPORT_Importing) ? YES : NO;
+		script->arrayCount = 0;
 		pc_ScriptCount++;
 	}
 }
@@ -1439,7 +1495,7 @@ void PC_AddScript(int number, int type, int flags, int argCount)
 //
 //==========================================================================
 
-void PC_SetScriptVarCount(int number, int type, int varCount)
+void PC_SetScriptVarCount(int number, int type, int varCount, int arrayCount, int *arraySizes)
 {
 	int i;
 
@@ -1448,6 +1504,12 @@ void PC_SetScriptVarCount(int number, int type, int varCount)
 		if(ScriptInfo[i].number == number && ScriptInfo[i].type == type)
 		{
 			ScriptInfo[i].varCount = varCount;
+			if (arrayCount > 0 && arrayCount < MAX_SCRIPT_ARRAYS)
+			{
+				ScriptInfo[i].arrayCount = (U_BYTE)arrayCount;
+				memcpy(ScriptInfo[i].arraySizes, arraySizes, arrayCount * sizeof(int));
+				HaveScriptArrays = YES;
+			}
 			break;
 		}
 	}
@@ -1459,7 +1521,7 @@ void PC_SetScriptVarCount(int number, int type, int varCount)
 //
 //==========================================================================
 
-void PC_AddFunction(symbolNode_t *sym)
+void PC_AddFunction(symbolNode_t *sym, int arrayCount, int *arraySizes)
 {
 	functionInfo_t *function;
 
@@ -1479,6 +1541,16 @@ void PC_AddFunction(symbolNode_t *sym)
 	function->name = STR_AppendToList (STRLIST_FUNCTIONS, sym->name);
 	function->address = sym->info.scriptFunc.address;
 	sym->info.scriptFunc.funcNumber = pc_FunctionCount;
+	if (arrayCount > 0 && arrayCount < MAX_SCRIPT_ARRAYS)
+	{
+		function->arrayCount = (U_BYTE)arrayCount;
+		memcpy(function->arraySizes, arraySizes, arrayCount * sizeof(int));
+		HaveScriptArrays = YES;
+	}
+	else
+	{
+		function->arrayCount = 0;
+	}
 	pc_FunctionCount++;
 }
 
