@@ -543,7 +543,7 @@ void PC_CloseObject(void)
 	{
 		PC_AppendByte (0);
 	}
-	if(!pc_NoShrink || (NumLanguages > 1) || (NumStringLists > 0) ||
+	if(!pc_NoShrink || (NumStringLists > 0) ||
 		(pc_FunctionCount > 0) || MapVariablesInit || NumArrays != 0 ||
 		pc_EncryptStrings || NumImports != 0 || HaveExtendedScripts ||
 		HaveScriptArrays)
@@ -749,16 +749,9 @@ static void CloseNew(void)
 	}
 
 
-	if(NumLanguages > 1)
+	if(STR_ListSize() > 0)
 	{
-		for(i = 0; i < NumLanguages; i++)
-		{
-			STR_WriteChunk(i, pc_EncryptStrings);
-		}
-	}
-	else if(STR_ListSize(0) > 0)
-	{
-		STR_WriteChunk(0, pc_EncryptStrings);
+		STR_WriteChunk(pc_EncryptStrings);
 	}
 
 	STR_WriteListChunk(STRLIST_PICS, MAKE4CC('P','I','C','S'), NO);

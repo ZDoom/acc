@@ -50,8 +50,6 @@
 // Added Ty 07Jan2000 for error details
 #define MAX_STATEMENT_LENGTH 4096
 
-#define MAX_LANGUAGES 256
-
 #define MAX_FUNCTION_COUNT 256
 
 #define MAX_IMPORTS 256
