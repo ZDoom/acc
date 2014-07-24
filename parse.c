@@ -500,6 +500,10 @@ static void Outside(void)
 				{
 					MS_Message(MSG_DEBUG, "Allocations modified for exporting\n");
 					ImportMode = IMPORT_Exporting;
+					if(pc_EnforceHexen)
+					{
+						ERR_Error(ERR_HEXEN_COMPAT, YES);
+					}
 				}
 				else if(ImportMode == IMPORT_Importing)
 				{
@@ -868,6 +872,10 @@ static void OuterFunction(void)
 			TK_NextToken();
 		} while(tk_Token == TK_COMMA);
 		TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
+	}
+	if(pc_EnforceHexen)
+	{
+		ERR_Error(ERR_HEXEN_COMPAT, YES);
 	}
 
 	sym->info.scriptFunc.sourceLine = defLine;

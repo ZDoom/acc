@@ -1529,11 +1529,6 @@ void PC_AddFunction(symbolNode_t *sym, int arrayCount, int *arraySizes)
 	{
 		ERR_Error(ERR_TOO_MANY_FUNCTIONS, YES, NULL);
 	}
-	else if(pc_EnforceHexen)
-	{
-		ERR_Error(ERR_HEXEN_COMPAT, YES);
-	}
-
 	function = &FunctionInfo[pc_FunctionCount];
 	function->hasReturnValue = (U_BYTE)sym->info.scriptFunc.hasReturnValue;
 	function->argCount = (U_BYTE)sym->info.scriptFunc.argCount;
