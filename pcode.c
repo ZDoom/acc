@@ -741,7 +741,7 @@ static void CloseNew(void)
 		{
 			PC_Append("FARY", 4);
 			PC_AppendInt(2 + FunctionInfo[i].arrayCount * 4);
-			PC_AppendWord(i);
+			PC_AppendWord((U_WORD)i);
 			for(j = 0; j < FunctionInfo[i].arrayCount; ++j)
 			{
 				PC_AppendInt(FunctionInfo[i].arraySizes[j]);
