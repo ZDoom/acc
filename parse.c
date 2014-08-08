@@ -143,8 +143,11 @@ static pcd_t TokenToPCD(tokenType_t token);
 static pcd_t GetPushVarPCD(symbolType_t symType);
 static pcd_t GetIncDecPCD(tokenType_t token, symbolType_t symbol);
 static int EvalConstExpression(void);
+static void ParseArrayDims(int *size, int *ndim, int dims[MAX_ARRAY_DIMS]);
+static void SymToArray(int symtype, symbolNode_t *sym, int index, int ndim, int size, int dims[MAX_ARRAY_DIMS]);
 static void ParseArrayIndices(symbolNode_t *sym, int requiredIndices);
 static void InitializeArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS], int size);
+static void InitializeScriptArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS], int size);
 static symbolNode_t *DemandSymbol(char *name);
 static symbolNode_t *SpeculateSymbol(char *name, boolean hasReturn);
 static symbolNode_t *SpeculateFunction(const char *name, boolean hasReturn);
@@ -171,6 +174,8 @@ boolean pa_ConstExprIsString;
 // PRIVATE DATA DEFINITIONS ------------------------------------------------
 
 static int ScriptVarCount;
+static int ScriptArrayCount;
+static int ScriptArraySize[MAX_SCRIPT_ARRAYS];
 static statement_t StatementHistory[MAX_STATEMENT_DEPTH];
 static int StatementIndex;
 static breakInfo_t BreakInfo[MAX_BREAK];
@@ -495,6 +500,10 @@ static void Outside(void)
 				{
 					MS_Message(MSG_DEBUG, "Allocations modified for exporting\n");
 					ImportMode = IMPORT_Exporting;
+					if(pc_EnforceHexen)
+					{
+						ERR_Error(ERR_HEXEN_COMPAT, YES);
+					}
 				}
 				else if(ImportMode == IMPORT_Importing)
 				{
@@ -533,6 +542,7 @@ static void OuterScript(void)
 	CaseIndex = 0;
 	StatementLevel = 0;
 	ScriptVarCount = 0;
+	ScriptArrayCount = 0;
 	SY_FreeLocals();
 	TK_NextToken();
 
@@ -738,7 +748,7 @@ static void OuterScript(void)
 	{
 		PC_AppendCmd(PCD_TERMINATE);
 	}
-	PC_SetScriptVarCount(scriptNumber, scriptType, ScriptVarCount);
+	PC_SetScriptVarCount(scriptNumber, scriptType, ScriptVarCount, ScriptArrayCount, ScriptArraySize);
 	pa_ScriptCount++;
 }
 
@@ -761,6 +771,7 @@ static void OuterFunction(void)
 	CaseIndex = 0;
 	StatementLevel = 0;
 	ScriptVarCount = 0;
+	ScriptArrayCount = 0;
 	SY_FreeLocals();
 	TK_NextToken();
 	if(tk_Token != TK_STR && tk_Token != TK_INT &&
@@ -862,6 +873,10 @@ static void OuterFunction(void)
 		} while(tk_Token == TK_COMMA);
 		TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 	}
+	if(pc_EnforceHexen)
+	{
+		ERR_Error(ERR_HEXEN_COMPAT, YES);
+	}
 
 	sym->info.scriptFunc.sourceLine = defLine;
 	sym->info.scriptFunc.sourceName = tk_SourceName;
@@ -911,7 +926,7 @@ static void OuterFunction(void)
 	sym->info.scriptFunc.predefined = NO;
 	sym->info.scriptFunc.varCount = ScriptVarCount -
 		sym->info.scriptFunc.argCount;
-	PC_AddFunction(sym);
+	PC_AddFunction(sym, ScriptArrayCount, ScriptArraySize);
 	UnspeculateFunction(sym);
 	InsideFunction = NULL;
 }
@@ -925,7 +940,7 @@ static void OuterFunction(void)
 static void OuterMapVar(boolean local)
 {
 	symbolNode_t *sym = NULL;
-	int index, i;
+	int index;
 
 	MS_Message(MSG_DEBUG, "---- %s ----\n", local ? "LeadingStaticVarDeclare" : "OuterMapVar");
 	do
@@ -980,75 +995,17 @@ static void OuterMapVar(boolean local)
 		}
 		else if(tk_Token == TK_LBRACKET)
 		{
-			int size = 0;
-			int ndim = 0;
-			int dims[MAX_ARRAY_DIMS];
+			int size, ndim, dims[MAX_ARRAY_DIMS];
 
-			memset(dims, 0, sizeof(dims));
+			ParseArrayDims(&size, &ndim, dims);
 
-			while(tk_Token == TK_LBRACKET)
-			{
-				if(ndim == MAX_ARRAY_DIMS)
-				{
-					ERR_Error(ERR_TOO_MANY_ARRAY_DIMS, YES);
-					do
-					{
-						TK_NextToken();
-					} while(tk_Token != TK_COMMA && tk_Token != TK_SEMICOLON);
-					break;
-				}
-				TK_NextToken();
-				if (tk_Token == TK_RBRACKET)
-				{
-					ERR_Error(ERR_NEED_ARRAY_SIZE, YES);
-				}
-				else
-				{
-					dims[ndim] = EvalConstExpression();
-					if(dims[ndim] == 0)
-					{
-						ERR_Error(ERR_ZERO_DIMENSION, YES);
-						dims[ndim] = 1;
-					}
-					if(ndim == 0)
-					{
-						size = dims[ndim];
-					}
-					else
-					{
-						size *= dims[ndim];
-					}
-				}
-				ndim++;
-				TK_TokenMustBe(TK_RBRACKET, ERR_MISSING_RBRACKET);
-				TK_NextToken();
-			}
 			if(sym != NULL)
 			{
 				if(ImportMode != IMPORT_Importing)
 				{
 					PC_AddArray(index, size);
 				}
-				MS_Message(MSG_DEBUG, "%s changed to an array of size %d\n", sym->name, size);
-				sym->type = SY_MAPARRAY;
-				sym->info.array.index = index;
-				sym->info.array.ndim = ndim;
-				sym->info.array.size = size;
-				if(ndim > 0)
-				{
-					sym->info.array.dimensions[ndim-1] = 1;
-					for(i = ndim - 2; i >= 0; --i)
-					{
-						sym->info.array.dimensions[i] =
-							sym->info.array.dimensions[i+1] * dims[i+1];
-					}
-				}
-				MS_Message(MSG_DEBUG, " - with multipliers ");
-				for(i = 0; i < ndim; ++i)
-				{
-					MS_Message(MSG_DEBUG, "[%d]", sym->info.array.dimensions[i]);
-				}
-				MS_Message(MSG_DEBUG, "\n");
+				SymToArray(SY_MAPARRAY, sym, index, size, ndim, dims);
 				if(tk_Token == TK_ASSIGN)
 				{
 					InitializeArray(sym, dims, size);
@@ -1223,6 +1180,7 @@ static void OuterDefine(boolean force)
 	value = EvalConstExpression();
 	MS_Message(MSG_DEBUG, "Constant value: %d\n", value);
 	sym->info.constant.value = value;
+	sym->info.constant.strValue = pa_ConstExprIsString ? strdup(STR_Get(value)) : NULL;
 	// Defines inside an import are deleted when the import is popped.
 	if(ImportMode != IMPORT_Importing || force)
 	{
@@ -1518,8 +1476,26 @@ static void LeadingVarDeclare(void)
 		TK_NextToken();
 		if(tk_Token == TK_LBRACKET)
 		{
-			ERR_Error(ERR_ARRAY_MAPVAR_ONLY, YES);
-			do {} while(TK_NextToken() != TK_COMMA && tk_Token != TK_SEMICOLON);
+			int size, ndim, dims[MAX_ARRAY_DIMS];
+
+			ParseArrayDims(&size, &ndim, dims);
+			if(sym != NULL)
+			{
+				ScriptVarCount--;
+				if(ScriptArrayCount == MAX_SCRIPT_ARRAYS)
+				{
+					ERR_Error(InsideFunction ? ERR_TOO_MANY_FUNCTION_ARRAYS : ERR_TOO_MANY_SCRIPT_ARRAYS, YES, NULL);
+				}
+				if(ScriptArrayCount < MAX_SCRIPT_ARRAYS)
+				{
+					ScriptArraySize[ScriptArrayCount] = size;
+				}
+				SymToArray(SY_SCRIPTARRAY, sym, ScriptArrayCount++, size, ndim, dims);
+				if(tk_Token == TK_ASSIGN)
+				{
+					InitializeScriptArray(sym, dims, size);
+				}
+			}
 		}
 		else if(tk_Token == TK_ASSIGN)
 		{
@@ -1784,6 +1760,7 @@ static void LeadingIdentifier(void)
 		case SY_MAPVAR:
 		case SY_WORLDVAR:
 		case SY_GLOBALVAR:
+		case SY_SCRIPTARRAY:
 		case SY_WORLDARRAY:
 		case SY_GLOBALARRAY:
 			LeadingVarAssign(sym);
@@ -2256,9 +2233,9 @@ static void ActionOnCharRange(boolean write)
 
 	sym = SpeculateSymbol(tk_String, NO);
 	if((sym->type != SY_MAPARRAY) && (sym->type != SY_WORLDARRAY)
-		&& (sym->type != SY_GLOBALARRAY))
+		&& (sym->type != SY_GLOBALARRAY) && (sym->type != SY_SCRIPTARRAY))
 	{
-		ERR_Error(ERR_NOT_AN_ARRAY, YES);
+		ERR_Error(ERR_NOT_AN_ARRAY, YES, sym->name);
 	}
 	TK_NextToken();
 	if(sym->info.array.ndim > 1)
@@ -2332,7 +2309,12 @@ static void ActionOnCharRange(boolean write)
 		}
 	}
 
-	if(sym->type == SY_MAPARRAY)
+	if(sym->type == SY_SCRIPTARRAY)
+	{
+		if (write) PC_AppendCmd(PCD_STRCPYTOSCRIPTCHRANGE);
+		else PC_AppendCmd( rangeConstraints ? PCD_PRINTSCRIPTCHRANGE : PCD_PRINTSCRIPTCHARARRAY );
+	}
+	else if(sym->type == SY_MAPARRAY)
 	{
 		if (write) PC_AppendCmd(PCD_STRCPYTOMAPCHRANGE);
 		else PC_AppendCmd( rangeConstraints ? PCD_PRINTMAPCHRANGE : PCD_PRINTMAPCHARARRAY );
@@ -3082,7 +3064,8 @@ static void LeadingIncDec(int token)
 	if(sym->type != SY_SCRIPTVAR && sym->type != SY_MAPVAR
 		&& sym->type != SY_WORLDVAR && sym->type != SY_GLOBALVAR
 		&& sym->type != SY_MAPARRAY && sym->type != SY_GLOBALARRAY
-		&& sym->type != SY_WORLDARRAY && sym->type != SY_SCRIPTALIAS)
+		&& sym->type != SY_WORLDARRAY && sym->type != SY_SCRIPTALIAS
+		&& sym->type != SY_SCRIPTARRAY)
 	{
 		ERR_Error(ERR_INCDEC_OP_ON_NON_VAR, YES);
 		TK_SkipPast(TK_SEMICOLON);
@@ -3090,7 +3073,7 @@ static void LeadingIncDec(int token)
 	}
 	TK_NextToken();
 	if(sym->type == SY_MAPARRAY || sym->type == SY_WORLDARRAY
-		|| sym->type == SY_GLOBALARRAY)
+		|| sym->type == SY_GLOBALARRAY || sym->type == SY_SCRIPTARRAY)
 	{
 		ParseArrayIndices(sym, sym->info.array.ndim);
 	}
@@ -3132,7 +3115,7 @@ static void LeadingVarAssign(symbolNode_t *sym)
 	{
 		TK_NextToken(); // Fetch assignment operator
 		if(sym->type == SY_MAPARRAY || sym->type == SY_WORLDARRAY
-			|| sym->type == SY_GLOBALARRAY)
+			|| sym->type == SY_GLOBALARRAY || sym->type == SY_SCRIPTARRAY)
 		{
 			ParseArrayIndices(sym, sym->info.array.ndim);
 		}
@@ -3213,21 +3196,21 @@ static pcd_t GetAssignPCD(tokenType_t token, symbolType_t symbol)
 	static symbolType_t symbolLookup[] =
 	{
 		SY_SCRIPTVAR, SY_MAPVAR, SY_WORLDVAR, SY_GLOBALVAR, SY_MAPARRAY,
-		SY_WORLDARRAY, SY_GLOBALARRAY
+		SY_WORLDARRAY, SY_GLOBALARRAY, SY_SCRIPTARRAY
 	};
-	static pcd_t assignmentLookup[11][7] =
+	static pcd_t assignmentLookup[11][8] =
 	{
-		{ PCD_ASSIGNSCRIPTVAR, PCD_ASSIGNMAPVAR, PCD_ASSIGNWORLDVAR, PCD_ASSIGNGLOBALVAR, PCD_ASSIGNMAPARRAY, PCD_ASSIGNWORLDARRAY, PCD_ASSIGNGLOBALARRAY },
-		{ PCD_ADDSCRIPTVAR, PCD_ADDMAPVAR, PCD_ADDWORLDVAR, PCD_ADDGLOBALVAR, PCD_ADDMAPARRAY, PCD_ADDWORLDARRAY, PCD_ADDGLOBALARRAY },
-		{ PCD_SUBSCRIPTVAR, PCD_SUBMAPVAR, PCD_SUBWORLDVAR, PCD_SUBGLOBALVAR, PCD_SUBMAPARRAY, PCD_SUBWORLDARRAY, PCD_SUBGLOBALARRAY },
-		{ PCD_MULSCRIPTVAR, PCD_MULMAPVAR, PCD_MULWORLDVAR, PCD_MULGLOBALVAR, PCD_MULMAPARRAY, PCD_MULWORLDARRAY, PCD_MULGLOBALARRAY },
-		{ PCD_DIVSCRIPTVAR, PCD_DIVMAPVAR, PCD_DIVWORLDVAR, PCD_DIVGLOBALVAR, PCD_DIVMAPARRAY, PCD_DIVWORLDARRAY, PCD_DIVGLOBALARRAY },
-		{ PCD_MODSCRIPTVAR, PCD_MODMAPVAR, PCD_MODWORLDVAR, PCD_MODGLOBALVAR, PCD_MODMAPARRAY, PCD_MODWORLDARRAY, PCD_MODGLOBALARRAY },
-		{ PCD_ANDSCRIPTVAR, PCD_ANDMAPVAR, PCD_ANDWORLDVAR, PCD_ANDGLOBALVAR, PCD_ANDMAPARRAY, PCD_ANDWORLDARRAY, PCD_ANDGLOBALARRAY },
-		{ PCD_EORSCRIPTVAR, PCD_EORMAPVAR, PCD_EORWORLDVAR, PCD_EORGLOBALVAR, PCD_EORMAPARRAY, PCD_EORWORLDARRAY, PCD_EORGLOBALARRAY },
-		{ PCD_ORSCRIPTVAR, PCD_ORMAPVAR, PCD_ORWORLDVAR, PCD_ORGLOBALVAR, PCD_ORMAPARRAY, PCD_ORWORLDARRAY, PCD_ORGLOBALARRAY },
-		{ PCD_LSSCRIPTVAR, PCD_LSMAPVAR, PCD_LSWORLDVAR, PCD_LSGLOBALVAR, PCD_LSMAPARRAY, PCD_LSWORLDARRAY, PCD_LSGLOBALARRAY },
-		{ PCD_RSSCRIPTVAR, PCD_RSMAPVAR, PCD_RSWORLDVAR, PCD_RSGLOBALVAR, PCD_RSMAPARRAY, PCD_RSWORLDARRAY, PCD_RSGLOBALARRAY }
+		{ PCD_ASSIGNSCRIPTVAR, PCD_ASSIGNMAPVAR, PCD_ASSIGNWORLDVAR, PCD_ASSIGNGLOBALVAR, PCD_ASSIGNMAPARRAY, PCD_ASSIGNWORLDARRAY, PCD_ASSIGNGLOBALARRAY, PCD_ASSIGNSCRIPTARRAY },
+		{ PCD_ADDSCRIPTVAR, PCD_ADDMAPVAR, PCD_ADDWORLDVAR, PCD_ADDGLOBALVAR, PCD_ADDMAPARRAY, PCD_ADDWORLDARRAY, PCD_ADDGLOBALARRAY, PCD_ADDSCRIPTARRAY },
+		{ PCD_SUBSCRIPTVAR, PCD_SUBMAPVAR, PCD_SUBWORLDVAR, PCD_SUBGLOBALVAR, PCD_SUBMAPARRAY, PCD_SUBWORLDARRAY, PCD_SUBGLOBALARRAY, PCD_SUBSCRIPTARRAY },
+		{ PCD_MULSCRIPTVAR, PCD_MULMAPVAR, PCD_MULWORLDVAR, PCD_MULGLOBALVAR, PCD_MULMAPARRAY, PCD_MULWORLDARRAY, PCD_MULGLOBALARRAY, PCD_MULSCRIPTARRAY },
+		{ PCD_DIVSCRIPTVAR, PCD_DIVMAPVAR, PCD_DIVWORLDVAR, PCD_DIVGLOBALVAR, PCD_DIVMAPARRAY, PCD_DIVWORLDARRAY, PCD_DIVGLOBALARRAY, PCD_DIVSCRIPTARRAY },
+		{ PCD_MODSCRIPTVAR, PCD_MODMAPVAR, PCD_MODWORLDVAR, PCD_MODGLOBALVAR, PCD_MODMAPARRAY, PCD_MODWORLDARRAY, PCD_MODGLOBALARRAY, PCD_MODSCRIPTARRAY },
+		{ PCD_ANDSCRIPTVAR, PCD_ANDMAPVAR, PCD_ANDWORLDVAR, PCD_ANDGLOBALVAR, PCD_ANDMAPARRAY, PCD_ANDWORLDARRAY, PCD_ANDGLOBALARRAY, PCD_ANDSCRIPTARRAY },
+		{ PCD_EORSCRIPTVAR, PCD_EORMAPVAR, PCD_EORWORLDVAR, PCD_EORGLOBALVAR, PCD_EORMAPARRAY, PCD_EORWORLDARRAY, PCD_EORGLOBALARRAY, PCD_EORSCRIPTARRAY },
+		{ PCD_ORSCRIPTVAR, PCD_ORMAPVAR, PCD_ORWORLDVAR, PCD_ORGLOBALVAR, PCD_ORMAPARRAY, PCD_ORWORLDARRAY, PCD_ORGLOBALARRAY, PCD_ORSCRIPTARRAY },
+		{ PCD_LSSCRIPTVAR, PCD_LSMAPVAR, PCD_LSWORLDVAR, PCD_LSGLOBALVAR, PCD_LSMAPARRAY, PCD_LSWORLDARRAY, PCD_LSGLOBALARRAY, PCD_LSSCRIPTARRAY },
+		{ PCD_RSSCRIPTVAR, PCD_RSMAPVAR, PCD_RSWORLDVAR, PCD_RSGLOBALVAR, PCD_RSMAPARRAY, PCD_RSWORLDARRAY, PCD_RSGLOBALARRAY, PCD_RSSCRIPTARRAY }
 	};
 
 	for(i = 0; i < ARRAY_SIZE(tokenLookup); ++i)
@@ -3592,7 +3575,7 @@ static void ExprFactor(void)
 		if(sym->type != SY_SCRIPTVAR && sym->type != SY_MAPVAR
 			&& sym->type != SY_WORLDVAR && sym->type != SY_GLOBALVAR
 			&& sym->type != SY_MAPARRAY && sym->type != SY_WORLDARRAY
-			&& sym->type != SY_GLOBALARRAY)
+			&& sym->type != SY_GLOBALARRAY && sym->type != SY_SCRIPTARRAY)
 		{
 			ERR_Error(ERR_INCDEC_OP_ON_NON_VAR, YES);
 		}
@@ -3600,7 +3583,7 @@ static void ExprFactor(void)
 		{
 			TK_NextToken();
 			if(sym->type == SY_MAPARRAY || sym->type == SY_WORLDARRAY
-				|| sym->type == SY_GLOBALARRAY)
+				|| sym->type == SY_GLOBALARRAY || sym->type == SY_SCRIPTARRAY)
 			{
 				ParseArrayIndices(sym, sym->info.array.ndim);
 				PC_AppendCmd(PCD_DUP);
@@ -3626,6 +3609,7 @@ static void ExprFactor(void)
 			case SY_SCRIPTALIAS:
 				// FIXME
 				break;
+			case SY_SCRIPTARRAY:
 			case SY_MAPARRAY:
 			case SY_WORLDARRAY:
 			case SY_GLOBALARRAY:
@@ -3637,7 +3621,7 @@ static void ExprFactor(void)
 			case SY_WORLDVAR:
 			case SY_GLOBALVAR:
 				if(sym->type != SY_MAPARRAY && sym->type != SY_WORLDARRAY
-					&& sym->type != SY_GLOBALARRAY)
+					&& sym->type != SY_GLOBALARRAY && sym->type != SY_SCRIPTARRAY)
 				{
 					TK_NextToken();
 					if(tk_Token == TK_LBRACKET)
@@ -3651,7 +3635,7 @@ static void ExprFactor(void)
 				}
 				if((tk_Token == TK_INC || tk_Token == TK_DEC)
 					&& (sym->type == SY_MAPARRAY || sym->type == SY_WORLDARRAY
-						|| sym->type == SY_GLOBALARRAY))
+						|| sym->type == SY_GLOBALARRAY || sym->type == SY_SCRIPTARRAY))
 				{
 					PC_AppendCmd(PCD_DUP);
 				}
@@ -3660,7 +3644,7 @@ static void ExprFactor(void)
 				if(tk_Token == TK_INC || tk_Token == TK_DEC)
 				{
 					if(sym->type == SY_MAPARRAY || sym->type == SY_WORLDARRAY
-						|| sym->type == SY_GLOBALARRAY)
+						|| sym->type == SY_GLOBALARRAY || sym->type == SY_SCRIPTARRAY)
 					{
 						PC_AppendCmd(PCD_SWAP);
 					}
@@ -3966,6 +3950,8 @@ static pcd_t GetPushVarPCD(symbolType_t symType)
 			return PCD_PUSHWORLDVAR;
 		case SY_GLOBALVAR:
 			return PCD_PUSHGLOBALVAR;
+		case SY_SCRIPTARRAY:
+			return PCD_PUSHSCRIPTARRAY;
 		case SY_MAPARRAY:
 			return PCD_PUSHMAPARRAY;
 		case SY_WORLDARRAY:
@@ -3998,6 +3984,7 @@ static pcd_t GetIncDecPCD(tokenType_t token, symbolType_t symbol)
 		{ TK_INC, SY_MAPVAR, PCD_INCMAPVAR },
 		{ TK_INC, SY_WORLDVAR, PCD_INCWORLDVAR },
 		{ TK_INC, SY_GLOBALVAR, PCD_INCGLOBALVAR },
+		{ TK_INC, SY_SCRIPTARRAY, PCD_INCSCRIPTARRAY },
 		{ TK_INC, SY_MAPARRAY, PCD_INCMAPARRAY },
 		{ TK_INC, SY_WORLDARRAY, PCD_INCWORLDARRAY },
 		{ TK_INC, SY_GLOBALARRAY, PCD_INCGLOBALARRAY },
@@ -4006,6 +3993,7 @@ static pcd_t GetIncDecPCD(tokenType_t token, symbolType_t symbol)
 		{ TK_DEC, SY_MAPVAR, PCD_DECMAPVAR },
 		{ TK_DEC, SY_WORLDVAR, PCD_DECWORLDVAR },
 		{ TK_DEC, SY_GLOBALVAR, PCD_DECGLOBALVAR },
+		{ TK_DEC, SY_SCRIPTARRAY, PCD_DECSCRIPTARRAY },
 		{ TK_DEC, SY_MAPARRAY, PCD_DECMAPARRAY },
 		{ TK_DEC, SY_WORLDARRAY, PCD_DECWORLDARRAY },
 		{ TK_DEC, SY_GLOBALARRAY, PCD_DECGLOBALARRAY },
@@ -4022,6 +4010,91 @@ static pcd_t GetIncDecPCD(tokenType_t token, symbolType_t symbol)
 		}
 	}
 	return PCD_NOP;
+}
+
+//==========================================================================
+//
+// ParseArrayDims
+//
+//==========================================================================
+
+static void ParseArrayDims(int *size_p, int *ndim_p, int dims[MAX_ARRAY_DIMS])
+{
+	int size = 0;
+	int ndim = 0;
+	memset(dims, 0, sizeof(dims));
+
+	while(tk_Token == TK_LBRACKET)
+	{
+		if(ndim == MAX_ARRAY_DIMS)
+		{
+			ERR_Error(ERR_TOO_MANY_ARRAY_DIMS, YES);
+			do
+			{
+				TK_NextToken();
+			} while(tk_Token != TK_COMMA && tk_Token != TK_SEMICOLON);
+			break;
+		}
+		TK_NextToken();
+		if (tk_Token == TK_RBRACKET)
+		{
+			ERR_Error(ERR_NEED_ARRAY_SIZE, YES);
+		}
+		else
+		{
+			dims[ndim] = EvalConstExpression();
+			if(dims[ndim] == 0)
+			{
+				ERR_Error(ERR_ZERO_DIMENSION, YES);
+				dims[ndim] = 1;
+			}
+			if(ndim == 0)
+			{
+				size = dims[ndim];
+			}
+			else
+			{
+				size *= dims[ndim];
+			}
+		}
+		ndim++;
+		TK_TokenMustBe(TK_RBRACKET, ERR_MISSING_RBRACKET);
+		TK_NextToken();
+	}
+	if(pc_EnforceHexen)
+	{
+		TK_Undo(); // backup so error pointer is on last bracket instead of following token
+		ERR_Error(ERR_HEXEN_COMPAT, YES);
+		TK_NextToken();
+	}
+	*size_p = size;
+	*ndim_p = ndim;
+}
+
+static void SymToArray(int symtype, symbolNode_t *sym, int index, int size, int ndim, int dims[MAX_ARRAY_DIMS])
+{
+	int i;
+
+	MS_Message(MSG_DEBUG, "%s changed to an array of size %d\n", sym->name, size);
+	sym->type = symtype;
+	sym->info.array.index = index;
+	sym->info.array.ndim = ndim;
+	sym->info.array.size = size;
+	if(ndim > 0)
+	{
+		sym->info.array.dimensions[ndim-1] = 1;
+		for(i = ndim - 2; i >= 0; --i)
+		{
+			sym->info.array.dimensions[i] =
+				sym->info.array.dimensions[i+1] * dims[i+1];
+		}
+	}
+	MS_Message(MSG_DEBUG, " - with multipliers ");
+	for(i = 0; i < ndim; ++i)
+	{
+		MS_Message(MSG_DEBUG, "[%d]", sym->info.array.dimensions[i]);
+	}
+	MS_Message(MSG_DEBUG, "\n");
 }
 
 //==========================================================================
@@ -4043,8 +4116,8 @@ static void ParseArrayIndices(symbolNode_t *sym, int requiredIndices)
 	while(tk_Token == TK_LBRACKET)
 	{
 		TK_NextToken();
-		if((sym->type == SY_MAPARRAY && i == requiredIndices) ||
-			(sym->type != SY_MAPARRAY && i > 0))
+		if(((sym->type == SY_MAPARRAY || sym->type == SY_SCRIPTARRAY) && i == requiredIndices) ||
+			(sym->type != SY_MAPARRAY && sym->type != SY_SCRIPTARRAY && i > 0))
 		{
 			if (!warned)
 			{
@@ -4095,6 +4168,12 @@ static void ParseArrayIndices(symbolNode_t *sym, int requiredIndices)
 		}
 	}
 }
+
+//==========================================================================
+//
+// ProcessArrayLevel
+//
+//==========================================================================
 
 static void ProcessArrayLevel(int level, int *entry, int ndim,
 	int dims[MAX_ARRAY_DIMS], int muls[MAX_ARRAY_DIMS], char *name)
@@ -4213,6 +4292,112 @@ static void InitializeArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS], int siz
 	{
 		PC_InitArray(sym->info.array.index, entries, ArrayHasStrings);
 	}
+}
+
+//==========================================================================
+//
+// ProcessScriptArrayLevel
+//
+//==========================================================================
+
+static void ProcessScriptArrayLevel(int level, symbolNode_t *sym, int ndim,
+	int dims[MAX_ARRAY_DIMS], int muls[MAX_ARRAY_DIMS], char *name)
+{
+	int warned_too_many = NO;
+	int i;
+	int loc = 0;
+
+	for(i = 0; ; ++i)
+	{
+		if(tk_Token == TK_COMMA)
+		{
+			loc += muls[level-1];
+			TK_NextToken();
+		}
+		else if(tk_Token == TK_RBRACE)
+		{
+			TK_NextToken();
+			return;
+		}
+		else
+		{
+			if(level == ndim)
+			{
+				if(tk_Token == TK_LBRACE)
+				{
+					ERR_Error(ERR_TOO_MANY_DIM_USED, YES, name, ndim);
+					SkipBraceBlock(0);
+					TK_NextToken();
+					loc++;
+				}
+				else
+				{
+					if(i >= dims[level - 1] && !warned_too_many)
+					{
+						warned_too_many = YES;
+						ERR_Error(ERR_TOO_MANY_ARRAY_INIT, YES);
+					}
+					PC_AppendPushVal(loc + i);
+					EvalExpression();
+					PC_AppendCmd(PCD_ASSIGNSCRIPTARRAY);
+					PC_AppendShrink(sym->info.array.index);
+				}
+			}
+			else
+			{
+				//Bugfix for r3226 by Zom-B
+				if (i >= dims[level - 1])
+				{
+					if (!warned_too_many)
+					{
+						warned_too_many = YES;
+						ERR_Error(ERR_TOO_MANY_ARRAY_INIT, YES);
+					}
+				}
+				TK_TokenMustBe(TK_LBRACE, ERR_MISSING_LBRACE_ARR);
+				TK_NextToken();
+				ProcessScriptArrayLevel(level+1, sym, ndim, dims, muls, name);
+				assert(level > 0);
+				loc += muls[level-1];
+			}
+			if(i < dims[level-1]-1)
+			{
+				if(tk_Token != TK_RBRACE)
+				{
+					TK_TokenMustBe(TK_COMMA, ERR_MISSING_COMMA);
+					TK_NextToken();
+				}
+			}
+			else
+			{
+				if(tk_Token != TK_COMMA)
+				{
+					TK_TokenMustBe(TK_RBRACE, ERR_MISSING_RBRACE_ARR);
+				}
+				else
+				{
+					TK_NextToken();
+				}
+			}
+		}
+	}
+	TK_TokenMustBe(TK_RBRACE, ERR_MISSING_RBRACE_ARR);
+	TK_NextToken();
+}
+
+//==========================================================================
+//
+// InitializeScriptArray
+//
+//==========================================================================
+
+static void InitializeScriptArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS], int size)
+{
+	TK_NextTokenMustBe(TK_LBRACE, ERR_MISSING_LBRACE_ARR);
+	TK_NextToken();
+	ArrayHasStrings = NO;
+	ProcessScriptArrayLevel(1, sym, sym->info.array.ndim, dims,
+		sym->info.array.dimensions, sym->name);
 }
 
 //==========================================================================

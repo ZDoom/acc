@@ -31,12 +31,6 @@ typedef struct
 	stringInfo_t strings[MAX_STRINGS];
 } stringList_t;
 
-typedef struct
-{
-	char name[4];
-	stringList_t list;
-} languageInfo_t;
-
 // EXTERNAL FUNCTION PROTOTYPES --------------------------------------------
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------
@@ -57,7 +51,7 @@ int NumLanguages, NumStringLists;
 
 // PRIVATE DATA DEFINITIONS ------------------------------------------------
 
-static languageInfo_t *LanguageInfo[MAX_LANGUAGES];
+static stringList_t MainStringList;
 static stringList_t *StringLists[NUM_STRLISTS];
 
 // CODE --------------------------------------------------------------------
@@ -70,54 +64,19 @@ static stringList_t *StringLists[NUM_STRLISTS];
 
 void STR_Init(void)
 {
-	NumLanguages = NumStringLists = 0;
-	STR_FindLanguage(NULL);	// Default language is always number 0
+	NumStringLists = 0;
+	MainStringList.stringCount = 0;
 }
 
 //==========================================================================
 //
-// STR_FindLanguage
+// STR_Get
 //
 //==========================================================================
 
-int STR_FindLanguage(char *name)
+char *STR_Get(int num)
 {
-	int i;
-
-	if (name == NULL)
-	{
-		if (NumLanguages > 0)
-		{
-			return 0;
-		}
-		i = 0;
-	}
-	else
-	{
-		for(i = 0; i < NumLanguages; i++)
-		{
-			if (strcmp (name, LanguageInfo[i]->name) == 0)
-			{
-				return i;
-			}
-		}
-	}
-	if(i == NumLanguages)
-	{
-		LanguageInfo[i] = MS_Alloc(sizeof(languageInfo_t), ERR_OUT_OF_MEMORY);
-		memset(LanguageInfo[i]->name, 0, 4);
-		if(name != NULL)
-		{
-			strncpy(LanguageInfo[i]->name, name, 3);
-		}
-		LanguageInfo[i]->list.stringCount = 0;
-		NumLanguages++;
-		if(NumLanguages > 1 && pc_EnforceHexen)
-		{
-			ERR_Error(ERR_HEXEN_COMPAT, YES);
-		}
-	}
-	return i;
+	return MainStringList.strings[num].name;
 }
  
 //==========================================================================
@@ -128,18 +87,7 @@ int STR_FindLanguage(char *name)
 
 int STR_Find(char *name)
 {
-	return STR_FindInLanguage(0, name);
-}
-
-//==========================================================================
-//
-// STR_FindInLanguage
-//
-//==========================================================================
-
-int STR_FindInLanguage(int language, char *name)
-{
-	return STR_FindInSomeList (&LanguageInfo[language]->list, name);
+	return STR_FindInSomeList(&MainStringList, name);
 }
 
 //==========================================================================
@@ -258,10 +206,6 @@ int STR_AppendToList(int list, char *name)
 		StringLists[list] = MS_Alloc(sizeof(stringList_t), ERR_OUT_OF_MEMORY);
 		StringLists[list]->stringCount = 0;
 		NumStringLists++;
-		if(pc_EnforceHexen)
-		{
-			ERR_Error(ERR_HEXEN_COMPAT, YES);
-		}
 	}
 	return STR_PutStringInSomeList(StringLists[list], StringLists[list]->stringCount, name);
 }
@@ -313,9 +257,9 @@ static int STR_PutStringInSomeList(stringList_t *list, int index, char *name)
 //
 //==========================================================================
 
-int STR_ListSize(int list)
+int STR_ListSize()
 {
-	return LanguageInfo[list]->list.stringCount;
+	return MainStringList.stringCount;
 }
 
 //==========================================================================
@@ -332,10 +276,10 @@ void STR_WriteStrings(void)
 	U_INT pad;
 
 	MS_Message(MSG_DEBUG, "---- STR_WriteStrings ----\n");
-	for(i = 0; i < LanguageInfo[0]->list.stringCount; i++)
+	for(i = 0; i < MainStringList.stringCount; i++)
 	{
-		LanguageInfo[0]->list.strings[i].address = pc_Address;
-		PC_AppendString(LanguageInfo[0]->list.strings[i].name);
+		MainStringList.strings[i].address = pc_Address;
+		PC_AppendString(MainStringList.strings[i].name);
 	}
 	if(pc_Address%4 != 0)
 	{ // Need to align
@@ -355,10 +299,10 @@ void STR_WriteList(void)
 	int i;
 
 	MS_Message(MSG_DEBUG, "---- STR_WriteList ----\n");
-	PC_AppendInt((U_INT)LanguageInfo[0]->list.stringCount);
-	for(i = 0; i < LanguageInfo[0]->list.stringCount; i++)
+	PC_AppendInt((U_INT)MainStringList.stringCount);
+	for(i = 0; i < MainStringList.stringCount; i++)
 	{
-		PC_AppendInt((U_INT)LanguageInfo[0]->list.strings[i].address);
+		PC_AppendInt((U_INT)MainStringList.strings[i].address);
 	}
 }
 
@@ -368,20 +312,19 @@ void STR_WriteList(void)
 //
 //==========================================================================
 
-void STR_WriteChunk(int language, boolean encrypt)
+void STR_WriteChunk(boolean encrypt)
 {
-	languageInfo_t *lang = LanguageInfo[language];
 	int lenadr;
 
-	MS_Message(MSG_DEBUG, "---- STR_WriteChunk %d ----\n", language);
+	MS_Message(MSG_DEBUG, "---- STR_WriteChunk ----\n");
 	PC_Append(encrypt ? "STRE" : "STRL", 4);
 	lenadr = pc_Address;
 	PC_SkipInt();
-	PC_Append(&lang->name, 4);
-	PC_AppendInt(lang->list.stringCount);
-	PC_AppendInt(0);	// Used in-game for stringing lists together
+	PC_AppendInt(0);
+	PC_AppendInt(MainStringList.stringCount);
+	PC_AppendInt(0);	// Used in-game for stringing lists together (NOT!)
 
-	DumpStrings (&lang->list, lenadr, NO, encrypt);
+	DumpStrings (&MainStringList, lenadr, NO, encrypt);
 }
 
 //==========================================================================

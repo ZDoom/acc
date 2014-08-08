@@ -28,6 +28,7 @@ typedef enum
 	SY_MAPVAR,
 	SY_WORLDVAR,
 	SY_GLOBALVAR,
+	SY_SCRIPTARRAY,
 	SY_MAPARRAY,
 	SY_WORLDARRAY,
 	SY_GLOBALARRAY,
@@ -64,6 +65,7 @@ typedef struct
 typedef struct
 {
 	int value;
+	char *strValue;
 	int fileDepth;
 } symConstant_t;
 
