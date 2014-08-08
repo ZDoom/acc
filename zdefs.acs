@@ -766,6 +766,14 @@
 
 #define SPAC_None			0
 
+// GetArmorInfo
+
+#define ARMORINFO_CLASSNAME		0
+#define ARMORINFO_SAVEAMOUNT		1
+#define ARMORINFO_SAVEPERCENT		2
+#define ARMORINFO_MAXABSORB		3
+#define ARMORINFO_MAXFULLABSORB		4
+
 // ==========================================================================
 // Skulltag Definitions
 // ==========================================================================
