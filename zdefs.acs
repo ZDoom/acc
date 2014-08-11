@@ -773,6 +773,7 @@
 #define ARMORINFO_SAVEPERCENT		2
 #define ARMORINFO_MAXABSORB		3
 #define ARMORINFO_MAXFULLABSORB		4
+#define ARMORINFO_ACTUALSAVEAMOUNT	5
 
 // ==========================================================================
 // Skulltag Definitions
