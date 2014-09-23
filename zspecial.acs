@@ -327,6 +327,7 @@ special
 	-81:GetArmorInfo(1),
 	-82:DropInventory(2),
 	-83:PickActor(5,7),
+	-84:CanRaiseActor(1),
 	
 	// Zandronum's
 	-100:ResetMap(0),
