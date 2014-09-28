@@ -328,6 +328,7 @@ special
 	-82:DropInventory(2),
 	-83:PickActor(5,7),
 	-84:IsPointerEqual(2,4),
+	-85:CanRaiseActor(1),
 	
 	// Zandronum's
 	-100:ResetMap(0),
