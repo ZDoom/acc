@@ -868,6 +868,9 @@
 #define T_HIGHJUMP				188
 #define T_HASTE					189
 
+// Zandronum database additions ---------------------------------------------
+#define DB_ORDER_ASC			0
+#define DB_ORDER_DESC			1
 
 // Events when you have input grabbed
 
