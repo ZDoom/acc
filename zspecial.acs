@@ -326,7 +326,7 @@ special
 	-80:ChangeActorPitch(2,3),
 	-81:GetArmorInfo(1),
 	-82:DropInventory(2),
-	-83:PickActor(5,7),
+	-83:PickActor(5,8),
 	-84:IsPointerEqual(2,4),
 	-85:CanRaiseActor(1),
 	
