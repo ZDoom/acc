@@ -4036,7 +4036,7 @@ static void ParseArrayDims(int *size_p, int *ndim_p, int dims[MAX_ARRAY_DIMS])
 {
 	int size = 0;
 	int ndim = 0;
-	memset(dims, 0, sizeof(dims));
+	memset(dims, 0, MAX_ARRAY_DIMS*sizeof(dims[0]));
 
 	while(tk_Token == TK_LBRACKET)
 	{
