@@ -167,6 +167,9 @@
 #define BT_USER3				8388608
 #define BT_USER4				16777216
 
+#define BT_ROLLLEFT				33554432
+#define BT_ROLLRIGHT			67108864
+
 // Text colors --------------------------------------------------------------
 
 #define CR_UNTRANSLATED         -1
