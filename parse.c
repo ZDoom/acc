@@ -1285,11 +1285,19 @@ static boolean ProcessStatement(statement_t owner)
 			}
 			break;
 		case TK_ACSEXECUTEWAIT:
+			if(InsideFunction)
+			{
+				ERR_Error(ERR_LATENT_IN_FUNC, YES);
+			}
 			tk_SpecialArgCount = 1 | (5<<16);
 			tk_SpecialValue = 80;
 			LeadingLineSpecial(YES);
 			break;
 		case TK_ACSNAMEDEXECUTEWAIT:
+			if(InsideFunction)
+			{
+				ERR_Error(ERR_LATENT_IN_FUNC, YES);
+			}
 			tk_SpecialArgCount = 1 | (5<<16);
 			tk_SpecialValue = -39;
 			LeadingFunction(YES);
