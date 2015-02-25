@@ -1674,7 +1674,7 @@ static void LeadingLineSpecial(boolean executewait)
 
 //==========================================================================
 //
-// LeadingLineSpecial
+// LeadingFunction
 //
 //==========================================================================
 
