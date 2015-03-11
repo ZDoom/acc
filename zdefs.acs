@@ -691,6 +691,9 @@
 #define CHAN_VOICE				2
 #define CHAN_ITEM				3
 #define CHAN_BODY				4
+#define CHAN_5					5
+#define CHAN_6					6
+#define CHAN_7					7
 
 // Modifier flags for PlaySound
 
