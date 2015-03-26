@@ -1190,11 +1190,6 @@ static void OuterDefine(boolean force)
 		force ? "(forced) " : "");
 	TK_NextTokenMustBe(TK_IDENTIFIER, ERR_INVALID_IDENTIFIER);
 	sym = SY_InsertGlobalUnique(tk_String, SY_CONSTANT);
-	TK_NextToken();
-	value = EvalConstExpression();
-	MS_Message(MSG_DEBUG, "Constant value: %d\n", value);
-	sym->info.constant.value = value;
-	sym->info.constant.strValue = pa_ConstExprIsString ? strdup(STR_Get(value)) : NULL;
 	// Defines inside an import are deleted when the import is popped.
 	if(ImportMode != IMPORT_Importing || force)
 	{
@@ -1204,6 +1199,12 @@ static void OuterDefine(boolean force)
 	{
 		sym->info.constant.fileDepth = TK_GetDepth();
 	}
+
+	TK_NextToken();
+	value = EvalConstExpression();
+	MS_Message(MSG_DEBUG, "Constant value: %d\n", value);
+	sym->info.constant.value = value;
+	sym->info.constant.strValue = pa_ConstExprIsString ? strdup(STR_Get(value)) : NULL;
 }
 
 //==========================================================================
