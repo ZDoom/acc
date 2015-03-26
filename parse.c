@@ -147,7 +147,7 @@ static void ParseArrayDims(int *size, int *ndim, int dims[MAX_ARRAY_DIMS]);
 static void SymToArray(int symtype, symbolNode_t *sym, int index, int ndim, int size, int dims[MAX_ARRAY_DIMS]);
 static void ParseArrayIndices(symbolNode_t *sym, int requiredIndices);
 static void InitializeArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS], int size);
-static void InitializeScriptArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS], int size);
+static void InitializeScriptArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS]);
 static symbolNode_t *DemandSymbol(char *name);
 static symbolNode_t *SpeculateSymbol(char *name, boolean hasReturn);
 static symbolNode_t *SpeculateFunction(const char *name, boolean hasReturn);
@@ -1516,7 +1516,7 @@ static void LeadingVarDeclare(void)
 				SymToArray(SY_SCRIPTARRAY, sym, ScriptArrayCount++, size, ndim, dims);
 				if(tk_Token == TK_ASSIGN)
 				{
-					InitializeScriptArray(sym, dims, size);
+					InitializeScriptArray(sym, dims);
 				}
 			}
 		}
@@ -4323,12 +4323,11 @@ static void InitializeArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS], int siz
 //
 //==========================================================================
 
-static void ProcessScriptArrayLevel(int level, symbolNode_t *sym, int ndim,
+static void ProcessScriptArrayLevel(int level, int loc, symbolNode_t *sym, int ndim,
 	int dims[MAX_ARRAY_DIMS], int muls[MAX_ARRAY_DIMS], char *name)
 {
 	int warned_too_many = NO;
 	int i;
-	int loc = 0;
 
 	for(i = 0; ; ++i)
 	{
@@ -4379,7 +4378,7 @@ static void ProcessScriptArrayLevel(int level, symbolNode_t *sym, int ndim,
 				}
 				TK_TokenMustBe(TK_LBRACE, ERR_MISSING_LBRACE_ARR);
 				TK_NextToken();
-				ProcessScriptArrayLevel(level+1, sym, ndim, dims, muls, name);
+				ProcessScriptArrayLevel(level+1, loc, sym, ndim, dims, muls, name);
 				assert(level > 0);
 				loc += muls[level-1];
 			}
@@ -4414,12 +4413,12 @@ static void ProcessScriptArrayLevel(int level, symbolNode_t *sym, int ndim,
 //
 //==========================================================================
 
-static void InitializeScriptArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS], int size)
+static void InitializeScriptArray(symbolNode_t *sym, int dims[MAX_ARRAY_DIMS])
 {
 	TK_NextTokenMustBe(TK_LBRACE, ERR_MISSING_LBRACE_ARR);
 	TK_NextToken();
 	ArrayHasStrings = NO;
-	ProcessScriptArrayLevel(1, sym, sym->info.array.ndim, dims,
+	ProcessScriptArrayLevel(1, 0, sym, sym->info.array.ndim, dims,
 		sym->info.array.dimensions, sym->name);
 }
 
