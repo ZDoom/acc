@@ -982,6 +982,7 @@
 #define CSF_NOBLOCKALL 2
 
 #define FHF_NORANDOMPUFFZ	1
+#define FHF_NOIMPACTDECAL	2
 
 // Actor flags
 #define MF_SPECIAL          0x00000001
