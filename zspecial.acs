@@ -364,6 +364,9 @@ special
 	-124:EndDBTransaction(0),
 	-125:GetDBEntries(1),
 	
+	// GLOOME
+	-11201:Warp(6,8),
+	
 	// ZDaemon's
 	-19620:GetTeamScore(1),
 	-19621:SetTeamScore(2),
