@@ -335,6 +335,7 @@ special
 	-89:ChangeActorRoll(2,3),
 	-90:GetActorRoll(1),
 	-91:QuakeEx(8,12),
+	-92:Warp(6,8),
 
 	// Zandronum's
 	-100:ResetMap(0),
@@ -363,9 +364,6 @@ special
 	-123:BeginDBTransaction(0),
 	-124:EndDBTransaction(0),
 	-125:GetDBEntries(1),
-	
-	// GLOOME
-	-11201:Warp(6,8),
 	
 	// ZDaemon's
 	-19620:GetTeamScore(1),
