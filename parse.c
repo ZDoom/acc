@@ -3807,12 +3807,18 @@ static void SendExprCommand(pcd_t pcd)
 			PushExStk(PopExStk()*PopExStk());
 			break;
 		case PCD_DIVIDE:
-			operand2 = PopExStk();
-			PushExStk(PopExStk()/operand2);
-			break;
 		case PCD_MODULUS:
 			operand2 = PopExStk();
-			PushExStk(PopExStk()%operand2);
+			operand1 = PopExStk();
+			if (operand2 != 0)
+			{
+				PushExStk(pcd == PCD_DIVIDE ? operand1/operand2 : operand1%operand2);
+			}
+			else
+			{
+				ERR_Error(ERR_DIV_BY_ZERO_IN_CONST_EXPR, YES);
+				PushExStk(operand1);
+			}
 			break;
 		case PCD_EQ:
 			PushExStk(PopExStk() == PopExStk());
