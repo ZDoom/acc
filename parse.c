@@ -825,8 +825,18 @@ static void OuterFunction(void)
 	else
 	{
 		sym = SY_InsertGlobal(tk_String, SY_SCRIPTFUNC);
-		sym->info.scriptFunc.address = (importing == IMPORT_Importing ? 0 : pc_Address);
-		sym->info.scriptFunc.predefined = NO;
+		if (importing == IMPORT_Importing)
+		{
+			sym->info.scriptFunc.address = 0;
+			sym->info.scriptFunc.predefined = NO;
+		}
+		else
+		{
+			sym->info.scriptFunc.address = pc_Address;
+			sym->info.scriptFunc.predefined = YES;
+			// only for consistency with other speculated functions and pretty logs
+			sym->info.scriptFunc.funcNumber = 0;
+		}
 	}
 	defLine = tk_Line;
 
