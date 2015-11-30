@@ -104,6 +104,7 @@ static struct
 	{ ERR_MISSING_COLON, "Missing colon." },
 	{ ERR_BAD_EXPR, "Syntax error in expression." },
 	{ ERR_BAD_CONST_EXPR, "Syntax error in constant expression." },
+	{ ERR_DIV_BY_ZERO_IN_CONST_EXPR, "Division by zero in constant expression." },
 	{ ERR_NO_DIRECT_VER, "Internal function has no direct version." },
 	{ ERR_ILLEGAL_EXPR_IDENT, "%s : Illegal identifier in expression." },
 	{ ERR_EXPR_FUNC_NO_RET_VAL, "Function call in expression has no return value." },

@@ -825,8 +825,18 @@ static void OuterFunction(void)
 	else
 	{
 		sym = SY_InsertGlobal(tk_String, SY_SCRIPTFUNC);
-		sym->info.scriptFunc.address = (importing == IMPORT_Importing ? 0 : pc_Address);
-		sym->info.scriptFunc.predefined = NO;
+		if (importing == IMPORT_Importing)
+		{
+			sym->info.scriptFunc.address = 0;
+			sym->info.scriptFunc.predefined = NO;
+		}
+		else
+		{
+			sym->info.scriptFunc.address = pc_Address;
+			sym->info.scriptFunc.predefined = YES;
+			// only for consistency with other speculated functions and pretty logs
+			sym->info.scriptFunc.funcNumber = 0;
+		}
 	}
 	defLine = tk_Line;
 
@@ -3807,12 +3817,18 @@ static void SendExprCommand(pcd_t pcd)
 			PushExStk(PopExStk()*PopExStk());
 			break;
 		case PCD_DIVIDE:
-			operand2 = PopExStk();
-			PushExStk(PopExStk()/operand2);
-			break;
 		case PCD_MODULUS:
 			operand2 = PopExStk();
-			PushExStk(PopExStk()%operand2);
+			operand1 = PopExStk();
+			if (operand2 != 0)
+			{
+				PushExStk(pcd == PCD_DIVIDE ? operand1/operand2 : operand1%operand2);
+			}
+			else
+			{
+				ERR_Error(ERR_DIV_BY_ZERO_IN_CONST_EXPR, YES);
+				PushExStk(operand1);
+			}
 			break;
 		case PCD_EQ:
 			PushExStk(PopExStk() == PopExStk());
