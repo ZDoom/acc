@@ -293,7 +293,7 @@ special
 	-48:Sqrt(1),
 	-49:FixedSqrt(1),
 	-50:VectorLength(2),
-	-51:SetHUDClipRect(4,5),
+	-51:SetHUDClipRect(4,6),
 	-52:SetHUDWrapWidth(1),
 	-53:SetCVar(2),
 	-54:GetUserCVar(2),
@@ -336,6 +336,7 @@ special
 	-90:GetActorRoll(1),
 	-91:QuakeEx(8,12),
 	-92:Warp(6,11),
+	-93:GetAspectRatio(0),
 
 	// Zandronum's
 	-100:ResetMap(0),
