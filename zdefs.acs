@@ -1078,9 +1078,3 @@
 #define WARPF_USEPTR 0x2000
 #define WARPF_COPYVELOCITY 0x4000
 #define WARPF_COPYPITCH 0x8000
-
-#define ASPECT_4_3 0
-#define ASPECT_16_9 1
-#define ASPECT_16_10 2
-#define ASPECT_17_10 3
-#define ASPECT_5_4 4
