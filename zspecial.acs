@@ -199,7 +199,7 @@ special
 //	211:Transfer_CeilingLight,
 	212:Sector_SetColor(4,5),
 	213:Sector_SetFade(4),
-	214:Sector_SetDamage(3),
+	214:Sector_SetDamage(3,5),
 	215:Teleport_Line(2),
 	216:Sector_SetGravity(3),
 	217:Stairs_BuildUpDoom(5),
@@ -337,6 +337,7 @@ special
 	-91:QuakeEx(8,12),
 	-92:Warp(6,11),
 	-93:GetMaxInventory(2),
+	-94:SetSectorDamage(2,5),
 
 	// Zandronum's
 	-100:ResetMap(0),
