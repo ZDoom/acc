@@ -338,6 +338,7 @@ special
 	-92:Warp(6,11),
 	-93:GetMaxInventory(2),
 	-94:SetSectorDamage(2,5),
+	-95:SetSectorTerrain(3),
 
 	// Zandronum's
 	-100:ResetMap(0),
