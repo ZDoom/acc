@@ -339,7 +339,8 @@ special
 	-93:GetMaxInventory(2),
 	-94:SetSectorDamage(2,5),
 	-95:SetSectorTerrain(3),
-
+	-96:SpawnParticle(8,15),
+	
 	// Zandronum's
 	-100:ResetMap(0),
 	-101:PlayerIsSpectator(1),
