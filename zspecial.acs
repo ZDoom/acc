@@ -340,6 +340,7 @@ special
 	-94:SetSectorDamage(2,5),
 	-95:SetSectorTerrain(3),
 	-96:SpawnParticle(8,15),
+	-97:SetActorVisibility(3),
 	
 	// Zandronum's
 	-100:ResetMap(0),
