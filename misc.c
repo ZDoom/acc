@@ -12,7 +12,7 @@
 #else
 #include <fcntl.h>
 #include <stdlib.h>
-#ifndef unix
+#if !defined(unix) && !defined(__APPLE__)
 #include <io.h>
 #endif
 #endif

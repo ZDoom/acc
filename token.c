@@ -15,7 +15,7 @@
 #ifdef __NeXT__
 #include <libc.h>
 #else
-#ifndef unix
+#if !defined(unix) && !defined(__APPLE__)
 #include <io.h>
 #endif
 #include <limits.h>
