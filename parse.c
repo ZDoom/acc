@@ -1624,7 +1624,21 @@ static void LeadingLineSpecial(boolean executewait)
 	}
 	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 	TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
-	if(direct == NO)
+	if (specialValue > 255)
+	{
+		for(; argCount < 5; ++argCount)
+		{
+			PC_AppendPushVal(0);
+		}
+		PC_AppendCmd(PCD_LSPEC5EX);
+		PC_AppendInt(specialValue);
+		if(executewait)
+		{
+			PC_AppendCmd(PCD_SCRIPTWAITDIRECT);
+			PC_AppendInt(argSave[0]);
+		}
+	}
+	else if(direct == NO)
 	{
 		PC_AppendCmd(PCD_LSPEC1+(argCount-1));
 		if(pc_NoShrink)
@@ -3502,8 +3516,8 @@ static void ExprLineSpecial(void)
 			}
 			TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 			TK_NextToken();
-			PC_AppendCmd(PCD_LSPEC5RESULT);
-			if(pc_NoShrink)
+			PC_AppendCmd(specialValue <= 255? PCD_LSPEC5RESULT : PCD_LSPEC5EXRESULT);
+			if(pc_NoShrink || specialValue > 255)
 			{
 				PC_AppendInt(specialValue);
 			}

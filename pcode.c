@@ -499,6 +499,8 @@ static char *PCDNames[PCODE_COMMAND_COUNT] =
 	"PCD_PRINTSCRIPTCHARARRAY",
 	"PCD_PRINTSCRIPTCHRANGE",
 	"PCD_STRCPYTOSCRIPTCHRANGE",
+	"PCD_LSPEC5EX",
+	"PCD_LSPEC5EXRESULT",
 };
 
 // CODE --------------------------------------------------------------------
