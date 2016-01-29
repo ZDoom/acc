@@ -147,7 +147,8 @@ typedef enum
 	ERR_HEXEN_COMPAT,
 	ERR_NOT_HEXEN,
 	ERR_SPECIAL_RANGE,
-	ERR_EVENT_NEEDS_3_ARG // [BB]
+	ERR_EVENT_NEEDS_3_ARG, // [BB]
+	ERR_LIBRARY_NOT_FIRST,
 } error_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------

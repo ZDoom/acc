@@ -180,6 +180,7 @@ static struct
 	{ ERR_NOT_HEXEN, "Cannot save; new features are not compatible with Hexen." },
 	{ ERR_SPECIAL_RANGE, "Line specials with values higher than 255 require #nocompact." },
 	{ ERR_EVENT_NEEDS_3_ARG, "Event scripts must have 3 arguments." }, // [BB]
+	{ ERR_LIBRARY_NOT_FIRST, "#library must come before anything else." },
 	{ ERR_NONE, NULL }
 };
 

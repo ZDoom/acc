@@ -408,14 +408,16 @@ static void CountScript(int type)
 static void Outside(void)
 {
 	boolean done;
+	int outertokencount;
 
 	done = NO;
+	outertokencount = 0;
 	while(done == NO)
 	{
+		outertokencount++;
 		switch(tk_Token)
 		{
 		case TK_EOF:
-
 			done = YES;
 			break;
 		case TK_SCRIPT:
@@ -496,6 +498,10 @@ static void Outside(void)
 				OuterImport();
 				break;
 			case TK_LIBRARY:
+				if (outertokencount != 1)
+				{
+					ERR_Error(ERR_LIBRARY_NOT_FIRST, YES);
+				}
 				TK_NextTokenMustBe(TK_STRING, ERR_STRING_LIT_NOT_FOUND);
 				if(ImportMode == IMPORT_None)
 				{
