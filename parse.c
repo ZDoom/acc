@@ -496,6 +496,7 @@ static void Outside(void)
 				break;
 			case TK_IMPORT:
 				OuterImport();
+				outertokencount = 0;
 				break;
 			case TK_LIBRARY:
 				if (outertokencount != 1)
