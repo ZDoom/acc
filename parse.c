@@ -4626,7 +4626,7 @@ void SkipBraceBlock(int depth)
 		{
 			if(tk_Token == TK_EOF)
 			{
-				ERR_Exit(ERR_EOF, NO);
+				ERR_Exit(ERR_EOF, YES, NULL);
 			}
 			TK_NextToken();
 		}
@@ -4638,7 +4638,7 @@ void SkipBraceBlock(int depth)
 		TK_NextToken();
 		if(tk_Token == TK_EOF)
 		{
-			ERR_Exit(ERR_EOF, NO);
+			ERR_Exit(ERR_EOF, YES, NULL);
 		}
 		else if (tk_Token == TK_LBRACE)
 		{

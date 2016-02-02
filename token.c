@@ -634,7 +634,7 @@ tokenType_t TK_NextToken(void)
 				ImportMode = prevMode;
 				if(!ExporterFlagged)
 				{
-					ERR_Exit(ERR_EXPORTER_NOT_FLAGGED, NO);
+					ERR_Exit(ERR_EXPORTER_NOT_FLAGGED, YES, NULL);
 				}
 				SY_ClearShared();
 			}
