@@ -520,6 +520,10 @@ static void Outside(void)
 				}
 				TK_NextToken();
 				break;
+			case TK_REGION: // [mxd]
+			case TK_ENDREGION:
+				TK_SkipLine();
+				break;
 			default:
 				ERR_Error(ERR_INVALID_DIRECTIVE, YES);
 				TK_SkipLine();

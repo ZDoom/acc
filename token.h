@@ -132,6 +132,8 @@ typedef enum
 	TK_RSASSIGN,		// '>>='
 	TK_STRPARAM_EVAL,	// 'strparam'
 	TK_STRCPY,          // 'strcpy'
+	TK_REGION,			// 'region' [mxd]
+	TK_ENDREGION,		// 'endregion' [mxd]
 } tokenType_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------

@@ -197,6 +197,8 @@ static struct keyword_s
 	{ "static", TK_STATIC },
 	{ "strparam", TK_STRPARAM_EVAL }, // [FDARI]
 	{ "strcpy", TK_STRCPY }, // [FDARI]
+	{ "region", TK_REGION }, // [mxd]
+	{ "endregion", TK_ENDREGION }, // [mxd]
 };
 
 #define NUM_KEYWORDS (sizeof(Keywords)/sizeof(Keywords[0]))
