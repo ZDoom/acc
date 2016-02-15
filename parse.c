@@ -522,6 +522,7 @@ static void Outside(void)
 				break;
 			case TK_REGION: // [mxd]
 			case TK_ENDREGION:
+				outertokencount--; // #region markers should not count as "real" tokens
 				TK_SkipLine();
 				break;
 			default:
