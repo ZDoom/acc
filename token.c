@@ -1573,5 +1573,5 @@ void TK_SkipLine(void)
 {
 	char *sourcenow = tk_SourceName;
 	int linenow = tk_Line;
-	do TK_NextToken(); while (tk_Line == linenow && tk_SourceName == sourcenow);
+	do TK_NextToken(); while (tk_Line == linenow && tk_SourceName == sourcenow && tk_Token != TK_EOF);
 }
