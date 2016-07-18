@@ -293,6 +293,8 @@
 #define APROP_DamageMultiplier	43
 #define APROP_MaxStepHeight 44
 #define APROP_MaxDropOffHeight 45
+#define ARPOP_VisibleFilter	46
+#define APROP_FilterHides	47
 
 // Render Styles ------------------------------------------------------------
 
