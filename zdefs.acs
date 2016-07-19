@@ -293,6 +293,7 @@
 #define APROP_DamageMultiplier	43
 #define APROP_MaxStepHeight 44
 #define APROP_MaxDropOffHeight 45
+#define APROP_DamageType	46
 
 // Render Styles ------------------------------------------------------------
 
