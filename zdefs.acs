@@ -369,6 +369,7 @@
 #define MRF_UNDOBYDEATH			0x00000200
 #define MRF_UNDOBYDEATHFORCED	0x00000400
 #define MRF_UNDOBYDEATHSAVES	0x00000800
+#define MRF_TRANSFERTRANSLATION 0x00002000
 
 // Shared spawnable things from Hexen. You can spawn these in the other -----
 // games if you provide sprites for them, otherwise they'll be invisible. ---
