@@ -199,6 +199,7 @@ static struct keyword_s
 	{ "strcpy", TK_STRCPY }, // [FDARI]
 	{ "region", TK_REGION }, // [mxd]
 	{ "endregion", TK_ENDREGION }, // [mxd]
+	{ "kill", TK_KILL }, // [JM]
 };
 
 #define NUM_KEYWORDS (sizeof(Keywords)/sizeof(Keywords[0]))

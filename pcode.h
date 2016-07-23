@@ -31,6 +31,7 @@ enum
 	DISCONNECT_SCRIPTS_BASE		= 14,
 	RETURN_SCRIPTS_BASE			= 15,
 	EVENT_SCRIPTS_BASE			= 16,	// [BB]
+	KILL_SCRIPTS_BASE			= 17,	// [JM]
 };
 
 // Values to indicate script flags (requires new-style .o)

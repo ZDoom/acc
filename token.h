@@ -134,6 +134,7 @@ typedef enum
 	TK_STRCPY,          // 'strcpy'
 	TK_REGION,			// 'region' [mxd]
 	TK_ENDREGION,		// 'endregion' [mxd]
+	TK_KILL,			// 'kill' [JM]
 } tokenType_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------
