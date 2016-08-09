@@ -48,7 +48,7 @@ special
 	 41:Ceiling_RaiseByValue(3,4),
 	 42:Ceiling_CrushAndRaise(3,4),
 	 43:Ceiling_LowerAndCrush(3,4),
-	 44:Ceiling_CrushStop(1),
+	 44:Ceiling_CrushStop(1,2),
 	 45:Ceiling_CrushRaiseAndStay(3,4),
 	 46:Floor_CrushStop(1),
 	 47:Ceiling_MoveToValue(3,5),
@@ -65,7 +65,7 @@ special
 //	 58: Sector_CopyScroller
 	 59:Polyobj_OR_MoveToSpot(3),
 	 60:Plat_PerpetualRaise(3),
- 	 61:Plat_Stop(1),
+ 	 61:Plat_Stop(1,2),
 	 62:Plat_DownWaitUpStay(3),
 	 63:Plat_DownByValue(4),
 	 64:Plat_UpWaitDownStay(3),
