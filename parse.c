@@ -342,6 +342,7 @@ static struct ScriptTypes ScriptCounts[] =
 	{ "return",			RETURN_SCRIPTS_BASE,		0 },
 	{ "event",			EVENT_SCRIPTS_BASE,			0 },
 	{ "kill",			KILL_SCRIPTS_BASE,			0 },
+	{ "reopen",			REOPEN_SCRIPTS_BASE,		0 },
 	{ NULL,				-1,							0 }
 };
 
@@ -672,6 +673,7 @@ static void OuterScript(void)
 		case TK_UNLOADING:
 		case TK_RETURN:
 		case TK_KILL:
+		case TK_REOPEN:
 			ERR_Error(ERR_UNCLOSED_WITH_ARGS, YES);
 			break;
 
@@ -748,6 +750,9 @@ static void OuterScript(void)
 		
 	case TK_KILL: // [JM]
 		scriptType = KILL_SCRIPTS_BASE;
+
+	case TK_REOPEN: // [Nash]
+		scriptType = REOPEN_SCRIPTS_BASE;
 		break;
 
 	default:
