@@ -200,6 +200,7 @@ static struct keyword_s
 	{ "region", TK_REGION }, // [mxd]
 	{ "endregion", TK_ENDREGION }, // [mxd]
 	{ "kill", TK_KILL }, // [JM]
+	{ "reopen", TK_REOPEN }, // [Nash]
 };
 
 #define NUM_KEYWORDS (sizeof(Keywords)/sizeof(Keywords[0]))
