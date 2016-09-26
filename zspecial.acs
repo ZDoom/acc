@@ -401,6 +401,10 @@ special
 	-201:DamageActor(6), // [arookas]
 	-202:SetActorFlag(3),
 	
+	// Eternity's
+	-300:GetLineCenterX(1),
+	-301:GetLineCenterY(1),
+	
 	// ZDaemon's
 	-19620:GetTeamScore(1),
 	-19621:SetTeamScore(2),
