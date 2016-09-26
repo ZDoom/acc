@@ -341,6 +341,8 @@ static struct ScriptTypes ScriptCounts[] =
 	{ "unloading",		UNLOADING_SCRIPTS_BASE,		0 },
 	{ "return",			RETURN_SCRIPTS_BASE,		0 },
 	{ "event",			EVENT_SCRIPTS_BASE,			0 },
+	{ "kill",			KILL_SCRIPTS_BASE,			0 },
+	{ "reopen",			REOPEN_SCRIPTS_BASE,		0 },
 	{ NULL,				-1,							0 }
 };
 
@@ -522,6 +524,7 @@ static void Outside(void)
 				break;
 			case TK_REGION: // [mxd]
 			case TK_ENDREGION:
+				outertokencount--; // #region markers should not count as "real" tokens
 				TK_SkipLine();
 				break;
 			default:
@@ -669,6 +672,8 @@ static void OuterScript(void)
 		case TK_LIGHTNING:
 		case TK_UNLOADING:
 		case TK_RETURN:
+		case TK_KILL:
+		case TK_REOPEN:
 			ERR_Error(ERR_UNCLOSED_WITH_ARGS, YES);
 			break;
 
@@ -741,6 +746,14 @@ static void OuterScript(void)
 	case TK_EVENT:	// [BB]
 		scriptType = EVENT_SCRIPTS_BASE;
 		ERR_Error (ERR_EVENT_NEEDS_3_ARG, YES);
+		break;
+		
+	case TK_KILL: // [JM]
+		scriptType = KILL_SCRIPTS_BASE;
+		break;
+
+	case TK_REOPEN: // [Nash]
+		scriptType = REOPEN_SCRIPTS_BASE;
 		break;
 
 	default:
@@ -1635,7 +1648,21 @@ static void LeadingLineSpecial(boolean executewait)
 	}
 	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 	TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
-	if(direct == NO)
+	if (specialValue > 255)
+	{
+		for(; argCount < 5; ++argCount)
+		{
+			PC_AppendPushVal(0);
+		}
+		PC_AppendCmd(PCD_LSPEC5EX);
+		PC_AppendInt(specialValue);
+		if(executewait)
+		{
+			PC_AppendCmd(PCD_SCRIPTWAITDIRECT);
+			PC_AppendInt(argSave[0]);
+		}
+	}
+	else if(direct == NO)
 	{
 		PC_AppendCmd(PCD_LSPEC1+(argCount-1));
 		if(pc_NoShrink)
@@ -3513,8 +3540,8 @@ static void ExprLineSpecial(void)
 			}
 			TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 			TK_NextToken();
-			PC_AppendCmd(PCD_LSPEC5RESULT);
-			if(pc_NoShrink)
+			PC_AppendCmd(specialValue <= 255? PCD_LSPEC5RESULT : PCD_LSPEC5EXRESULT);
+			if(pc_NoShrink || specialValue > 255)
 			{
 				PC_AppendInt(specialValue);
 			}

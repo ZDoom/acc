@@ -90,7 +90,7 @@ static internFuncDef_t InternalFunctions[] =
 	{ "playerbluecard", PCD_NOP, PCD_PLAYERBLUECARD, 0, 0, 0, YES, NO },
 	{ "playerredcard", PCD_NOP, PCD_PLAYERREDCARD, 0, 0, 0, YES, NO },
 	{ "playeryellowcard", PCD_NOP, PCD_PLAYERYELLOWCARD, 0, 0, 0, YES, NO },
-	{ "playeronteam", PCD_NOP, PCD_PLAYERONTEAM, 0, 0, 0, YES, NO },
+	{ "isnetworkgame", PCD_NOP, PCD_ISNETWORKGAME, 0, 0, 0, YES, NO },
 	{ "playerteam", PCD_NOP, PCD_PLAYERTEAM, 0, 0, 0, YES, NO },
 	{ "playerfrags", PCD_NOP, PCD_PLAYERFRAGS, 0, 0, 0, YES, NO },
 	{ "playerhealth", PCD_NOP, PCD_PLAYERHEALTH, 0, 0, 0, YES, NO },

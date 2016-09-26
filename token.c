@@ -199,6 +199,8 @@ static struct keyword_s
 	{ "strcpy", TK_STRCPY }, // [FDARI]
 	{ "region", TK_REGION }, // [mxd]
 	{ "endregion", TK_ENDREGION }, // [mxd]
+	{ "kill", TK_KILL }, // [JM]
+	{ "reopen", TK_REOPEN }, // [Nash]
 };
 
 #define NUM_KEYWORDS (sizeof(Keywords)/sizeof(Keywords[0]))
@@ -1573,5 +1575,5 @@ void TK_SkipLine(void)
 {
 	char *sourcenow = tk_SourceName;
 	int linenow = tk_Line;
-	do TK_NextToken(); while (tk_Line == linenow && tk_SourceName == sourcenow);
+	do TK_NextToken(); while (tk_Line == linenow && tk_SourceName == sourcenow && tk_Token != TK_EOF);
 }
