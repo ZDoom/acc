@@ -126,9 +126,9 @@ special
 	119:Thing_Damage(2,3),
 	120:Radius_Quake(5),
 //	121:Line_SetIdentification
-	
+
 	125:Thing_Move(2,3),
-	
+
 	127:Thing_SetSpecial(5),
 	128:ThrustThingZ(4),
 	129:UsePuzzleItem(0),	// only for setting it on a line. Cannot be called!
@@ -143,7 +143,7 @@ special
 	138:Floor_Waggle(5),
 	139:Thing_SpawnFacing(2,4),
 	140:Sector_ChangeSound(2),
-	
+
 	143:Player_RemoveItem(2),			// Skulltag Functions
 	144:Player_GiveItem(2),				// Skulltag Functions
 	145:Player_SetTeam(1),				// Skulltag Functions
@@ -156,7 +156,7 @@ special
 	159:Sector_SetPlaneReflection(3),	// GZDoom only!
 //	160:Sector_Set3DFloor
 //	161:Sector_SetContents
-	
+
 	168:Ceiling_CrushAndRaiseDist(3,5),
 	169:Generic_Crusher2(5),
 	170:Sector_SetCeilingScale2(3),
@@ -263,9 +263,9 @@ special
 	270:Stairs_BuildDownDoom(5),
 	271:Stairs_BuildUpDoomSync(4),
 	272:Stairs_BuildDownDoomSync(4),
-	
-	
-	
+
+
+
 	// internal functions have negative values
 	-1:GetLineUDMFInt(2),
 	-2:GetLineUDMFFixed(2),
@@ -327,7 +327,7 @@ special
 	-58:GetUserCVarString(2),
 	-59:SetUserCVarString(3),
 	-60:LineAttack(4,9),
-	-61:PlaySound(2,6),
+	-61:PlaySound(2,7),
 	-62:StopSound(1,2),
 	-63:strcmp(2,3),
 	-64:stricmp(2,3),
@@ -367,7 +367,7 @@ special
 	-97:SetMusicVolume(1),
 	-98:CheckProximity(3, 6),
 	-99:CheckActorState(2,3),
-	
+
 	// Zandronum's
 	-100:ResetMap(0),
 	-101:PlayerIsSpectator(1),
@@ -395,16 +395,16 @@ special
 	-123:BeginDBTransaction(0),
 	-124:EndDBTransaction(0),
 	-125:GetDBEntries(1),
-	
+
 	// -1xx are reserved for Zandronum
 	-200:CheckClass(1),
 	-201:DamageActor(6), // [arookas]
 	-202:SetActorFlag(3),
 	-203:SetTranslation(2),
-	
+
 	// ZDaemon's
 	-19620:GetTeamScore(1),
 	-19621:SetTeamScore(2),
-	
+
 	-100000:__EndOfList__(10);
-	
+
