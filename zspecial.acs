@@ -400,6 +400,7 @@ special
 	-200:CheckClass(1),
 	-201:DamageActor(6), // [arookas]
 	-202:SetActorFlag(3),
+	-203:SetTranslation(2),
 	
 	// Eternity's
 	-300:GetLineCenterX(1),
