@@ -403,8 +403,8 @@ special
 	-203:SetTranslation(2),
 	
 	// Eternity's
-	-300:GetLineCenterX(1),
-	-301:GetLineCenterY(1),
+	-300:GetLineX(3),
+	-301:GetLineY(3),
 	
 	// ZDaemon's
 	-19620:GetTeamScore(1),
