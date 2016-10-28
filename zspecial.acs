@@ -402,6 +402,10 @@ special
 	-202:SetActorFlag(3),
 	-203:SetTranslation(2),
 	
+	// Eternity's
+	-300:GetLineX(3),
+	-301:GetLineY(3),
+	
 	// ZDaemon's
 	-19620:GetTeamScore(1),
 	-19621:SetTeamScore(2),
