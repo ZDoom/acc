@@ -327,7 +327,7 @@ special
 	-58:GetUserCVarString(2),
 	-59:SetUserCVarString(3),
 	-60:LineAttack(4,9),
-	-61:PlaySound(2,6),
+	-61:PlaySound(2,7),
 	-62:StopSound(1,2),
 	-63:strcmp(2,3),
 	-64:stricmp(2,3),
