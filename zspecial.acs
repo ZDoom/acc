@@ -264,6 +264,9 @@ special
 	271:Stairs_BuildUpDoomSync(4),
 	272:Stairs_BuildDownDoomSync(4),
 	
+	// new to Eternity
+//	300:Portal_Define(5),
+//	301:Line_QuickPortal(1),
 	
 	
 	// internal functions have negative values
