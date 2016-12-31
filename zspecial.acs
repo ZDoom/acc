@@ -407,7 +407,7 @@ special
 	-301:GetLineY(3),
 	
 	// GZDoom OpenGL
-	-400:SetSectorGlow(5),
+	-400:SetSectorGlow(6),
 	-401:SetFogDensity(2),
 	
 	// ZDaemon's
