@@ -405,6 +405,9 @@ special
 	-201:DamageActor(6), // [arookas]
 	-202:SetActorFlag(3),
 	-203:SetTranslation(2),
+	-204:GetActorFloorTexture(1),
+	-205:GetActorFloorTerrain(1),
+	
 	
 	// Eternity's
 	-300:GetLineX(3),
