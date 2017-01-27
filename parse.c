@@ -747,7 +747,7 @@ static void OuterScript(void)
 		scriptType = EVENT_SCRIPTS_BASE;
 		ERR_Error (ERR_EVENT_NEEDS_3_ARG, YES);
 		break;
-		
+
 	case TK_KILL: // [JM]
 		scriptType = KILL_SCRIPTS_BASE;
 		break;
@@ -1519,7 +1519,7 @@ static void LeadingVarDeclare(void)
 			ScriptVarCount++;
 		}
 		else
-#endif 
+#endif
 		if(SY_FindLocal(tk_String) != NULL)
 		{ // Redefined
 			ERR_Error(ERR_REDEFINED_IDENTIFIER, YES, tk_String);
@@ -2324,7 +2324,7 @@ static void ActionOnCharRange(boolean write)
 
 	PC_AppendPushVal(sym->info.array.index);
 
-	
+
 	if (rangeConstraints)
 	{
 		switch (tk_Token)
@@ -2341,7 +2341,7 @@ static void ActionOnCharRange(boolean write)
 			{
 			case TK_RPAREN:
 				TK_NextToken();
-				PC_AppendPushVal(0x7FFFFFFF); 
+				PC_AppendPushVal(0x7FFFFFFF);
 				break;
 			case TK_COMMA:
 				TK_NextToken();
@@ -2416,7 +2416,7 @@ static void LeadingStrcpy(void)
 {
 	MS_Message(MSG_DEBUG, "---- LeadingStrcpy ----\n");
 	TK_NextTokenMustBe(TK_LPAREN, ERR_MISSING_LPAREN);
-	
+
 	switch(TK_NextCharacter()) // structure borrowed from printbuilder
 	{
 		case 'a':
@@ -2509,7 +2509,7 @@ static void LeadingHudMessage(void)
 		} while (tk_Token == TK_COMMA);
 	}
 	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
-	PC_AppendCmd(stmtToken == TK_HUDMESSAGE ? 
+	PC_AppendCmd(stmtToken == TK_HUDMESSAGE ?
 		PCD_ENDHUDMESSAGE : PCD_ENDHUDMESSAGEBOLD);
 	TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
 	TK_NextToken();
@@ -4539,7 +4539,7 @@ static symbolNode_t *SpeculateSymbol(char *name, boolean hasReturn)
 static symbolNode_t *SpeculateFunction(const char *name, boolean hasReturn)
 {
 	symbolNode_t *sym;
-	
+
 	MS_Message(MSG_DEBUG, "---- SpeculateFunction %s ----\n", name);
 	sym = SY_InsertGlobal(tk_String, SY_SCRIPTFUNC);
 	sym->info.scriptFunc.predefined = YES;
