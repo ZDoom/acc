@@ -264,6 +264,7 @@ special
 	271:Stairs_BuildUpDoomSync(4),
 	272:Stairs_BuildDownDoomSync(4),
 	273:Stairs_BuildUpDoomCrush(5),
+	274:Door_AnimatedClose(2),
 	
 	// new to Eternity
 //	300:Portal_Define(5),
