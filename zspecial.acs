@@ -53,7 +53,7 @@ special
 	 46:Floor_CrushStop(1),
 	 47:Ceiling_MoveToValue(3,5),
 //	 48:Sector_Attach3dMidtex
-	 49:GlassBreak(0,1),
+	 49:GlassBreak(0,2),
 //	 50:ExtraFloor_LightOnly
 	 51:Sector_SetLink(4),
 	 52:Scroll_Wall(5),
