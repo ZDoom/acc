@@ -21,7 +21,7 @@ special
 	 14:Door_Animated(3,4),
 	 15:Autosave(0),
 //	 16:Transfer_WallLight
-	 17:Thing_Raise(1),
+	 17:Thing_Raise(1,2),
 	 18:StartConversation(1,2),
 	 19:Thing_Stop(1),
 	 20:Floor_LowerByValue(3,4),
