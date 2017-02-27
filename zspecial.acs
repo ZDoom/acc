@@ -408,6 +408,7 @@ special
 	-203:SetTranslation(2),
 	-204:GetActorFloorTexture(1),
 	-205:GetActorFloorTerrain(1),
+	-206:StrArg(1),
 	
 	
 	// Eternity's
