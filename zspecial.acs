@@ -409,6 +409,9 @@ special
 	-204:GetActorFloorTexture(1),
 	-205:GetActorFloorTerrain(1),
 	-206:StrArg(1),
+	-207:Floor(1),
+	-208:Round(1),
+	-209:Ceil(1),
 	
 	
 	// Eternity's
