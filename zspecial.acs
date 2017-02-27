@@ -265,6 +265,8 @@ special
 	272:Stairs_BuildDownDoomSync(4),
 	273:Stairs_BuildUpDoomCrush(5),
 	274:Door_AnimatedClose(2),
+	275:Floor_Stop(1),
+	276:Ceiling_Stop(1),
 	
 	// new to Eternity
 //	300:Portal_Define(5),
