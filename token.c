@@ -1342,6 +1342,9 @@ static void ProcessSpecialToken(void)
 		case '#':
 			tk_Token = TK_NUMBERSIGN;
 			break;
+		case '@':
+			tk_Token = TK_ATSIGN;
+			break;
 		case '^':
 			if(Chr == '=')
 			{
