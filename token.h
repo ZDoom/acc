@@ -136,6 +136,7 @@ typedef enum
 	TK_ENDREGION,		// 'endregion' [mxd]
 	TK_KILL,			// 'kill' [JM]
 	TK_REOPEN,			// 'reopen' [Nash]
+	TK_ATSIGN,			// '@'
 } tokenType_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------
