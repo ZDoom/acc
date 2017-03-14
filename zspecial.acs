@@ -415,6 +415,7 @@ special
 	-208:Round(1),
 	-209:Ceil(1),
 	-210:ScriptCall(2, 100),	// ACS does not know varargs so use something large as maximum.
+	-211:StartSlideshow(1),
 	
 	
 	// Eternity's
