@@ -2526,10 +2526,12 @@ static void LeadingHudMessage(void)
 // arglist: arg | arglist arg
 // arg: range = replacement
 // range: exp : exp
-// replacement: palrep | colorrep
+// replacement: palrep | colorrep | desatrep | colouriserep | tintrep
 // palrep: exp : exp
 // colorrep: [exp,exp,exp]:[exp,exp,exp]
 // desatrep: %colorrep
+// colouriserep: #[exp,exp,exp]
+// tintrep: @exp[exp,exp,exp]
 //==========================================================================
 
 static void LeadingCreateTranslation(void)
@@ -2556,6 +2558,18 @@ static void LeadingCreateTranslation(void)
 			translationcode = PCD_TRANSLATIONRANGE3;
 			TK_NextTokenMustBe(TK_LBRACKET, ERR_MISSING_LBRACKET);
 		}
+		else if (tk_Token == TK_NUMBERSIGN)
+		{
+			translationcode = PCD_TRANSLATIONRANGE4;
+			TK_NextTokenMustBe(TK_LBRACKET, ERR_MISSING_LBRACKET);
+		}
+		else if (tk_Token == TK_ATSIGN)
+		{
+			translationcode = PCD_TRANSLATIONRANGE5;
+			TK_NextToken();
+			EvalExpression();
+			TK_TokenMustBe(TK_LBRACKET, ERR_MISSING_LBRACKET);
+		}
 		else
 		{
 			translationcode = PCD_TRANSLATIONRANGE2;
@@ -2581,6 +2595,8 @@ static void LeadingCreateTranslation(void)
 					}
 					TK_NextToken();
 				}
+				if (translationcode == PCD_TRANSLATIONRANGE4 || translationcode == PCD_TRANSLATIONRANGE5)
+					break;
 				if(j == 2)
 				{
 					TK_TokenMustBe(TK_COLON, ERR_MISSING_COLON);
