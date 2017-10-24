@@ -1,3 +1,5 @@
+CC = i586-mingw32msvc-gcc
+
 # get the target for the compiler
 target = $(strip $(shell $(CC) -dumpmachine))
 
@@ -18,7 +20,7 @@ endif
 
 CFLAGS ?= -O2 -Wall -W
 LDFLAGS ?= -s
-VERNUM = 155
+VERNUM = 156
 
 OBJS = \
 	acc.o     \
