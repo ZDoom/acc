@@ -1,5 +1,3 @@
-CC = i586-mingw32msvc-gcc
-
 # get the target for the compiler
 target = $(strip $(shell $(CC) -dumpmachine))
 
