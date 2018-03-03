@@ -427,6 +427,7 @@ special
 	// Eternity's
 	-300:GetLineX(3),
 	-301:GetLineY(3),
+    -302:SetAirFriction(1),
 	
 	// GZDoom OpenGL
 	-400:SetSectorGlow(6),
