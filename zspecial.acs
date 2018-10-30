@@ -147,6 +147,8 @@ special
 	143:Player_RemoveItem(2),			// Skulltag Functions
 	144:Player_GiveItem(2),				// Skulltag Functions
 	145:Player_SetTeam(1),				// Skulltag Functions
+	150:Line_SetHealth(2),
+	151:Sector_SetHealth(3),
 	152:Team_Score(2),					// Skulltag Functions
 	153:Team_GivePoints(3),				// Skulltag Functions
 	154:Teleport_NoStop(2, 3),
@@ -424,6 +426,8 @@ special
 	-209:Ceil(1),
 	-210:ScriptCall(2, 100),	// ACS does not know varargs so use something large as maximum.
 	-211:StartSlideshow(1),
+	-212:GetSectorHealth(2),
+	-213:GetLineHealth(1),
 	
 	
 	// Eternity's
