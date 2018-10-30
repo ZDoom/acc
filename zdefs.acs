@@ -1122,3 +1122,6 @@
 #define CPXF_CLOSEST     (1 << 10)
 #define CPXF_SETONPTR    (1 << 11)
 #define CPXF_CHECKSIGHT  (1 << 12)
+
+#define SECPART_Floor 0
+#define SECPART_Ceiling 1
