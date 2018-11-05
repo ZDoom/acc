@@ -1125,3 +1125,4 @@
 
 #define SECPART_Floor 0
 #define SECPART_Ceiling 1
+#define SECPART_3D 2
