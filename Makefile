@@ -18,7 +18,7 @@ endif
 
 CFLAGS ?= -O2 -Wall -W
 LDFLAGS ?= -s
-VERNUM = 156
+VERNUM = 157
 
 OBJS = \
 	acc.o     \
