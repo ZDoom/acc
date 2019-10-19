@@ -135,6 +135,7 @@ static void EvalExpression(void);
 static void ExprLevX(int level);
 static void ExprLevA(void);
 static void ExprFactor(void);
+static void ExprTernary(void);
 static void ConstExprFactor(void);
 static void SendExprCommand(pcd_t pcd);
 static void PushExStk(int value);
@@ -228,42 +229,48 @@ static boolean IsContinueRoot[] =
 
 static tokenType_t LevAOps[] =
 {
-	TK_ORLOGICAL,
+	TK_TERNARY,
 	TK_NONE
 };
 
 static tokenType_t LevBOps[] =
 {
-	TK_ANDLOGICAL,
+	TK_ORLOGICAL,
 	TK_NONE
 };
 
 static tokenType_t LevCOps[] =
 {
-	TK_ORBITWISE,
+	TK_ANDLOGICAL,
 	TK_NONE
 };
 
 static tokenType_t LevDOps[] =
 {
-	TK_EORBITWISE,
+	TK_ORBITWISE,
 	TK_NONE
 };
 
 static tokenType_t LevEOps[] =
 {
-	TK_ANDBITWISE,
+	TK_EORBITWISE,
 	TK_NONE
 };
 
 static tokenType_t LevFOps[] =
+{
+	TK_ANDBITWISE,
+	TK_NONE
+};
+
+static tokenType_t LevGOps[] =
 {
 	TK_EQ,
 	TK_NE,
 	TK_NONE
 };
 
-static tokenType_t LevGOps[] =
+static tokenType_t LevHOps[] =
 {
 	TK_LT,
 	TK_LE,
@@ -272,21 +279,21 @@ static tokenType_t LevGOps[] =
 	TK_NONE
 };
 
-static tokenType_t LevHOps[] =
+static tokenType_t LevIOps[] =
 {
 	TK_LSHIFT,
 	TK_RSHIFT,
 	TK_NONE
 };
 
-static tokenType_t LevIOps[] =
+static tokenType_t LevJOps[] =
 {
 	TK_PLUS,
 	TK_MINUS,
 	TK_NONE
 };
 
-static tokenType_t LevJOps[] =
+static tokenType_t LevKOps[] =
 {
 	TK_ASTERISK,
 	TK_SLASH,
@@ -306,6 +313,7 @@ static tokenType_t *OpsList[] =
 	LevHOps,
 	LevIOps,
 	LevJOps,
+	LevKOps,
 	NULL
 };
 
@@ -3460,6 +3468,7 @@ static void ExprLevA(void)
 }
 
 // Operator precedence levels:
+// Operator: ? :
 // Operator: ||
 // Operator: &&
 // Operator: |
@@ -3506,10 +3515,17 @@ static void ExprLevX(int level)
 		ExprLevX(level + 1);
 		while(TK_Member(OpsList[level]))
 		{
-			tokenType_t token = tk_Token;
-			TK_NextToken();
-			ExprLevX(level + 1);
-			SendExprCommand(TokenToPCD(token));
+			if (tk_Token == TK_TERNARY) 
+			{
+				ExprTernary();
+			}
+			else
+			{
+				tokenType_t token = tk_Token;
+				TK_NextToken();
+				ExprLevX(level + 1);
+				SendExprCommand(TokenToPCD(token));
+			}
 		}
 	}
 }
@@ -3583,6 +3599,36 @@ static void ExprLineSpecial(void)
 			}
 		}
 	}
+}
+
+static void ExprTernary(void)
+{
+	int jumpAddrPtr;
+
+	PC_AppendCmd(PCD_IFNOTGOTO);
+	jumpAddrPtr = pc_Address;
+	PC_SkipInt();
+
+	TK_NextToken();
+	ExprLevA();
+
+	if(tk_Token != TK_COLON)
+	{
+		ERR_Error(ERR_BAD_EXPR, YES, NULL);
+	}
+	else
+	{
+		PC_WriteInt(pc_Address + 5, jumpAddrPtr); // opcode + int = 5 bytes
+		PC_AppendCmd(PCD_GOTO);
+		jumpAddrPtr = pc_Address;
+		PC_SkipInt();
+
+		TK_NextToken();
+		ExprLevA();
+
+		PC_WriteInt(pc_Address, jumpAddrPtr);
+	}
+
 }
 
 static void ExprFactor(void)

@@ -58,6 +58,7 @@ typedef enum
 	TK_RBRACE,			// '}'
 	TK_LBRACKET,		// '['
 	TK_RBRACKET,		// ']'
+	TK_TERNARY,			// '?'
 	TK_COLON,			// ':'
 	TK_SEMICOLON,		// ';'
 	TK_COMMA,			// ','

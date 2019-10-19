@@ -1327,6 +1327,9 @@ static void ProcessSpecialToken(void)
 		case ']':
 			tk_Token = TK_RBRACKET;
 			break;
+		case '?':
+			tk_Token = TK_TERNARY;
+			break;
 		case ':':
 			tk_Token = TK_COLON;
 			break;
