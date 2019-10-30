@@ -3618,8 +3618,8 @@ static void ExprTernary(void)
 	}
 	else
 	{
-		PC_WriteInt(pc_Address + 5, jumpAddrPtr); // opcode + int = 5 bytes
 		PC_AppendCmd(PCD_GOTO);
+		PC_WriteInt(pc_Address + 4, jumpAddrPtr); // int = 4 bytes
 		jumpAddrPtr = pc_Address;
 		PC_SkipInt();
 
