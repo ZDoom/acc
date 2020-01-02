@@ -68,7 +68,7 @@ static void Write(void *buffer, size_t size, int address);
 static void Skip(size_t size);
 static void CloseOld(void);
 static void CloseNew(void);
-static void CreateDummyScripts(void);
+static void CreateDummyScript(void);
 static void RecordDummyScripts(void);
 
 // EXTERNAL DATA DECLARATIONS ----------------------------------------------
@@ -618,7 +618,7 @@ static void CloseNew(void)
 
 	if(pc_WadAuthor)
 	{
-		CreateDummyScripts();
+		CreateDummyScript();
 	}
 
 	chunkStart = pc_Address;
@@ -995,15 +995,15 @@ static void CloseNew(void)
 
 //==========================================================================
 //
-// CreateDummyScripts
+// CreateDummyScript
 //
 //==========================================================================
 
-static void CreateDummyScripts(void)
+static void CreateDummyScript(void)
 {
 	int i;
 
-	MS_Message(MSG_DEBUG, "Creating dummy scripts to make WadAuthor happy.\n");
+	MS_Message(MSG_DEBUG, "Creating dummy script to make WadAuthor happy.\n");
 	if(pc_Address%4 != 0)
 	{ // Need to align
 		U_INT pad = 0;
@@ -1012,12 +1012,13 @@ static void CreateDummyScripts(void)
 	pc_DummyAddress = pc_Address;
 	for(i = 0; i < pc_ScriptCount; ++i)
 	{
-		// Only create dummies for scripts WadAuthor could care about.
+		// Create dummy only if there are scripts WadAuthor could care about
 		if(!ScriptInfo[i].imported && ScriptInfo[i].number >= 0 && ScriptInfo[i].number <= 255)
 		{
 			U_INT cmd = PCD_TERMINATE;
 			MS_Message(MSG_DEBUG, "AC> %06d = #%d:%s\n", pc_Address, cmd, PCDNames[cmd]);
 			Append(&cmd, sizeof(U_INT));
+			break;
 		}
 	}
 }
@@ -1030,7 +1031,7 @@ static void CreateDummyScripts(void)
 
 static void RecordDummyScripts(void)
 {
-	int i, j, count;
+	int i, count;
 
 	for(i = count = 0; i < pc_ScriptCount; ++i)
 	{
@@ -1040,7 +1041,7 @@ static void RecordDummyScripts(void)
 		}
 	}
 	PC_AppendInt((U_INT)count);
-	for(i = j = 0; i < pc_ScriptCount; ++i)
+	for(i = 0; i < pc_ScriptCount; ++i)
 	{
 		scriptInfo_t *info = &ScriptInfo[i];
 		if(!info->imported && info->number >= 0 && ScriptInfo[i].number <= 255)
@@ -1048,9 +1049,8 @@ static void RecordDummyScripts(void)
 			MS_Message(MSG_DEBUG, "Dummy script %d, address = %d, arg count = %d\n",
 				info->number, info->address, info->argCount);
 			PC_AppendInt((U_INT)info->number);
-			PC_AppendInt((U_INT)pc_DummyAddress + j*4);
+			PC_AppendInt((U_INT)pc_DummyAddress);
 			PC_AppendInt((U_INT)info->argCount);
-			j++;
 		}
 	}
 }
