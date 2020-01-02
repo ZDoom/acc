@@ -1015,13 +1015,9 @@ static void CreateDummyScripts(void)
 		// Only create dummies for scripts WadAuthor could care about.
 		if(!ScriptInfo[i].imported && ScriptInfo[i].number >= 0 && ScriptInfo[i].number <= 255)
 		{
-			PC_AppendCmd(PCD_TERMINATE);
-			if(!pc_NoShrink)
-			{
-				PC_AppendCmd(PCD_NOP);
-				PC_AppendCmd(PCD_NOP);
-				PC_AppendCmd(PCD_NOP);
-			}
+			U_INT cmd = PCD_TERMINATE;
+			MS_Message(MSG_DEBUG, "AC> %06d = #%d:%s\n", pc_Address, cmd, PCDNames[cmd]);
+			Append(&cmd, sizeof(U_INT));
 		}
 	}
 }
