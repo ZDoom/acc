@@ -149,6 +149,7 @@ typedef enum
 	ERR_SPECIAL_RANGE,
 	ERR_EVENT_NEEDS_3_ARG, // [BB]
 	ERR_LIBRARY_NOT_FIRST,
+	ERR_NEGATIVE_ARRAY_SIZE,
 } error_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------

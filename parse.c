@@ -4211,6 +4211,12 @@ static void ParseArrayDims(int *size_p, int *ndim_p, int dims[MAX_ARRAY_DIMS])
 		ERR_Error(ERR_HEXEN_COMPAT, YES);
 		TK_NextToken();
 	}
+	if(size < 0)
+	{
+		TK_Undo(); // backup so error pointer is on last bracket instead of following token
+		ERR_Error(ERR_NEGATIVE_ARRAY_SIZE, YES);
+		TK_NextToken();
+	}
 	*size_p = size;
 	*ndim_p = ndim;
 }

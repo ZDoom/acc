@@ -181,6 +181,7 @@ static struct
 	{ ERR_SPECIAL_RANGE, "Line specials with values higher than 255 require #nocompact." },
 	{ ERR_EVENT_NEEDS_3_ARG, "Event scripts must have 3 arguments." }, // [BB]
 	{ ERR_LIBRARY_NOT_FIRST, "#library must come before anything else." },
+	{ ERR_NEGATIVE_ARRAY_SIZE, "Overall array size must be positive but less than 2^31" },
 	{ ERR_NONE, NULL }
 };
 
