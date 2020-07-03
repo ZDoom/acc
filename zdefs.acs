@@ -1126,3 +1126,25 @@
 #define SECPART_Floor 0
 #define SECPART_Ceiling 1
 #define SECPART_3D 2
+
+// For Line_SetAutomapFlags; These are or'd together
+#define AMLF_Secret		0
+#define AMLF_DontDraw		1
+#define AMLF_Mapped		2
+#define AMLF_Revealed		3
+
+// For Line_SetAutomapStyle
+#define AMLS_Default		0
+#define AMLS_OneSided		1
+#define AMLS_TwoSided		2
+#define AMLS_FloorDiff		3
+#define AMLS_CeilingDiff	4
+#define AMLS_ExtraFloor		5
+#define AMLS_Special		6
+#define AMLS_Secret		7
+#define AMLS_NotSeen		8
+#define AMLS_Locked		9
+#define AMLS_IntraTeleport	10
+#define AMLS_InterTeleport	11
+#define AMLS_UnexploredSecret	12
+#define AMLS_Portal		13
