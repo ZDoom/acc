@@ -1128,10 +1128,10 @@
 #define SECPART_3D 2
 
 // For Line_SetAutomapFlags; These are or'd together
-#define AMLF_Secret		0
-#define AMLF_DontDraw		1
-#define AMLF_Mapped		2
-#define AMLF_Revealed		3
+#define AMLF_Secret		(1 << 0)
+#define AMLF_DontDraw		(1 << 1)
+#define AMLF_Mapped		(1 << 2)
+#define AMLF_Revealed		(1 << 3)
 
 // For Line_SetAutomapStyle
 #define AMLS_Default		0
