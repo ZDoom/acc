@@ -1,15 +1,1 @@
-/Debug
-/Release
-/acc.ncb
-/acc.opt
-/acc.plg
-/acc.exe
-/acc.sln
-/acc.suo
-/acc.vcproj
-/acc.vcproj.Christoph-PC.Christoph.user
-/l
-/log
-/t
-/zdefs.acs.orig
-/*.o
+/build*
