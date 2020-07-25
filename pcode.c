@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <limits.h>
 #include "pcode.h"
 #include "common.h"
 #include "error.h"
@@ -1520,8 +1521,9 @@ void PC_SetScriptVarCount(int number, int type, int varCount, int arrayCount, in
 void PC_AddFunction(symbolNode_t *sym, int arrayCount, int *arraySizes)
 {
 	functionInfo_t *function;
+	int maxFunctionCount = pc_NoShrink ? MAX_FUNCTION_COUNT : (1 << CHAR_BIT * sizeof(U_BYTE));
 
-	if(pc_FunctionCount == MAX_FUNCTION_COUNT)
+	if(pc_FunctionCount == maxFunctionCount)
 	{
 		ERR_Error(ERR_TOO_MANY_FUNCTIONS, YES, NULL);
 	}
