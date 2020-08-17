@@ -2,6 +2,20 @@ cmake_minimum_required(VERSION 2.4)
 
 project(acc)
 
+if(MSVC)
+	# Create list of _FLAGS variables
+	foreach(FLAGS_SUFFIX "" _DEBUG _RELEASE _MINSIZEREL _RELWITHDEBINFO)
+		set(FLAGS_VARIABLES ${FLAGS_VARIABLES} CMAKE_C_FLAGS${FLAGS_SUFFIX} CMAKE_CXX_FLAGS${FLAGS_SUFFIX})
+	endforeach()
+
+	# Change compiler flags to use static runtime
+	foreach(FLAGS_VARIABLE ${FLAGS_VARIABLES})
+		if(${FLAGS_VARIABLE} MATCHES "/MD")
+			string(REGEX REPLACE "/MD" "/MT" ${FLAGS_VARIABLE} "${${FLAGS_VARIABLE}}")
+		endif()
+	endforeach()
+endif()
+
 add_executable(acc
 	acc.c
 	error.c
