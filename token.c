@@ -201,6 +201,7 @@ static struct keyword_s
 	{ "endregion", TK_ENDREGION }, // [mxd]
 	{ "kill", TK_KILL }, // [JM]
 	{ "reopen", TK_REOPEN }, // [Nash]
+	{ "morphactor", TK_MORPHACTOR }, // [Dasperal]
 };
 
 #define NUM_KEYWORDS (sizeof(Keywords)/sizeof(Keywords[0]))

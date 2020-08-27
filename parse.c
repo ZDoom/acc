@@ -100,6 +100,7 @@ static void ActionOnCharRange(boolean write);
 static void LeadingStrcpy(void);
 static void LeadingPrint(void);
 static void LeadingHudMessage(void);
+static void LeadingMorphActor(void);
 static void LeadingVarAssign(symbolNode_t *sym);
 static pcd_t GetAssignPCD(tokenType_t token, symbolType_t symbol);
 static void LeadingInternFunc(symbolNode_t *sym);
@@ -1385,6 +1386,12 @@ static boolean ProcessStatement(statement_t owner)
 		case TK_HUDMESSAGEBOLD:
 			LeadingHudMessage();
 			break;
+		case TK_MORPHACTOR:
+			LeadingMorphActor();
+			PC_AppendCmd(PCD_DROP);
+			TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
+			TK_NextToken();
+			break;
 		case TK_IF:
 			LeadingIf();
 			break;
@@ -2521,6 +2528,95 @@ static void LeadingHudMessage(void)
 		PCD_ENDHUDMESSAGE : PCD_ENDHUDMESSAGEBOLD);
 	TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
 	TK_NextToken();
+}
+
+//==========================================================================
+//
+// LeadingMorphActor
+//
+// MorphActor(int tid, [str playerclass, [str monsterclass, [int duration, [int style, [str morphflash, [str unmorphflash]]]]]])
+//
+//==========================================================================
+
+static void LeadingMorphActor(void)
+{
+	int i;
+	byte strMask;
+
+	MS_Message(MSG_DEBUG, "---- LeadingMorphActor ----\n");
+	strMask = 0b01100110;
+
+	TK_NextTokenMustBe(TK_LPAREN, ERR_MISSING_LPAREN);
+	if(TK_NextToken() == TK_CONST)
+	{
+		TK_NextTokenMustBe(TK_COLON, ERR_MISSING_COLON);
+		ERR_Error(ERR_NO_DIRECT_VER, YES, NULL);
+		TK_NextToken();
+	}
+	i = 0;
+	if(tk_Token == TK_RPAREN)
+	{
+		ERR_Error(ERR_MISSING_PARAM, YES);
+	}
+	else
+	{
+		TK_Undo(); // Adjust for first expression
+		do
+		{
+			if(i == 7)
+			{
+				ERR_Error(ERR_BAD_ARG_COUNT, YES);
+				TK_SkipTo(TK_SEMICOLON);
+				TK_Undo();
+				return;
+			}
+			TK_NextToken();
+
+			if(tk_Token != TK_COMMA)
+			{
+				EvalExpression();
+			}
+			else
+			{
+				if(i > 0)
+				{
+					if(strMask & 1)
+					{
+						PC_AppendPushVal(STR_Find(""));
+					}
+					else
+					{
+						PC_AppendPushVal(0);
+					}
+				}
+				else
+				{
+					ERR_Error(ERR_MISSING_PARAM, YES);
+				}
+			}
+			i++;
+			strMask >>= 1;
+		} while(tk_Token == TK_COMMA);
+	}
+	while(i < 7)
+	{
+		if(strMask & 1)
+		{
+			PC_AppendPushVal(STR_Find(""));
+		}
+		else
+		{
+			PC_AppendPushVal(0);
+		}
+		i++;
+		strMask >>= 1;
+	}
+	if(i != 7)
+	{
+		ERR_Error(ERR_BAD_ARG_COUNT, YES);
+	}
+	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
+	PC_AppendCmd(PCD_MORPHACTOR);
 }
 
 //==========================================================================
@@ -3820,6 +3916,10 @@ static void ExprFactor(void)
 		break;
 	case TK_STRCPY:
 		LeadingStrcpy();
+		TK_NextToken();
+		break;
+	case TK_MORPHACTOR:
+		LeadingMorphActor();
 		TK_NextToken();
 		break;
 	default:

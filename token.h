@@ -138,6 +138,7 @@ typedef enum
 	TK_KILL,			// 'kill' [JM]
 	TK_REOPEN,			// 'reopen' [Nash]
 	TK_ATSIGN,			// '@'
+	TK_MORPHACTOR,		// 'morphactor' [Dasperal]
 } tokenType_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------
