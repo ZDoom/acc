@@ -277,6 +277,7 @@ special
 	280:Ceiling_MoveToValueAndCrush(4, 5),
 	281:Line_SetAutomapFlags(3),
 	282:Line_SetAutomapStyle(2),
+	283:Polyobj_StopSound(1),
 	
 	// new to Eternity
 //	300:Portal_Define(5),
@@ -445,4 +446,3 @@ special
 	-19621:SetTeamScore(2),
 	
 	-100000:__EndOfList__(10);
-	
