@@ -160,6 +160,7 @@
 #define BT_MOVEUP				262144
 #define BT_MOVEDOWN				524288
 #define BT_SHOWSCORES			1048576
+#define BT_RUN					33554432
 
 // Do whatever you want with these.
 #define BT_USER1				2097152
