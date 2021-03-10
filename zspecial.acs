@@ -428,6 +428,7 @@ special
 	-211:StartSlideshow(1),
 	-212:GetSectorHealth(2),
 	-213:GetLineHealth(1),
+	-214:SetSubtitleNumber(2),
 	
 	
 	// Eternity's
