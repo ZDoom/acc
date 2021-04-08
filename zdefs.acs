@@ -747,6 +747,8 @@
 
 #define SDF_ABSANGLE			1
 #define SDF_PERMANENT			2
+#define SDF_FIXED_ZOFF			4
+#define SDF_FIXED_DISTANCE		8
 
 // Actor pointer selectors
 
