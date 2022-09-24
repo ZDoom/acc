@@ -300,6 +300,7 @@
 #define APROP_MaxDropOffHeight 45
 #define APROP_DamageType	46
 #define APROP_SoundClass	47
+#define APROP_FriendlySeeBlocks 48
 
 // New to Eternity
 #define APROP_Counter0      100
