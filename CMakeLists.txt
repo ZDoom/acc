@@ -16,6 +16,12 @@ if(MSVC)
 	endforeach()
 endif()
 
+if (NOT APPLE AND NOT MSVC)
+	# use static runtimes on Linux and MinGW
+	set(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} -static -static-libgcc -static-libstdc++")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -static-libgcc -static-libstdc++")
+endif()
+
 add_executable(acc
 	acc.c
 	error.c
