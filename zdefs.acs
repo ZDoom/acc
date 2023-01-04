@@ -92,23 +92,29 @@
 
 // Player properties --------------------------------------------------------
 
-#define PROP_FROZEN                     0
-#define PROP_NOTARGET                   1
-#define PROP_INSTANTWEAPONSWITCH        2
-#define PROP_FLY			3
-#define PROP_TOTALLYFROZEN		4
-#define PROP_BUDDHA			16
+#define PROP_FROZEN					0
+#define PROP_NOTARGET				1
+#define PROP_INSTANTWEAPONSWITCH	2
+#define PROP_FLY					3
+#define PROP_TOTALLYFROZEN			4
+#define PROP_BUDDHA					16
+#define PROP_BUDDHA2				17
+#define PROP_FRIGHTENING 			18
+#define PROP_NOCLIP 				19
+#define PROP_NOCLIP2 				20
+#define PROP_GODMODE 				21
+#define PROP_GODMODE2 				22
 
 // The following properties correspond to powers given by certain items
 #define PROP_INVULNERABILITY		5
-#define PROP_STRENGTH			6
-#define PROP_INVISIBILITY		7
-#define PROP_RADIATIONSUIT		8
-#define PROP_ALLMAP			9
-#define PROP_INFRARED			10
-#define PROP_WEAPONLEVEL2		11
-#define PROP_FLIGHT			12
-#define PROP_SPEED			15
+#define PROP_STRENGTH				6
+#define PROP_INVISIBILITY			7
+#define PROP_RADIATIONSUIT			8
+#define PROP_ALLMAP					9
+#define PROP_INFRARED				10
+#define PROP_WEAPONLEVEL2			11
+#define PROP_FLIGHT					12
+#define PROP_SPEED					15
 
 // Player input -------------------------------------------------------------
 
