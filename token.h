@@ -139,6 +139,7 @@ typedef enum
 	TK_REOPEN,			// 'reopen' [Nash]
 	TK_ATSIGN,			// '@'
 	TK_MORPHACTOR,		// 'morphactor' [Dasperal]
+    TK_LUMPREADARRAY,   // 'lumpreadarray' [TDRR]
 } tokenType_t;
 
 // PUBLIC FUNCTION PROTOTYPES ----------------------------------------------
