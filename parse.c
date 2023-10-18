@@ -101,6 +101,7 @@ static void LeadingStrcpy(void);
 static void LeadingPrint(void);
 static void LeadingHudMessage(void);
 static void LeadingMorphActor(void);
+static void LeadingLumpReadArray(void);
 static void LeadingVarAssign(symbolNode_t *sym);
 static pcd_t GetAssignPCD(tokenType_t token, symbolType_t symbol);
 static void LeadingInternFunc(symbolNode_t *sym);
@@ -1392,6 +1393,14 @@ static boolean ProcessStatement(statement_t owner)
 			TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
 			TK_NextToken();
 			break;
+        
+        case TK_LUMPREADARRAY:
+            LeadingLumpReadArray();
+            PC_AppendCmd(PCD_DROP);
+            TK_NextTokenMustBe(TK_SEMICOLON, ERR_MISSING_SEMICOLON);
+            TK_NextToken();
+            break;
+            
 		case TK_IF:
 			LeadingIf();
 			break;
@@ -2617,6 +2626,109 @@ static void LeadingMorphActor(void)
 	}
 	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
 	PC_AppendCmd(PCD_MORPHACTOR);
+}
+
+//==========================================================================
+//
+// LumpReadOnCharRange
+//
+//==========================================================================
+
+static U_BYTE LumpReadOnCharRange(void)
+{
+	symbolNode_t *sym;
+	TK_NextToken();
+    
+	sym = SpeculateSymbol(tk_String, NO);
+	if((sym->type != SY_MAPARRAY) && (sym->type != SY_WORLDARRAY)
+		&& (sym->type != SY_GLOBALARRAY) && (sym->type != SY_SCRIPTARRAY))
+	{
+		ERR_Error(ERR_NOT_AN_ARRAY, YES, sym->name);
+	}
+
+	PC_AppendPushVal(sym->info.array.index);
+
+	if(sym->type == SY_SCRIPTARRAY)
+	{
+		return 162;
+	}
+	else if(sym->type == SY_MAPARRAY)
+	{
+		return 163;
+	}
+	else if(sym->type == SY_WORLDARRAY)
+	{
+		return 164;
+	}
+	else
+	{
+		return 165;
+	}
+}
+
+//==========================================================================
+//
+// LeadingLumpReadArray
+//
+// LumpReadArray(int lump, int pos, Array dest, int index)
+//
+//==========================================================================
+
+static void LeadingLumpReadArray(void)
+{
+    U_BYTE funcIndex = 0;
+    int i = 0;
+    
+    MS_Message(MSG_DEBUG, "---- LeadingLumpReadArray ----\n");
+    
+	TK_NextTokenMustBe(TK_LPAREN, ERR_MISSING_LPAREN);
+	if(TK_NextToken() == TK_CONST)
+	{
+		TK_NextTokenMustBe(TK_COLON, ERR_MISSING_COLON);
+		ERR_Error(ERR_NO_DIRECT_VER, YES, NULL);
+		TK_NextToken();
+	}
+    
+	if(tk_Token == TK_RPAREN)
+	{
+		ERR_Error(ERR_MISSING_PARAM, YES);
+	}
+	else
+	{
+		TK_Undo(); // Adjust for first expression
+        do
+		{
+			if(i == 5)
+			{
+				ERR_Error(ERR_BAD_ARG_COUNT, YES);
+				TK_SkipTo(TK_SEMICOLON);
+				TK_Undo();
+				return;
+			}
+			TK_NextToken();
+
+			if(tk_Token != TK_COMMA)
+			{
+                if(i == 2)
+                {
+                    funcIndex = LumpReadOnCharRange();
+                }
+                else
+                {
+                    EvalExpression();
+                }
+			}
+			i++;
+		} while(tk_Token == TK_COMMA);
+	}
+	if(i < 3)
+	{
+		ERR_Error(ERR_BAD_ARG_COUNT, YES);
+	}
+	TK_TokenMustBe(TK_RPAREN, ERR_MISSING_RPAREN);
+	PC_AppendCmd(PCD_CALLFUNC);
+    PC_AppendByte(i);
+    PC_AppendWord(funcIndex);
 }
 
 //==========================================================================
@@ -3922,6 +4034,10 @@ static void ExprFactor(void)
 		LeadingMorphActor();
 		TK_NextToken();
 		break;
+    case TK_LUMPREADARRAY:
+        LeadingLumpReadArray();
+        TK_NextToken();
+        break;
 	default:
 		ERR_Error(ERR_BAD_EXPR, YES);
 		TK_NextToken();

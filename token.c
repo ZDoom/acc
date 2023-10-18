@@ -202,6 +202,7 @@ static struct keyword_s
 	{ "kill", TK_KILL }, // [JM]
 	{ "reopen", TK_REOPEN }, // [Nash]
 	{ "morphactor", TK_MORPHACTOR }, // [Dasperal]
+    { "lumpreadarray", TK_LUMPREADARRAY }, // [TDRR]
 };
 
 #define NUM_KEYWORDS (sizeof(Keywords)/sizeof(Keywords[0]))
