@@ -22,8 +22,8 @@
 
 // MACROS ------------------------------------------------------------------
 
-#define VERSION_TEXT "1.59"
-#define COPYRIGHT_YEARS_TEXT "1995-2022"
+#define VERSION_TEXT "1.60"
+#define COPYRIGHT_YEARS_TEXT "1995-2023"
 
 // TYPES -------------------------------------------------------------------
 
