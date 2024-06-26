@@ -41,3 +41,5 @@ add_executable(acc
 	symbol.h
 	token.h
 )
+
+install(TARGETS acc DESTINATION bin)
