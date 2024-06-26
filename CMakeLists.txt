@@ -42,4 +42,4 @@ add_executable(acc
 	token.h
 )
 
-install(TARGETS acc DESTINATION bin)
+install(TARGETS acc RUNTIME DESTINATION bin)
