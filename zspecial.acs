@@ -467,7 +467,8 @@ special
 	-212:GetSectorHealth(2),
 	-213:GetLineHealth(1),
 	-214:SetSubtitleNumber(2),
-	
+	-215:GetNetID(3),
+	-216:SetActivatorByNetID(2),
 	
 	// Eternity's
 	-300:GetLineX(3),
