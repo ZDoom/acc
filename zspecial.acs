@@ -474,6 +474,7 @@ special
 	-300:GetLineX(3),
 	-301:GetLineY(3),
 	-302:SetAirFriction(1),
+	-303:SetPolyObjXY(3),
 	
 	// GZDoom OpenGL
 	-400:SetSectorGlow(6),
