@@ -122,7 +122,7 @@ static void DisplayBanner(void)
 		" Raven Software, Corp.\n\n");
 	fprintf(stderr, "This is version "VERSION_TEXT" ("__DATE__")\n");
 	fprintf(stderr, "This software is not supported by Raven Software or Activision\n");
-	fprintf(stderr, "ZDoom changes and language extensions by Randy Heit\n");
+	fprintf(stderr, "ZDoom changes and language extensions by Marisa Heit\n");
 	fprintf(stderr, "Further changes by Brad Carney\n");
 	fprintf(stderr, "Even more changes by James Bentler\n");
 	fprintf(stderr, "Some additions by Michael \"Necromage\" Weber\n");
